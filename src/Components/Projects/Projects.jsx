@@ -1,6 +1,3 @@
-import Frontend from "./skills/Frontend";
-import Backend from "./skills/Backend";
-import Tools from "./skills/Tools";
 import {
   Tabs,
   TabsHeader,
@@ -8,23 +5,24 @@ import {
   Tab,
   TabPanel,
 } from "@material-tailwind/react";
+import ProjectCard from "./ProjectCard";
 
-const Skills = () => {
+const Projects = () => {
   const data = [
     {
       label: "Frontend",
-      value: Frontend,
-      desc: <Frontend />,
+      value: "Frontend",
+      desc: <ProjectCard />,
     },
     {
       label: "Backend",
       value: "Backend",
-      desc: <Backend />,
+      desc: <ProjectCard />,
     },
     {
       label: "Tools",
       value: "Tools",
-      desc: <Tools />,
+      desc: <ProjectCard />,
     },
   ];
 
@@ -43,7 +41,7 @@ const Skills = () => {
           ))}
         </TabsHeader>
         <TabsBody
-          className="flex items-center"
+          className="overflow-x-auto scroll-hide md:w-full max-w-screen-sm mx-auto mt-6 flex justify-between items-center gap-2 md:gap-3 bg-white dark:bg-grey-800 p-2 rounded-md"
           animate={{
             initial: { y: 550 },
             mount: { y: 0 },
@@ -61,4 +59,4 @@ const Skills = () => {
   );
 };
 
-export default Skills;
+export default Projects;

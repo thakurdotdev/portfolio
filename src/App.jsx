@@ -6,18 +6,48 @@ import Skills from "./Components/Skills";
 import Social from "./Components/Social";
 import About from "./Components/About";
 import Footer from "./Components/Footer";
+import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
+import Projects from "./Components/Projects/Projects";
 
 const App = () => {
   return (
-    <div className="App">
+    <div className="Hero">
       <Header />
-      <Hero />
-      <About />
-      <Skills />
       <Social />
+      <Outlet />
       <Footer />
     </div>
   );
 };
 
-export default App;
+const appRouter = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,
+
+    children: [
+      {
+        path: "/",
+        element: <Hero />,
+      },
+      {
+        path: "/about",
+        element: <About />,
+      },
+      {
+        path: "/skills",
+        element: <Skills />,
+      },
+      {
+        path: "/projects",
+        element: <Projects />,
+      },
+    ],
+  },
+]);
+
+const Root = () => {
+  return <RouterProvider router={appRouter} />;
+};
+
+export default Root;
