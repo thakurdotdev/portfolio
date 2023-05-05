@@ -1,12 +1,13 @@
 import React from "react";
+import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
+import "./App.css";
+
 import Header from "./Components/Header";
 import Hero from "./Components/Hero";
-import "./App.css";
 import Skills from "./Components/Skills/Skills";
 import Social from "./Components/Social";
 import About from "./Components/About";
 import Footer from "./Components/Footer";
-import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import Projects from "./Components/Projects/Projects";
 import Contact from "./Components/Contact";
 
@@ -24,27 +25,33 @@ const App = () => {
 const appRouter = createBrowserRouter([
   {
     path: "/",
+    exact: true,
     element: <App />,
 
     children: [
       {
         path: "/",
+        exact: true,
         element: <Hero />,
       },
       {
         path: "/about",
+        exact: true,
         element: <About />,
       },
       {
         path: "/skills",
+        exact: true,
         element: <Skills />,
       },
       {
         path: "/projects",
+        exact: true,
         element: <Projects />,
       },
       {
         path: "/contact",
+        exact: true,
         element: <Contact />,
       },
     ],
