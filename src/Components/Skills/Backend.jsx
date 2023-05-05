@@ -1,9 +1,15 @@
 import { Tooltip } from "@material-tailwind/react";
 import React from "react";
+import { motion } from "framer-motion";
 
 const Backend = () => {
   return (
-    <div className="my-10 flex gap-10 flex-wrap justify-center items-center">
+    <motion.div
+      initial={{ opacity: 0, y: 100 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className="my-10 flex gap-10 flex-wrap justify-center items-center"
+    >
       <div className="flex flex-col items-center rounded-full bg-gray-700 bg-opacity-10 hover:bg-opacity-30">
         <Tooltip
           content="NODE JS"
@@ -46,7 +52,7 @@ const Backend = () => {
           />
         </Tooltip>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

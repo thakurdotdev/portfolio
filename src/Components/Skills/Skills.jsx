@@ -1,6 +1,7 @@
 import Frontend from "./Frontend";
 import Backend from "./Backend";
 import Tools from "./Tools";
+import { motion } from "framer-motion";
 import {
   Tabs,
   TabsHeader,
@@ -29,11 +30,15 @@ const Skills = () => {
   ];
 
   return (
-    <div className="md:min-h-[80vh]">
+    <motion.div
+      initial={{ opacity: 0, y: 100 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
       <h1 className="text-3xl text-center my-10">Tech Stack</h1>
       <Tabs
         value={data[0].value}
-        className="w-full flex items-center flex-col my-10"
+        className="w-full flex items-center flex-col my-10 min-h-[65vh]"
       >
         <TabsHeader className="w-96 flex items-center">
           {data.map(({ label, value }) => (
@@ -57,7 +62,7 @@ const Skills = () => {
           ))}
         </TabsBody>
       </Tabs>
-    </div>
+    </motion.div>
   );
 };
 

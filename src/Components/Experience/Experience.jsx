@@ -5,21 +5,22 @@ import {
   Tab,
   TabPanel,
 } from "@material-tailwind/react";
-import MernProjects from "./MernProjects";
-import BasicProjects from "./BasicProjects";
-import { motion } from "framer-motion";
 
-const Projects = () => {
+import { motion } from "framer-motion";
+import WorkExp from "./WorkExp";
+import Education from "./Education";
+
+const Experience = () => {
   const data = [
     {
-      label: "MERN Stack",
-      value: "MERN Stack",
-      desc: <MernProjects />,
+      label: "Work Experience",
+      value: "Work Experience",
+      desc: <WorkExp />,
     },
     {
-      label: "Basic Projects",
-      value: "Basic Projects",
-      desc: <BasicProjects />,
+      label: "Education",
+      value: "Education",
+      desc: <Education />,
     },
   ];
 
@@ -30,7 +31,6 @@ const Projects = () => {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5 }}
       >
-        <h1 className="text-3xl text-center my-10">Projects</h1>
         <Tabs
           value={data[0].value}
           className="w-full flex items-center flex-col my-10"
@@ -42,7 +42,14 @@ const Projects = () => {
               </Tab>
             ))}
           </TabsHeader>
-          <TabsBody className="flex justify-center">
+          <TabsBody
+            animate={{
+              initial: { y: 550 },
+              mount: { y: 0 },
+              unmount: { y: 550 },
+            }}
+            className="flex justify-center"
+          >
             {data.map(({ value, desc }) => (
               <TabPanel key={value} value={value}>
                 {desc}
@@ -55,4 +62,4 @@ const Projects = () => {
   );
 };
 
-export default Projects;
+export default Experience;

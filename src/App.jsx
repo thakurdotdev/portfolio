@@ -10,6 +10,7 @@ import About from "./Components/About";
 import Footer from "./Components/Footer";
 import Projects from "./Components/Projects/Projects";
 import Contact from "./Components/Contact";
+import Experience from "./Components/Experience/Experience";
 
 const App = () => {
   return (
@@ -48,6 +49,11 @@ const appRouter = createBrowserRouter([
         path: "/projects",
         exact: true,
         element: <Projects />,
+      },
+      {
+        path: "/experience",
+        exact: true,
+        element: <Experience />,
       },
       {
         path: "/contact",

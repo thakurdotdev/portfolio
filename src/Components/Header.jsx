@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
   Navbar,
   MobileNav,
-  Typography,
   Button,
   IconButton,
 } from "@material-tailwind/react";
@@ -20,7 +19,7 @@ const Header = () => {
   }, []);
 
   const navList = (
-    <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
+    <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center">
       <Link to={"/about"} className="">
         <Button variant="text">About</Button>
       </Link>
@@ -29,6 +28,9 @@ const Header = () => {
       </Link>
       <Link to={"/projects"} className="">
         <Button variant="text">Projects</Button>
+      </Link>
+      <Link to={"/experience"} className="">
+        <Button variant="text">Experience</Button>
       </Link>
       <Link to={"/contact"} className="">
         <Button variant="text">Contact</Button>
@@ -54,7 +56,9 @@ const Header = () => {
               href="https://drive.google.com/file/d/1LxWA3Kpk3dGCbpK3OLjRGzHzeiFbm_7I/view"
               target="_blank"
             >
-              <Button className="hidden lg:inline-block">Resume</Button>
+              <Button size="sm" className="hidden lg:inline-block">
+                Resume
+              </Button>
             </a>
             <IconButton
               variant="text"

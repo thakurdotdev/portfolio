@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "framer-motion";
 
 import wHand from "../assets/waving-hand.png";
 import PPic from "../assets/profile-pic.webp";
@@ -8,7 +9,12 @@ import { Link } from "react-router-dom";
 const Hero = () => {
   return (
     <div className="py-16 min-h-[83vh] flex items-center flex-col-reverse lg:flex-row gap-10 justify-center">
-      <div className="flex flex-col gap-4 md:gap-6 text-left lg:w-1/2 2xl:w-1/3 mx-4 md:mx-6 xl:mx-0 ">
+      <motion.div
+        initial={{ opacity: 0, y: 100 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        className="flex flex-col gap-4 md:gap-6 text-left lg:w-1/2 2xl:w-1/3 mx-4 md:mx-6 xl:mx-0 "
+      >
         <div className="flex items-center">
           <img src={wHand} alt="Hello" className="w-14" />
           <p className="text-xl">Hey,</p>
@@ -29,7 +35,7 @@ const Hero = () => {
             About Me
           </Button>
         </Link>
-      </div>
+      </motion.div>
       <div>
         <img src={PPic} alt="Pankaj Kumar" className="w-52 md:w-80 z-10" />
       </div>

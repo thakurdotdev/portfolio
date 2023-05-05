@@ -1,5 +1,6 @@
 import React from "react";
 import PPic from "../assets/profile-pic.webp";
+import { motion } from "framer-motion";
 
 const About = () => {
   return (
@@ -7,14 +8,24 @@ const About = () => {
       <h1 className="text-3xl font-sans text-center my-5">About Me</h1>
 
       <div className="flex flex-col md:flex-row items-center justify-around lg:mx-52 md:mt-20">
-        <div>
+        <motion.div
+          initial={{ opacity: 0, y: 100 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          className="flex flex-col items-center justify-center md:w-1/2"
+        >
           <img
             src={PPic}
             alt="Image"
             className="h-40 w-40 md:h-80 md:w-80 z-10 grayscale hover:grayscale-0 duration-300"
           />
-        </div>
-        <p className="text-base p-3 md:w-1/2 text-justify">
+        </motion.div>
+        <motion.p
+          initial={{ opacity: 0, y: 100 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          className="text-base p-3 md:w-1/2 text-justify"
+        >
           I am a passionate full-stack web developer with experience in building
           innovative and scalable web applications. My educational background
           includes a Bachelor of Engineering degree in Computer Engineering from
@@ -45,7 +56,7 @@ const About = () => {
           If you are looking for a dedicated developer to build your next web
           application, I would be honored to work with you. Contact me today to
           discuss your project requirements.
-        </p>
+        </motion.p>
       </div>
     </section>
   );
