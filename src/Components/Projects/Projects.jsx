@@ -5,49 +5,38 @@ import {
   Tab,
   TabPanel,
 } from "@material-tailwind/react";
-import ProjectCard from "./ProjectCard";
+import MernProjects from "./MernProjects";
+import BasicProjects from "./BasicProjects";
 
 const Projects = () => {
   const data = [
     {
-      label: "Frontend",
-      value: "Frontend",
-      desc: <ProjectCard />,
+      label: "MERN Stack",
+      value: "MERN Stack",
+      desc: <MernProjects />,
     },
     {
-      label: "Backend",
-      value: "Backend",
-      desc: <ProjectCard />,
-    },
-    {
-      label: "Tools",
-      value: "Tools",
-      desc: <ProjectCard />,
+      label: "Basic Projects",
+      value: "Basic Projects",
+      desc: <BasicProjects />,
     },
   ];
 
   return (
-    <div>
-      <h1 className="text-3xl text-center my-10">Tech Stack</h1>
+    <div className="md:min-h-[80vh]">
+      <h1 className="text-3xl text-center my-10">Projects</h1>
       <Tabs
         value={data[0].value}
-        className="w-full flex items-center flex-col my-10"
+        className="w-full flex items-center flex-col my-10 "
       >
-        <TabsHeader className="w-96 flex items-center">
+        <TabsHeader className="w-96 flex items-center mb-5 drop-shadow-2xl">
           {data.map(({ label, value }) => (
             <Tab key={value} value={value}>
               {label}
             </Tab>
           ))}
         </TabsHeader>
-        <TabsBody
-          className="overflow-x-auto scroll-hide md:w-full max-w-screen-sm mx-auto mt-6 flex justify-between items-center gap-2 md:gap-3 bg-white dark:bg-grey-800 p-2 rounded-md"
-          animate={{
-            initial: { y: 550 },
-            mount: { y: 0 },
-            unmount: { y: 550 },
-          }}
-        >
+        <TabsBody className="flex justify-center">
           {data.map(({ value, desc }) => (
             <TabPanel key={value} value={value}>
               {desc}

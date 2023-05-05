@@ -1,6 +1,6 @@
-import Frontend from "./skills/Frontend";
-import Backend from "./skills/Backend";
-import Tools from "./skills/Tools";
+import Frontend from "./Frontend";
+import Backend from "./Backend";
+import Tools from "./Tools";
 import {
   Tabs,
   TabsHeader,
@@ -29,7 +29,7 @@ const Skills = () => {
   ];
 
   return (
-    <div>
+    <div className="md:min-h-[80vh]">
       <h1 className="text-3xl text-center my-10">Tech Stack</h1>
       <Tabs
         value={data[0].value}

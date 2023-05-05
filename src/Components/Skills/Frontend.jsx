@@ -3,7 +3,7 @@ import React from "react";
 
 const Frontend = () => {
   return (
-    <div className=" my-10 flex gap-10 flex-wrap justify-center items-center lg:mx-[500px]">
+    <div className=" my-10 flex gap-10 flex-wrap justify-center items-center ">
       <div className="flex flex-col items-center rounded-full bg-gray-700 bg-opacity-20 hover:bg-opacity-40">
         <Tooltip
           content="React JS"

@@ -16,12 +16,12 @@ const Hero = () => {
         <p className="text-4xl md:text-6xl font-bold relative">
           I'm Pankaj Kumar
         </p>
-        <p className="text-2xl md:text-4xl font-bold relative">
-          Full Stack Developer
+        <p className="text-2xl md:text-3xl font-bold relative">
+          Full Stack Web Developer
         </p>
         <p className="text-lg md:text-xl font-medium relative">
           I'm a Full Stack Developer based in India. I have a passion for web
-          development and love to create for web and mobile devices.
+          development and love to create for web apps.
         </p>
 
         <Link to={"/about"}>

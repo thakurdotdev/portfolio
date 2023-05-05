@@ -2,12 +2,13 @@ import React from "react";
 import Header from "./Components/Header";
 import Hero from "./Components/Hero";
 import "./App.css";
-import Skills from "./Components/Skills";
+import Skills from "./Components/Skills/Skills";
 import Social from "./Components/Social";
 import About from "./Components/About";
 import Footer from "./Components/Footer";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import Projects from "./Components/Projects/Projects";
+import Contact from "./Components/Contact";
 
 const App = () => {
   return (
@@ -41,6 +42,10 @@ const appRouter = createBrowserRouter([
       {
         path: "/projects",
         element: <Projects />,
+      },
+      {
+        path: "/contact",
+        element: <Contact />,
       },
     ],
   },
