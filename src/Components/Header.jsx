@@ -7,7 +7,7 @@ import {
   IconButton,
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
-import logo from "../assets/profile-pic.png";
+import logo from "../assets/profile-pic.webp";
 
 const Header = () => {
   const [openNav, setOpenNav] = useState(false);

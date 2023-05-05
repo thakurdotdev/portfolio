@@ -1,5 +1,5 @@
 import React from "react";
-import PPic from "../assets/profile-pic.png";
+import PPic from "../assets/profile-pic.webp";
 
 const About = () => {
   return (

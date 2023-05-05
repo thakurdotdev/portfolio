@@ -1,7 +1,7 @@
 import React from "react";
 
 import wHand from "../assets/waving-hand.png";
-import PPic from "../assets/profile-pic.png";
+import PPic from "../assets/profile-pic.webp";
 import { Button } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 
