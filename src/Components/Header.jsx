@@ -1,12 +1,13 @@
-import React, { useState } from "react";
-import { Navbar, Collapse, Button, IconButton } from "@material-tailwind/react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+
+import { Navbar, Collapse, Button, IconButton } from "@material-tailwind/react";
 import logo from "../assets/profile-pic.webp";
 
 const Header = () => {
   const [openNav, setOpenNav] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     window.addEventListener(
       "resize",
       () => window.innerWidth >= 960 && setOpenNav(false)
@@ -55,6 +56,7 @@ const Header = () => {
                 Resume
               </Button>
             </a>
+
             <IconButton
               variant="text"
               className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"

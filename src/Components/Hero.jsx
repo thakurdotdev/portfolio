@@ -1,14 +1,14 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-import wHand from "../assets/waving-hand.png";
 import PPic from "../assets/profile-pic.webp";
 import { Button } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
+import wavingHand from "../assets/waving-hand.gif";
 
 const Hero = () => {
   return (
-    <div className="py-16 min-h-[83vh] flex items-center flex-col-reverse lg:flex-row gap-10 justify-center">
+    <div className="py-16 md:min-h-[83vh] flex items-center flex-col-reverse lg:flex-row gap-10 justify-center">
       <motion.div
         initial={{ opacity: 0, y: 100 }}
         animate={{ y: 0, opacity: 1 }}
@@ -16,14 +16,14 @@ const Hero = () => {
         className="flex flex-col gap-4 md:gap-6 text-left lg:w-1/2 2xl:w-1/3 mx-4 md:mx-6 xl:mx-0 "
       >
         <div className="flex items-center">
-          <img src={wHand} alt="Hello" className="w-14" />
+          <img src={wavingHand} alt="waving hand" className="w-10 h-10 mr-2" />
           <p className="text-xl">Hey,</p>
         </div>
         <p className="text-4xl md:text-6xl font-bold relative">
           I'm Pankaj Kumar
         </p>
         <p className="text-2xl md:text-3xl font-bold relative">
-          Full Stack Web Developer
+          Full Stack <span className="text-blue-900"> Web Developer</span>
         </p>
         <p className="text-lg md:text-xl font-medium relative">
           I'm a Full Stack Developer based in India. I have a passion for web
