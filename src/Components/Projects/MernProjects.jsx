@@ -7,8 +7,11 @@ import { MernProjectData } from "./ProjectData";
 const MernProjects = () => {
   return (
     <div className="flex flex-wrap justify-center gap-10">
-      {MernProjectData.map(({ title, img, live, github, techstack }) => (
-        <div className="flex flex-col w-96 gap-2 bg-gray-50 drop-shadow-xl dark:bg-grey-800 rounded-lg p-4">
+      {MernProjectData.map(({ title, img, live, github, techstack }, index) => (
+        <div
+          key={index}
+          className="flex flex-col w-96 gap-2 bg-gray-50 drop-shadow-xl dark:bg-grey-800 rounded-lg p-4"
+        >
           <div className="relative group rounded-lg bg-violet-50">
             <img
               alt="Project Image"

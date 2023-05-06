@@ -1,11 +1,11 @@
 {
-  "name": "portfolio-website",
+  "name": "portfolio",
   "homepage": "https://pankajktech.github.io/portfolio",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "predeploy": "yarn build",
+    "predeploy": "vite build",
     "deploy": "gh-pages -d dist",
     "dev": "vite",
     "build": "vite build"

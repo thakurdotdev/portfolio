@@ -1,10 +1,5 @@
 import React, { useState } from "react";
-import {
-  Navbar,
-  MobileNav,
-  Button,
-  IconButton,
-} from "@material-tailwind/react";
+import { Navbar, Collapse, Button, IconButton } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import logo from "../assets/profile-pic.webp";
 
@@ -40,17 +35,17 @@ const Header = () => {
 
   return (
     <>
-      <Navbar className="mx-auto max-w-screen-xl p-5 lg:rounded-full lg:pl-6">
+      <Navbar className="mx-auto max-w-screen-xl lg:p-5 lg:rounded-full lg:pl-6">
         <div className="flex items-center justify-around text-blue-gray-900">
           <Link to={"/"}>
             <img
               src={logo}
               alt="logo"
-              className="h-10 hover:bg-gray-500 duration-300 hover:rounded-full hover:p-1"
+              className="h-8 hover:bg-gray-500 duration-300 hover:rounded-full hover:p-1"
             />
           </Link>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center">
             <div className="mr-4 hidden lg:block">{navList}</div>
             <a
               href="https://drive.google.com/file/d/1LxWA3Kpk3dGCbpK3OLjRGzHzeiFbm_7I/view"
@@ -99,7 +94,7 @@ const Header = () => {
             </IconButton>
           </div>
         </div>
-        <MobileNav open={openNav}>
+        <Collapse open={openNav}>
           {navList}
           <a
             href="https://drive.google.com/file/d/1LxWA3Kpk3dGCbpK3OLjRGzHzeiFbm_7I/view"
@@ -109,7 +104,7 @@ const Header = () => {
               Resume
             </Button>
           </a>
-        </MobileNav>
+        </Collapse>
       </Navbar>
     </>
   );

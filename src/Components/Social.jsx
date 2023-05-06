@@ -1,37 +1,44 @@
+import { Tooltip } from "@material-tailwind/react";
 import React from "react";
 
 const Social = () => {
   return (
     <section className="fixed xl:bottom-40 xl:left-4 2xl:bottom-80 2xl:left-10 hidden lg:flex flex-col gap-3 z-20">
       <a
-        href=""
+        href="https://www.linkedin.com/in/pankajktech/"
         target="_blank"
         className="rounded-full text-2xl bg-gray-600 bg-opacity-20 hover:bg-opacity-50 w-10 h-10 flex items-center justify-center"
       >
-        <img
-          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg"
-          className="p-2"
-        />
+        <Tooltip content="Connect On Linkedin" placement="right">
+          <img
+            src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg"
+            className="p-2"
+          />
+        </Tooltip>
       </a>
       <a
-        href=""
+        href="https://github.com/pankajktech"
         target="_blank"
         className="rounded-full text-2xl bg-gray-600 bg-opacity-20 hover:bg-opacity-50 w-10 h-10 flex items-center justify-center"
       >
-        <img
-          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
-          className="p-2"
-        />
+        <Tooltip content="Connect On Github" placement="right">
+          <img
+            src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
+            className="p-2"
+          />
+        </Tooltip>
       </a>
       <a
-        href=""
+        href="https://twitter.com/pankajktech1"
         target="_blank"
         className="rounded-full text-2xl bg-gray-600 bg-opacity-20 hover:bg-opacity-50 w-10 h-10 flex items-center justify-center"
       >
-        <img
-          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/twitter/twitter-original.svg"
-          className="p-2"
-        />
+        <Tooltip content="Follow On Twitter" placement="right">
+          <img
+            src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/twitter/twitter-original.svg"
+            className="p-2"
+          />
+        </Tooltip>
       </a>
     </section>
   );

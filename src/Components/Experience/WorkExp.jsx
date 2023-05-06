@@ -11,7 +11,7 @@ import {
 
 const WorkExp = () => {
   return (
-    <div className="w-[32rem] flex justify-center items-center mx-auto">
+    <div className="max-w-[32rem] flex justify-center items-center mx-auto">
       <Timeline>
         <TimelineItem>
           <TimelineConnector />
@@ -28,8 +28,8 @@ const WorkExp = () => {
               <Typography variant="h5" color="blue-gray">
                 Innomatics Research Labs
               </Typography>
-              <Typography className="text-base my-2" color="gray">
-                Full Stack Web Developer Intern | Feb 2023 - April 2023
+              <Typography className=" my-2" color="gray">
+                Full Stack Web Developer Intern <br /> Feb 2023 - April 2023
               </Typography>
             </div>
           </TimelineHeader>

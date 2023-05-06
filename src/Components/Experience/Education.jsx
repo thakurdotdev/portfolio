@@ -11,7 +11,7 @@ import {
 
 const Education = () => {
   return (
-    <div className="w-[32rem] flex justify-center items-center mx-auto">
+    <div className="max-w-[32rem] flex justify-center items-center mx-auto">
       <Timeline>
         <TimelineItem>
           <TimelineConnector />
@@ -32,7 +32,7 @@ const Education = () => {
             <Typography color="gray" className="font-semibold text-gray-600">
               Computer Science and Engineering
               <br />
-              Bachelor of Engineering - BE, | 2020 - Present
+              Bachelor of Engineering - BE, <br /> 2020 - Present
             </Typography>
           </TimelineBody>
         </TimelineItem>
@@ -53,7 +53,7 @@ const Education = () => {
           </TimelineHeader>
           <TimelineBody className="pb-8">
             <Typography color="gray" className="font-semibold text-gray-600">
-              Higher Secondary School, Science | 2018 - 2020
+              Higher Secondary School, Science <br /> 2018 - 2020
             </Typography>
           </TimelineBody>
         </TimelineItem>

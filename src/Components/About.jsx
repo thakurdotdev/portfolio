@@ -24,7 +24,7 @@ const About = () => {
           initial={{ opacity: 0, y: 100 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className="text-base p-3 md:w-1/2 text-justify"
+          className="text-base p-6 md:w-1/2 text-justify"
         >
           I am a passionate full-stack web developer with experience in building
           innovative and scalable web applications. My educational background
