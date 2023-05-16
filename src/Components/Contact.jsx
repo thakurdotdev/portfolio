@@ -1,7 +1,7 @@
 import emailjs from "@emailjs/browser";
 import { Button, Input, Textarea } from "@material-tailwind/react";
 import { motion } from "framer-motion";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { FaHome, FaMailBulk } from "react-icons/fa";
 
 const Contact = () => {

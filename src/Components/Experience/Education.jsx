@@ -37,7 +37,6 @@ const Education = () => {
           </TimelineBody>
         </TimelineItem>
         <TimelineItem>
-          <TimelineConnector />
           <TimelineHeader>
             <TimelineIcon className="p-0">
               <Avatar

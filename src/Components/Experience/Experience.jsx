@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Tabs,
   TabsHeader,
@@ -5,6 +6,8 @@ import {
   Tab,
   TabPanel,
 } from "@material-tailwind/react";
+
+import { HiAcademicCap, HiOutlineBriefcase } from "react-icons/hi";
 
 import { motion } from "framer-motion";
 import WorkExp from "./WorkExp";
@@ -15,11 +18,13 @@ const Experience = () => {
     {
       label: "Work Experience",
       value: "Work Experience",
+      icon: HiOutlineBriefcase,
       desc: <WorkExp />,
     },
     {
       label: "Education",
       value: "Education",
+      icon: HiAcademicCap,
       desc: <Education />,
     },
   ];
@@ -36,9 +41,12 @@ const Experience = () => {
           className="w-full flex items-center flex-col my-10"
         >
           <TabsHeader className="w-96 flex items-center mb-5 drop-shadow-2xl">
-            {data.map(({ label, value }) => (
+            {data.map(({ label, value, icon }) => (
               <Tab key={value} value={value}>
-                {label}
+                <div className="flex items-center gap-2">
+                  {React.createElement(icon, { className: "w-5 h-5" })}
+                  {label}
+                </div>
               </Tab>
             ))}
           </TabsHeader>

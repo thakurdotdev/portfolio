@@ -36,9 +36,13 @@ const Hero = () => {
           </Button>
         </Link>
       </motion.div>
-      <div>
+      <motion.div
+        initial={{ opacity: 0, y: 100 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
         <img src={PPic} alt="Pankaj Kumar" className="w-52 md:w-80 z-10" />
-      </div>
+      </motion.div>
     </div>
   );
 };

@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@emailjs/browser": "^3.11.0",
+    "@heroicons/react": "^2.0.18",
     "@material-tailwind/react": "^2.0.0",
     "framer-motion": "^10.12.8",
     "react": "^18.2.0",
@@ -17,7 +18,6 @@
     "react-router-dom": "^6.11.0"
   },
   "devDependencies": {
-    "@heroicons/react": "^2.0.17",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@vitejs/plugin-react": "^4.0.0-beta.0",
