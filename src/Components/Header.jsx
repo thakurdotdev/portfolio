@@ -48,14 +48,14 @@ const Header = () => {
 
           <div className="flex items-center">
             <div className="mr-4 hidden lg:block">{navList}</div>
-            <a
+            {/* <a
               href="https://drive.google.com/file/d/1LxWA3Kpk3dGCbpK3OLjRGzHzeiFbm_7I/view"
               target="_blank"
             >
               <Button size="sm" className="hidden lg:inline-block">
                 Resume
               </Button>
-            </a>
+            </a> */}
 
             <IconButton
               variant="text"
@@ -98,14 +98,14 @@ const Header = () => {
         </div>
         <Collapse open={openNav}>
           {navList}
-          <a
+          {/* <a
             href="https://drive.google.com/file/d/1LxWA3Kpk3dGCbpK3OLjRGzHzeiFbm_7I/view"
             target="_blank"
           >
             <Button variant="gradient" size="sm" fullWidth className="mb-2">
               Resume
             </Button>
-          </a>
+          </a> */}
         </Collapse>
       </Navbar>
     </>

@@ -1,6 +1,6 @@
 import { Tooltip } from "@material-tailwind/react";
 import React from "react";
-
+import { MdMailOutline } from "react-icons/md";
 const Social = () => {
   return (
     <section className="fixed xl:bottom-40 xl:left-4 2xl:bottom-80 2xl:left-10 hidden lg:flex flex-col gap-3 z-20">
@@ -38,6 +38,17 @@ const Social = () => {
             src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/twitter/twitter-original.svg"
             className="p-2"
           />
+        </Tooltip>
+      </a>
+      <a
+        href="mailto:tunewithpk@gmail.com"
+        target="_blank"
+        className="rounded-full text-2xl bg-gray-600 bg-opacity-20 hover:bg-opacity-50 w-10 h-10 flex items-center justify-center"
+      >
+        <Tooltip content="Mail Us" placement="right">
+          <span>
+            <MdMailOutline className="p-2 text-5xl text-red-800" />
+          </span>
         </Tooltip>
       </a>
     </section>

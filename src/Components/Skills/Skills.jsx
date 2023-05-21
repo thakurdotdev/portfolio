@@ -31,7 +31,7 @@ const Skills = () => {
 
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.5 }}
+      initial={{ opacity: 0, scale: 0.7 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
     >
@@ -50,9 +50,9 @@ const Skills = () => {
         <TabsBody
           className="flex items-center"
           animate={{
-            initial: { y: 550 },
+            initial: { y: 50 },
             mount: { y: 0 },
-            unmount: { y: 550 },
+            unmount: { y: 50 },
           }}
         >
           {data.map(({ value, desc }) => (

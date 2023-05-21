@@ -1,6 +1,8 @@
 import React from "react";
 import PPic from "../assets/profile-pic.webp";
 import { motion } from "framer-motion";
+import { Button } from "@material-tailwind/react";
+import { Link } from "react-router-dom";
 
 const About = () => {
   return (
@@ -63,9 +65,15 @@ const About = () => {
           </span>
           which demonstrate my technical expertise and attention to detail.
           <br />
-          <br />I am a quick learner and a team player who is always ready to
-          learn new technologies and frameworks. I am currently looking for a
-          full-time opportunity as a Full Stack Web Developer.
+          <Link
+            to="https://drive.google.com/file/d/1yTeKCqBeug2-hVaTQFMmP4oushxQ7vZE/view?usp=sharing"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <Button variant="gradient" color="light-blue" className="mt-5">
+              Resume
+            </Button>
+          </Link>
         </motion.p>
       </motion.div>
     </section>
