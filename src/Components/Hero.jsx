@@ -24,17 +24,17 @@ const Hero = () => {
           <p className="text-xl">Hey,</p>
         </div>
         <p className="text-4xl md:text-6xl font-bold relative">
-          I'm Pankaj Kumar
+          I'm <span className="text-blue-900">Pankaj Kumar</span>
         </p>
         <p className="text-2xl md:text-3xl font-bold relative">
-          Full Stack <span className="text-blue-900"> Web Developer</span>
+          MERN Stack Web Developer
         </p>
         <p className="text-lg md:text-xl font-medium relative">
           I'm a Full Stack Developer based in India. I have a passion for web
           development and love to create for web apps.
         </p>
 
-        <div className="flex flex-col md:flex-row gap-4 md:gap-6">
+        <div className="flex flex-row justify-center md:justify-normal gap-4 md:gap-6">
           <Link to={"/about"}>
             <Button variant="gradient" color="light-blue">
               About Me
@@ -55,7 +55,7 @@ const Hero = () => {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5 }}
       >
-        <img src={PPic} alt="Pankaj Kumar" className="w-52 md:w-80 z-10" />
+        <img src={PPic} alt="Pankaj Kumar" className="w-44 md:w-80 z-10" />
       </motion.div>
     </div>
   );

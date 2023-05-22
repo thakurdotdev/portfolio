@@ -36,7 +36,7 @@ const Header = () => {
 
   return (
     <>
-      <Navbar className="mx-auto max-w-screen-xl lg:p-5 lg:rounded-full lg:pl-6">
+      <Navbar className="mx-auto max-w-screen-lg lg:py-4 lg:rounded-full">
         <div className="flex items-center justify-around text-blue-gray-900">
           <Link to={"/"}>
             <img

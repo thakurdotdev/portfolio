@@ -23,7 +23,7 @@ export const MernProjectData = [
   {
     img: notesApp,
     title: "React Notes App",
-    techstack: "React, Redux",
+    techstack: "React, Redux, Local Storage",
     live: "https://takequicknotes.netlify.app/",
     github: "https://github.com/pankajktech/FindYourJob",
   },
@@ -33,19 +33,21 @@ export const BasicProjectData = [
   {
     img: weatherApp,
     title: "Weather App",
-    techstack: "React, Redux, Node, Express, MongoDB",
+    techstack: "React, OpenWeather API",
     live: "https://pankajktech.github.io/weather-app/",
     github: "https://github.com/pankajktech/weather-app",
   },
   {
     img: calculator,
     title: "Calculator",
+    techstack: "HTMl, CSS, JavaScript",
     live: "https://pankajktech.github.io/Calculator",
     github: "https://github.com/pankajktech/Calculator",
   },
   {
     img: covidApi,
     title: "Covid Data APP",
+    techstack: "React, Covid API",
     live: "https://india-covid-data.netlify.app/",
     github: "https://github.com/pankajktech/covid-data-app",
   },
