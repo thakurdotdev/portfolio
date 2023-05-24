@@ -42,14 +42,7 @@ const Projects = () => {
               </Tab>
             ))}
           </TabsHeader>
-          <TabsBody
-            animate={{
-              initial: { x: 50 },
-              mount: { x: 0 },
-              unmount: { x: 50 },
-            }}
-            className="flex justify-center"
-          >
+          <TabsBody className="flex justify-center">
             {data.map(({ value, desc }) => (
               <TabPanel key={value} value={value}>
                 {desc}
