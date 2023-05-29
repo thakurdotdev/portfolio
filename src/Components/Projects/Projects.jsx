@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Tabs,
   TabsHeader,
@@ -8,17 +9,21 @@ import {
 import MernProjects from "./MernProjects";
 import BasicProjects from "./BasicProjects";
 import { motion } from "framer-motion";
+import { FaReact } from "react-icons/fa";
+import { SiJavascript } from "react-icons/si";
 
 const Projects = () => {
   const data = [
     {
       label: "MERN Stack",
       value: "MERN Stack",
+      icon: FaReact,
       desc: <MernProjects />,
     },
     {
       label: "Basic Projects",
       value: "Basic Projects",
+      icon: SiJavascript,
       desc: <BasicProjects />,
     },
   ];
@@ -36,9 +41,12 @@ const Projects = () => {
           className="w-full flex items-center flex-col my-10"
         >
           <TabsHeader className="w-96 flex items-center mb-5 drop-shadow-2xl">
-            {data.map(({ label, value }) => (
+            {data.map(({ label, value, icon }) => (
               <Tab key={value} value={value}>
-                {label}
+                <div className="flex items-center gap-2">
+                  {React.createElement(icon, { className: "w-5 h-5" })}
+                  {label}
+                </div>
               </Tab>
             ))}
           </TabsHeader>

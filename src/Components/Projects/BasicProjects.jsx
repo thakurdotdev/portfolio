@@ -22,7 +22,7 @@ const BasicProjects = () => {
                 src={img}
                 loading="lazy"
               />
-              <div className="absolute top-0 scale-x-0 group-hover:scale-100 transition-transform origin-left duration-200 ease-linear bg-gray-800 bg-opacity-60 w-full h-full rounded-lg flex items-center gap-4 justify-center">
+              <div className="absolute top-0 scale-x-0 group-hover:scale-100 transition-transform origin-top duration-200 ease-linear bg-gray-800 bg-opacity-60 w-full h-full rounded-lg flex items-center gap-4 justify-center">
                 <Link
                   to={live}
                   target="_blank"
@@ -39,11 +39,12 @@ const BasicProjects = () => {
                   <FaGithub size={20} />
                 </Link>
               </div>
-              ;
             </div>
 
             <div className="my-2 flex flex-col gap-3">
-              <h3 className="text-xl text-black font-medium">{title}</h3>
+              <h3 className="text-xl text-center text-black font-medium">
+                {title}
+              </h3>
               <p className="text-sm text-gray-600">
                 <span className="font-medium">Tech Stack:</span>
                 {techstack}

@@ -38,11 +38,12 @@ const MernProjects = () => {
                 <FaGithub size={20} />
               </Link>
             </div>
-            ;
           </div>
 
           <div className="my-2 flex flex-col gap-3">
-            <h3 className="text-xl text-black font-medium">{title}</h3>
+            <h3 className="text-xl text-center text-black font-medium">
+              {title}
+            </h3>
             <p className="text-sm text-gray-600">
               <span className="font-medium">Tech Stack:</span>
               {techstack}

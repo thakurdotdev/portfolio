@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .Hero {
-  background-image: url(../src/assets/herobg.webp);
+  background-image: url(../src/assets/herobg.jpg);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

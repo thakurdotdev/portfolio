@@ -4,6 +4,7 @@ import notesApp from "./ProjectImg/notes.webp";
 import weatherApp from "./ProjectImg/WeatherApp.webp";
 import calculator from "./ProjectImg/calculator.webp";
 import covidApi from "./ProjectImg/CovidApi.webp";
+import blogApp from "./ProjectImg/blogApp.webp";
 
 export const MernProjectData = [
   {
@@ -21,28 +22,28 @@ export const MernProjectData = [
     github: "https://github.com/pankajktech/ai-summariser",
   },
   {
-    img: notesApp,
-    title: "React Notes App",
-    techstack: "React, Redux, Local Storage",
-    live: "https://takequicknotes.netlify.app/",
-    github: "https://github.com/pankajktech/FindYourJob",
+    img: blogApp,
+    title: "MERN Blog App",
+    techstack: "React, Node, Express, MongoDB, Tailwind CSS",
+    live: "https://pankajktechblog.vercel.app/",
+    github: "https://github.com/pankajktech/Blog-Website",
   },
 ];
 
 export const BasicProjectData = [
+  {
+    img: notesApp,
+    title: "Notes App",
+    techstack: "React, Redux, Tailwind CSS",
+    live: "https://takequicknotes.netlify.app/",
+    github: "https://github.com/pankajktech/notes-app",
+  },
   {
     img: weatherApp,
     title: "Weather App",
     techstack: "React, OpenWeather API",
     live: "https://pankajktech.github.io/weather-app/",
     github: "https://github.com/pankajktech/weather-app",
-  },
-  {
-    img: calculator,
-    title: "Calculator",
-    techstack: "HTMl, CSS, JavaScript",
-    live: "https://pankajktech.github.io/Calculator",
-    github: "https://github.com/pankajktech/Calculator",
   },
   {
     img: covidApi,

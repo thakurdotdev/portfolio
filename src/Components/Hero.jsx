@@ -5,6 +5,8 @@ import PPic from "../assets/profile-pic.webp";
 import { Button } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import wavingHand from "../assets/waving-hand.gif";
+import { FaUserTie } from "react-icons/fa";
+import { MdOutlineDocumentScanner } from "react-icons/md";
 
 const Hero = () => {
   return (
@@ -24,7 +26,8 @@ const Hero = () => {
           <p className="text-xl">Hey,</p>
         </div>
         <p className="text-4xl md:text-5xl font-bold relative">
-          I'm <span className="text-blue-900">Pankaj Kumar</span>
+          I'm{" "}
+          <span className="text-light-blue-500 uppercase">Pankaj Kumar</span>
         </p>
         <p className="text-2xl font-bold relative">MERN Stack Web Developer</p>
         <p className="text-lg md:text-xl font-medium relative">
@@ -34,7 +37,12 @@ const Hero = () => {
 
         <div className="flex flex-row justify-center md:justify-normal gap-4 md:gap-6">
           <Link to={"/about"}>
-            <Button variant="gradient" color="light-blue">
+            <Button
+              variant="gradient"
+              color="light-blue"
+              className="flex gap-2 items-center"
+            >
+              <FaUserTie className="text-lg" />
               About Me
             </Button>
           </Link>
@@ -42,7 +50,12 @@ const Hero = () => {
             to="https://drive.google.com/file/d/1yTeKCqBeug2-hVaTQFMmP4oushxQ7vZE/view?usp=sharing"
             target="_blank"
           >
-            <Button variant="gradient" color="deep-purple">
+            <Button
+              variant="gradient"
+              color="light-blue"
+              className="flex gap-2 items-center"
+            >
+              <MdOutlineDocumentScanner className="text-white text-lg" />
               Resume
             </Button>
           </Link>

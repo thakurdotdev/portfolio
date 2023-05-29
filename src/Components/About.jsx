@@ -3,6 +3,7 @@ import PPic from "../assets/profile-pic.webp";
 import { motion } from "framer-motion";
 import { Button } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
+import { MdOutlineDocumentScanner } from "react-icons/md";
 
 const About = () => {
   return (
@@ -70,7 +71,12 @@ const About = () => {
             target="_blank"
             rel="noreferrer"
           >
-            <Button variant="gradient" color="light-blue" className="mt-5">
+            <Button
+              variant="gradient"
+              color="light-blue"
+              className="mt-5 flex items-center gap-2"
+            >
+              <MdOutlineDocumentScanner className="text-white text-lg" />
               Resume
             </Button>
           </Link>

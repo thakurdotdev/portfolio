@@ -1,7 +1,9 @@
+import React from "react";
 import Frontend from "./Frontend";
 import Backend from "./Backend";
 import Tools from "./Tools";
 import { motion } from "framer-motion";
+import { FaLaptopCode, FaCodeBranch, FaNodeJs } from "react-icons/fa";
 import {
   Tabs,
   TabsHeader,
@@ -15,25 +17,28 @@ const Skills = () => {
     {
       label: "Frontend",
       value: Frontend,
+      icon: FaLaptopCode,
       desc: <Frontend />,
     },
     {
       label: "Backend",
       value: "Backend",
+      icon: FaNodeJs,
       desc: <Backend />,
     },
     {
       label: "Tools",
       value: "Tools",
+      icon: FaCodeBranch,
       desc: <Tools />,
     },
   ];
 
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.7 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
+      initial={{ opacity: 0, y: 100 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
     >
       <h1 className="text-3xl text-center my-10">Tech Stack</h1>
       <Tabs
@@ -41,9 +46,12 @@ const Skills = () => {
         className="w-full flex items-center flex-col my-10 min-h-[65vh]"
       >
         <TabsHeader className="w-96 flex items-center">
-          {data.map(({ label, value }) => (
+          {data.map(({ label, value, icon }) => (
             <Tab key={value} value={value}>
-              {label}
+              <div className="flex items-center gap-2">
+                {React.createElement(icon, { className: "w-5 h-5" })}
+                {label}
+              </div>
             </Tab>
           ))}
         </TabsHeader>

@@ -52,9 +52,9 @@ const Experience = () => {
           </TabsHeader>
           <TabsBody
             animate={{
-              initial: { x: 100 },
-              mount: { x: 0 },
-              unmount: { x: 100 },
+              initial: { y: 100 },
+              mount: { y: 0 },
+              unmount: { y: 100 },
             }}
             className="flex justify-center"
           >
