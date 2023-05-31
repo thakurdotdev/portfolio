@@ -35,7 +35,6 @@ const Projects = () => {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5 }}
       >
-        <h1 className="text-3xl text-center my-10">Projects</h1>
         <Tabs
           value={data[0].value}
           className="w-full flex items-center flex-col my-10"

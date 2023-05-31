@@ -7,10 +7,11 @@ import { Link } from "react-router-dom";
 import wavingHand from "../assets/waving-hand.gif";
 import { FaUserTie } from "react-icons/fa";
 import { MdOutlineDocumentScanner } from "react-icons/md";
+import { SiJavascript, SiReact, SiTailwindcss, SiHtml5 } from "react-icons/si";
 
 const Hero = () => {
   return (
-    <div className="py-16 md:min-h-[83vh] flex items-center flex-col-reverse lg:flex-row gap-10 justify-center">
+    <div className="py-16 md:min-h-[85vh] flex items-center flex-col-reverse lg:flex-row gap-10 justify-center">
       <motion.div
         initial={{ opacity: 0, y: -100 }}
         animate={{ y: 0, opacity: 1 }}
@@ -65,8 +66,17 @@ const Hero = () => {
         initial={{ opacity: 0, y: 100 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5 }}
+        className="relative"
       >
-        <img src={PPic} alt="Pankaj Kumar" className="w-44 md:w-80 z-10" />
+        <img
+          src={PPic}
+          alt="Pankaj Kumar"
+          className="w-44 md:w-80 z-10 shadow drop-shadow-xl rounded-full"
+        />
+        <SiTailwindcss className="absolute -top-4 text-light-blue-400 text-3xl" />
+        <SiHtml5 className="absolute -top-4 right-0 text-light-blue-600 text-3xl" />
+        <SiReact className="absolute left-5 text-light-blue-600 text-3xl" />
+        <SiJavascript className="absolute -right-1 text-amber-700 text-2xl" />
       </motion.div>
     </div>
   );

@@ -40,10 +40,9 @@ const Skills = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <h1 className="text-3xl text-center my-10">Tech Stack</h1>
       <Tabs
         value={data[0].value}
-        className="w-full flex items-center flex-col my-10 min-h-[65vh]"
+        className="w-full flex items-center flex-col my-10 min-h-[75vh]"
       >
         <TabsHeader className="w-96 flex items-center">
           {data.map(({ label, value, icon }) => (

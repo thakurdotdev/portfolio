@@ -30,10 +30,7 @@ const Contact = () => {
   };
 
   return (
-    <div className="md:min-h-[82vh] w-full flex flex-col justify-center items-center">
-      <Typography variant="h2" className=" font-thin text-center mb-10">
-        Contact Us
-      </Typography>
+    <div className="md:min-h-[84vh] w-full flex flex-col justify-center items-center">
       <div className="flex flex-col p-5 md:flex-row lg:w-[70%] items-center justify-around">
         <motion.div
           initial={{ opacity: 0, x: -100 }}
