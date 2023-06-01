@@ -21,7 +21,6 @@ const Education = () => {
                 size="lg"
                 src="https://upload.wikimedia.org/wikipedia/en/1/14/Marwadi_University_logo.png"
                 alt="user 1"
-                withBorder
               />
             </TimelineIcon>
             <Typography variant="h5" color="blue-gray">
@@ -38,12 +37,12 @@ const Education = () => {
         </TimelineItem>
         <TimelineItem>
           <TimelineHeader>
+            <TimelineConnector />
             <TimelineIcon className="p-0">
               <Avatar
                 size="lg"
                 src="https://yt3.googleusercontent.com/ytc/AGIKgqPH81zkbo4ZGDvdP3jgPo56PgO9-tJq-B6mGPanEA=s900-c-k-c0x00ffffff-no-rj"
                 alt="user 2"
-                withBorder
               />
             </TimelineIcon>
             <Typography variant="h5" color="blue-gray">

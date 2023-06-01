@@ -26,11 +26,15 @@ const Hero = () => {
           />
           <p className="text-xl">Hey,</p>
         </div>
-        <p className="text-4xl md:text-5xl font-bold relative">
-          I'm{" "}
-          <span className="text-light-blue-500 uppercase">Pankaj Kumar</span>
+        <p className="text-3xl md:text-5xl font-bold relative">
+          I'm
+          <span className="text-light-blue-500 ml-1 uppercase">
+            Pankaj Kumar
+          </span>
         </p>
-        <p className="text-2xl font-bold relative">MERN Stack Web Developer</p>
+        <p className="text-xl font-semibold relative uppercase">
+          MERN Stack Web Developer
+        </p>
         <p className="text-lg md:text-xl font-medium relative">
           I'm a Full Stack Developer based in India. I have a passion for web
           development and love to create for web apps.
