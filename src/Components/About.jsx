@@ -11,9 +11,9 @@ const About = () => {
     <section className="w-full md:min-h-[75vh]">
       <div className="flex flex-col md:flex-row items-center justify-center lg:mx-52 md:mt-20">
         <motion.div
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
+          initial={{ opacity: 0, y: -100 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.7 }}
           className="flex flex-col items-center md:h-60"
         >
           <img
@@ -52,15 +52,15 @@ const About = () => {
         </motion.div>
 
         <motion.Typography
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className=" text-justify font-thin m-5 md:m-0 p-6 md:ml-5 mt-5 md:w-1/2 bg-white rounded-md shadow-2xl drop-shadow-lg"
+          initial={{ opacity: 0, y: 100 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.7 }}
+          className=" text-justify font-serif m-5 md:m-0 p-6 md:ml-5 mt-5 md:w-1/2 bg-white rounded-md shadow-2xl drop-shadow-lg"
         >
           <Typography className="text-xl text-center mt-2 mb-5 border-b-2 border-light-blue-500">
             About Me
           </Typography>
-          <RxTriangleLeft className="absolute top-10 -left-10 text-white text-[70px]" />
+          <RxTriangleLeft className="absolute top-10 -left-10 text-white text-[70px] lg-max:hidden" />
           I am a passionate full-stack web developer with experience in building
           innovative and scalable web applications.
           <br />

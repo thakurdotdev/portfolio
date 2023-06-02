@@ -30,13 +30,13 @@ const Contact = () => {
   };
 
   return (
-    <div className="md:min-h-[84vh] w-full flex flex-col justify-center items-center">
-      <div className="flex flex-col p-5 md:flex-row lg:w-[70%] items-center justify-around">
+    <div className="min-h-[84vh] w-full flex flex-col justify-center items-center">
+      <div className="flex flex-col md:flex-row lg:w-[70%] items-center justify-around">
         <motion.div
           initial={{ opacity: 0, x: -100 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className="w-[90%] lg:w-[500px] "
+          className="w-[100%] lg:w-[500px] "
         >
           <div className="relative rounded-lg bg-white p-8 shadow-lg sm:p-12">
             <form onSubmit={sendEmail}>
@@ -83,7 +83,7 @@ const Contact = () => {
           initial={{ opacity: 0, x: 100 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className="w-[80%] lg:w-[500px] "
+          className="lg:w-[500px] lg-max:hidden"
         >
           <img src={contactimg} alt="contactimg" />
         </motion.div>
