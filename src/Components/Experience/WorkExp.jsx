@@ -16,12 +16,14 @@ const WorkExp = () => {
         <TimelineItem>
           <TimelineConnector />
           <TimelineHeader>
-            <TimelineIcon className="p-0">
-              <Avatar
-                size="lg"
-                src="https://cdn-images-1.medium.com/v2/resize:fit:1200/1*ZfYWXN0zA6TqQQ7wGNJUOg.jpeg"
-                alt="GSSOC Logo"
-              />
+            <TimelineIcon className="p-0 hover:scale-105 duration-200">
+              <a href="https://gssoc.girlscript.tech/" target="_blank">
+                <Avatar
+                  size="lg"
+                  src="https://cdn-images-1.medium.com/v2/resize:fit:1200/1*ZfYWXN0zA6TqQQ7wGNJUOg.jpeg"
+                  alt="GSSOC Logo"
+                />
+              </a>
             </TimelineIcon>
             <div className="flex flex-col">
               <Typography variant="h5" color="blue-gray">
@@ -42,12 +44,14 @@ const WorkExp = () => {
         <TimelineItem>
           <TimelineConnector />
           <TimelineHeader>
-            <TimelineIcon className="p-0">
-              <Avatar
-                size="lg"
-                src="https://yt3.googleusercontent.com/ytc/AGIKgqPpF2a_tyfJxju1aUCarmdrPPQ-dpgour4fzgfz=s900-c-k-c0x00ffffff-no-rj"
-                alt="user 1"
-              />
+            <TimelineIcon className="p-0 hover:scale-105 duration-200">
+              <a href="https://www.innomatics.in/" target="_blank">
+                <Avatar
+                  size="lg"
+                  src="https://yt3.googleusercontent.com/ytc/AGIKgqPpF2a_tyfJxju1aUCarmdrPPQ-dpgour4fzgfz=s900-c-k-c0x00ffffff-no-rj"
+                  alt="user 1"
+                />
+              </a>
             </TimelineIcon>
             <div className="flex flex-col">
               <Typography variant="h5" color="blue-gray">

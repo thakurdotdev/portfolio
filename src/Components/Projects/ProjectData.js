@@ -2,9 +2,10 @@ import jobPortal from "./ProjectImg/jobportal.webp";
 import AiSum from "./ProjectImg/AiSumm.webp";
 import notesApp from "./ProjectImg/notes.webp";
 import weatherApp from "./ProjectImg/WeatherApp.webp";
-import calculator from "./ProjectImg/calculator.webp";
 import covidApi from "./ProjectImg/CovidApi.webp";
 import blogApp from "./ProjectImg/blogApp.webp";
+
+//MERN Stack Projects Data
 
 export const MernProjectData = [
   {
@@ -29,6 +30,8 @@ export const MernProjectData = [
     github: "https://github.com/pankajktech/Blog-Website",
   },
 ];
+
+//Basic Projects Data
 
 export const BasicProjectData = [
   {

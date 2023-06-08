@@ -55,12 +55,12 @@ const About = () => {
           initial={{ opacity: 0, y: 100 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.7 }}
-          className=" text-justify font-serif m-5 md:m-0 p-6 md:ml-5 mt-5 md:w-1/2 bg-white rounded-md shadow-2xl drop-shadow-lg"
+          className=" text-justify font-serif m-5 md:m-0 p-6 md:ml-5 mt-5 md:w-1/2 bg-white rounded-md shadow-2xl drop-shadow-sm backdrop-blur-md bg-opacity-20"
         >
           <Typography className="text-xl text-center mt-2 mb-5 border-b-2 border-light-blue-500">
             About Me
           </Typography>
-          <RxTriangleLeft className="absolute top-10 -left-10 text-white text-[70px] lg-max:hidden" />
+          {/* <RxTriangleLeft className="absolute top-10 -left-10 text-white text-[70px] lg-max:hidden" /> */}
           I am a passionate full-stack web developer with experience in building
           innovative and scalable web applications.
           <br />
