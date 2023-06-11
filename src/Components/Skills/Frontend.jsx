@@ -1,5 +1,4 @@
 import React from "react";
-import GitHubCalendar from "react-github-calendar";
 import { Tooltip } from "@material-tailwind/react";
 import { FrontendSkills } from "./SkillsData";
 
@@ -21,19 +20,6 @@ const Frontend = () => {
             </Tooltip>
           </div>
         ))}
-      </div>
-      <div className="bg-light-blue-100 backdrop-blur-md rounded-md bg-opacity-30 p-5">
-        <h2 className="text-2xl font-bold text-center text-light-blue-900 my-3">
-          Github Contributions
-        </h2>
-        <GitHubCalendar
-          username="pankajktech"
-          blockSize={15}
-          blockMargin={10}
-          fontSize={16}
-          fullYear={false}
-          colorScheme="dark"
-        />
       </div>
     </div>
   );

@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import { Button, Typography } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import { MdContactMail, MdOutlineDocumentScanner } from "react-icons/md";
-import { RxTriangleLeft } from "react-icons/rx";
 
 const About = () => {
   return (

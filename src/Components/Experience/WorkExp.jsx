@@ -37,7 +37,8 @@ const WorkExp = () => {
           <TimelineBody className="pb-8">
             <ul color="gary" className="list-disc font-sans ml-5 text-gray-800">
               <li>Contributed to various open source projects.</li>
-              <li>Coonection with various developers.</li>
+              <li>Coded in React, Node.js, Express.js, MongoDB.</li>
+              <li>Connected with mentors and other contributors</li>
             </ul>
           </TimelineBody>
         </TimelineItem>
