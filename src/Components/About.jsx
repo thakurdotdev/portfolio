@@ -1,5 +1,5 @@
 import React from "react";
-import PPic from "../assets/profile-pic.webp";
+import PPic from "../assets/about.webp";
 import { motion } from "framer-motion";
 import { Button, Typography } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
@@ -18,7 +18,7 @@ const About = () => {
           <img
             src={PPic}
             alt="Image"
-            className="h-40 md:h-72 md:-mt-20 z-10 grayscale hover:grayscale-0 duration-500 shadow-xl shadow-blue-gray-900/50 rounded-full my-5"
+            className="h-40 md:h-72 md:-mt-20 z-10 shadow-xl drop-shadow rounded-full my-5"
           />
           <div className="flex items-center justify-center gap-2">
             <Link

@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-import PPic from "../assets/profile-pic.webp";
+import PPic from "../assets/about.webp";
 import { Button } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import wavingHand from "../assets/waving-hand.gif";
@@ -75,12 +75,12 @@ const Hero = () => {
         <img
           src={PPic}
           alt="Pankaj Kumar"
-          className="w-44 md:w-80 z-10 shadow drop-shadow-xl rounded-full"
+          className="w-44 md:w-80 z-10 drop-shadow-sm rounded-full"
         />
         <SiTailwindcss className="absolute -top-4 text-light-blue-400 text-3xl" />
         <SiHtml5 className="absolute -top-4 right-0 text-light-blue-600 text-3xl" />
         <SiReact className="absolute left-5 text-light-blue-600 text-3xl" />
-        <SiJavascript className="absolute -right-1 text-amber-700 text-2xl" />
+        <SiJavascript className="absolute -right-1 text-amber-700 text-3xl" />
       </motion.div>
     </div>
   );
