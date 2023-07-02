@@ -42,7 +42,7 @@ const Header = () => {
             <img
               src={logo}
               alt="logo"
-              className="h-8 hover:bg-gray-500 duration-300 hover:rounded-full hover:p-1"
+              className="h-10 w-10 hover:opacity-70  duration-300 rounded-full"
             />
           </Link>
 

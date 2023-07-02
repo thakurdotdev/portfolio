@@ -75,7 +75,7 @@ const Hero = () => {
         <img
           src={PPic}
           alt="Pankaj Kumar"
-          className="w-44 md:w-80 z-10 drop-shadow-sm rounded-full"
+          className="w-44 md:w-80 z-10 rounded-full"
         />
         <SiTailwindcss className="absolute -top-4 text-light-blue-400 text-3xl" />
         <SiHtml5 className="absolute -top-4 right-0 text-light-blue-600 text-3xl" />
