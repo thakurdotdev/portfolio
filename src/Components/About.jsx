@@ -22,27 +22,17 @@ const About = () => {
           />
           <div className="flex items-center justify-center gap-2">
             <Link
-              to="https://drive.google.com/file/d/1hPe1bzNMlVOE1V5zbJ0Npi2o42a9Wj7l/view?usp=sharing"
+              to="https://drive.google.com/file/d/1Yd3Z6GO8-vxHOldYckjj42sf8mjP2SgP/view?usp=sharing"
               target="_blank"
               rel="noreferrer"
             >
-              <Button
-                variant="gradient"
-                color="light-blue"
-                fullWidth
-                className="mt-5 flex items-center gap-2"
-              >
+              <Button className="mt-5 flex items-center gap-2">
                 <MdOutlineDocumentScanner className="text-white text-lg" />
                 Resume
               </Button>
             </Link>
             <Link to={"/contact"}>
-              <Button
-                variant="gradient"
-                color="light-blue"
-                fullWidth
-                className="mt-5 flex items-center gap-2"
-              >
+              <Button className="mt-5 flex items-center gap-2">
                 <MdContactMail className="text-white text-lg" />
                 Contact
               </Button>
@@ -59,7 +49,6 @@ const About = () => {
           <Typography className="text-xl text-center mt-2 mb-5 border-b-2 border-light-blue-500">
             About Me
           </Typography>
-          {/* <RxTriangleLeft className="absolute top-10 -left-10 text-white text-[70px] lg-max:hidden" /> */}
           I am a passionate full-stack web developer with experience in building
           innovative and scalable web applications.
           <br />
