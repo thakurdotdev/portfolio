@@ -38,7 +38,7 @@ const Contact = () => {
           transition={{ duration: 0.5 }}
           className="w-[100%] lg:w-[500px] "
         >
-          <div className="relative rounded-lg bg-white p-8 shadow-lg sm:p-12">
+          <div className="relative rounded-lg bg-white bg-opacity-40 backdrop-blur-sm p-8  sm:p-12">
             <form onSubmit={sendEmail}>
               <div className="mb-6">
                 <Input

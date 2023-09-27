@@ -11,6 +11,7 @@ import BasicProjects from "./BasicProjects";
 import { motion } from "framer-motion";
 import { FaReact } from "react-icons/fa";
 import { SiJavascript } from "react-icons/si";
+import { LazyLoadComponent } from "react-lazy-load-image-component";
 
 const Projects = () => {
   const data = [
@@ -18,13 +19,21 @@ const Projects = () => {
       label: "MERN Stack",
       value: "MERN Stack",
       icon: FaReact,
-      desc: <MernProjects />,
+      desc: (
+        <LazyLoadComponent>
+          <MernProjects />
+        </LazyLoadComponent>
+      ),
     },
     {
       label: "Basic Projects",
       value: "Basic Projects",
       icon: SiJavascript,
-      desc: <BasicProjects />,
+      desc: (
+        <LazyLoadComponent>
+          <BasicProjects />
+        </LazyLoadComponent>
+      ),
     },
   ];
 

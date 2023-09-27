@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import { Button, Typography } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import { MdContactMail, MdOutlineDocumentScanner } from "react-icons/md";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 
 const About = () => {
   return (
@@ -15,7 +17,8 @@ const About = () => {
           transition={{ duration: 0.7 }}
           className="flex flex-col items-center md:h-60"
         >
-          <img
+          <LazyLoadImage
+            effect="blur"
             src={PPic}
             alt="Image"
             className="h-40 md:h-72 md:-mt-20 z-10 shadow-xl drop-shadow rounded-full my-5"

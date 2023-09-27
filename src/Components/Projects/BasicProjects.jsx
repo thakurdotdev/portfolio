@@ -3,6 +3,8 @@ import { FaGithub } from "react-icons/fa";
 import { BiLinkExternal } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import { BasicProjectData } from "./ProjectData";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 
 const BasicProjects = () => {
   return (
@@ -14,13 +16,11 @@ const BasicProjects = () => {
             className="flex flex-col w-96 gap-2 bg-gray-50 drop-shadow-xl dark:bg-grey-800 rounded-lg p-4"
           >
             <div className="relative group rounded-lg bg-violet-50">
-              <img
+              <LazyLoadImage
+                effect="blur"
                 alt="Project Image"
-                width={1000}
-                height={1000}
                 className="max-w-full h-48 max-h-full object-cover object-top rounded-lg"
                 src={img}
-                loading="lazy"
               />
               <div className="absolute top-0 scale-x-0 group-hover:scale-100 transition-transform origin-top duration-200 ease-linear bg-gray-800 bg-opacity-60 w-full h-full rounded-lg flex items-center gap-4 justify-center">
                 <Link

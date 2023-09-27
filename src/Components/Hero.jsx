@@ -8,6 +8,8 @@ import wavingHand from "../assets/waving-hand.gif";
 import { FaUserTie } from "react-icons/fa";
 import { MdOutlineDocumentScanner } from "react-icons/md";
 import { SiJavascript, SiReact, SiTailwindcss, SiHtml5 } from "react-icons/si";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 
 const Hero = () => {
   return (
@@ -72,7 +74,8 @@ const Hero = () => {
         transition={{ duration: 0.5 }}
         className="relative"
       >
-        <img
+        <LazyLoadImage
+          effect="blur"
           src={PPic}
           alt="Pankaj Kumar"
           className="w-44 md:w-80 z-10 rounded-full"
