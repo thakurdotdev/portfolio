@@ -36,7 +36,7 @@ const Contact = () => {
           initial={{ opacity: 0, x: -100 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className="w-[100%] lg:w-[500px] "
+          className="w-[100vw] p-5 lg:w-[500px]"
         >
           <div className="relative rounded-lg bg-white bg-opacity-40 backdrop-blur-sm p-8  sm:p-12">
             <form onSubmit={sendEmail}>

@@ -13,7 +13,7 @@ import "react-lazy-load-image-component/src/effects/blur.css";
 
 const Hero = () => {
   return (
-    <div className="py-16 md:min-h-[85vh] flex items-center flex-col-reverse lg:flex-row gap-10 justify-center">
+    <div className="py-16 min-h-[80vh] md:min-h-[85vh] flex items-center flex-col-reverse lg:flex-row gap-10 justify-center">
       <motion.div
         initial={{ opacity: 0, y: -100 }}
         animate={{ y: 0, opacity: 1 }}
@@ -35,14 +35,14 @@ const Hero = () => {
           </span>
         </p>
         <p className="text-xl font-semibold relative uppercase">
-          MERN Stack Web Developer
+          Web Developer
         </p>
         <p className="text-lg md:text-xl font-medium relative">
           I'm a Full Stack Developer based in India. I have a passion for web
           development and love to create for web apps.
         </p>
 
-        <div className="flex flex-row justify-center md:justify-normal gap-4 md:gap-6">
+        <div className="flex flex-row justify-center md:justify-normal gap-4 md:gap-6 mt-5">
           <Link to={"/about"}>
             <Button
               variant="gradient"
