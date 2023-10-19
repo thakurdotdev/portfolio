@@ -1,8 +1,10 @@
 import emailjs from "@emailjs/browser";
 import { motion } from "framer-motion";
 import React, { useState } from "react";
-import { Button, Input, Textarea, Typography } from "@material-tailwind/react";
+import { Button, Input, Textarea } from "@material-tailwind/react";
 import contactimg from "../assets/contact-img.svg";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 
 const Contact = () => {
   const [message, showMessage] = useState(false);
@@ -85,7 +87,12 @@ const Contact = () => {
           transition={{ duration: 0.5 }}
           className="lg:w-[500px] lg-max:hidden"
         >
-          <img src={contactimg} alt="contactimg" />
+          <LazyLoadImage
+            effect="blur"
+            className="h-[300px] w-[300px] lg:h-[500px] lg:w-[500px]"
+            src={contactimg}
+            alt="contactimg"
+          />
         </motion.div>
       </div>
     </div>
