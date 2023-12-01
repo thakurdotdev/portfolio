@@ -1,24 +1,41 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import "./App.css";
-
-import Header from "./Components/Header";
 import Hero from "./Components/Hero";
 import Skills from "./Components/Skills/Skills";
 import Social from "./Components/Social";
 import About from "./Components/About";
-import Footer from "./Components/Footer";
 import Projects from "./Components/Projects/Projects";
 import Contact from "./Components/Contact";
 import Experience from "./Components/Experience/Experience";
+import Resume from "./Components/Resume";
+import Navigation from "./Components/Navigation";
+import Loader from "./Components/Loader";
 
 const App = () => {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <div className="Hero">
-      <Header />
-      <Social />
-      <Outlet />
-      <Footer />
+      {loading ? (
+        <Loader />
+      ) : (
+        <>
+          <Social />
+          <Outlet />
+          <Navigation />
+        </>
+      )}
     </div>
   );
 };
@@ -59,6 +76,11 @@ const appRouter = createBrowserRouter([
         path: "/contact",
         exact: true,
         element: <Contact />,
+      },
+      {
+        path: "/resume",
+        exact: true,
+        element: <Resume />,
       },
     ],
   },

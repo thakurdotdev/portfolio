@@ -13,24 +13,24 @@ import { motion } from "framer-motion";
 import WorkExp from "./WorkExp";
 import Education from "./Education";
 
-const Experience = () => {
-  const data = [
-    {
-      label: "Work Experience",
-      value: "Work Experience",
-      icon: HiOutlineBriefcase,
-      desc: <WorkExp />,
-    },
-    {
-      label: "Education",
-      value: "Education",
-      icon: HiAcademicCap,
-      desc: <Education />,
-    },
-  ];
+const data = [
+  {
+    label: "Work Experience",
+    value: "Work Experience",
+    icon: HiOutlineBriefcase,
+    desc: <WorkExp />,
+  },
+  {
+    label: "Education",
+    value: "Education",
+    icon: HiAcademicCap,
+    desc: <Education />,
+  },
+];
 
+const Experience = () => {
   return (
-    <div className="min-h-[80vh]">
+    <div>
       <motion.div
         initial={{ opacity: 0, y: 100 }}
         animate={{ y: 0, opacity: 1 }}
@@ -38,7 +38,7 @@ const Experience = () => {
       >
         <Tabs
           value={data[0].value}
-          className="w-full flex items-center flex-col my-10"
+          className="w-full flex items-center flex-col px-5 py-10"
         >
           <TabsHeader className="w-96 flex items-center mb-5 drop-shadow-2xl">
             {data.map(({ label, value, icon }) => (

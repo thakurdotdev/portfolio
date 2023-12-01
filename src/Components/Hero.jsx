@@ -53,10 +53,7 @@ const Hero = () => {
               About Me
             </Button>
           </Link>
-          <Link
-            to="https://drive.google.com/file/d/1Yd3Z6GO8-vxHOldYckjj42sf8mjP2SgP/view?usp=sharing"
-            target="_blank"
-          >
+          <Link to="/resume">
             <Button
               variant="gradient"
               color="light-blue"

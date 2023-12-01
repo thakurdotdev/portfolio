@@ -42,7 +42,7 @@ const Skills = () => {
     >
       <Tabs
         value={data[0].value}
-        className="w-full flex items-center flex-col my-10 min-h-[75vh]"
+        className="w-full flex items-center flex-col px-5 py-10"
       >
         <TabsHeader className="w-96 flex items-center">
           {data.map(({ label, value, icon }) => (
