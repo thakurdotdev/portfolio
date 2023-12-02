@@ -30,12 +30,12 @@ const Hero = () => {
         </div>
         <p className="text-3xl md:text-5xl font-bold relative">
           I'm
-          <span className="text-light-blue-500 ml-1 uppercase">
+          <span className="text-light-blue-500 ml-4 uppercase">
             Pankaj Kumar
           </span>
         </p>
         <p className="text-xl font-semibold relative uppercase">
-          Web Developer
+          Web Developer, React JS, Open Source
         </p>
         <p className="text-lg md:text-xl font-medium relative">
           I'm a Full Stack Developer based in India. I have a passion for web

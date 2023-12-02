@@ -1,20 +1,17 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Button, Typography } from "@material-tailwind/react";
-import { Link } from "react-router-dom";
-import { MdContactMail, MdOutlineDocumentScanner } from "react-icons/md";
 
 const About = () => {
   return (
-    <section className="w-full">
-      <div className="flex flex-col md:flex-row items-center justify-center lg:mx-52 py-10">
-        <motion.div
-          initial={{ opacity: 0, y: 100 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5 }}
-          className=" text-justify font-serif m-5 md:m-0 p-6 md:ml-5 mt-5 md:w-2/3 bg-white rounded-md shadow-2xl drop-shadow-sm backdrop-blur-md bg-opacity-20"
-        >
-          <h1 className="text-xl text-center mt-2 mb-5 border-b-2 border-light-blue-500">
+    <motion.section
+      initial={{ opacity: 0, y: 100 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className="w-full"
+    >
+      <div className="flex flex-col md:flex-row items-center justify-center md:py-10">
+        <div className=" text-justify font-serif m-5 md:m-0 p-6 md:ml-5 mt-5 md:w-1/2">
+          <h1 className="text-2xl text-center mt-2 mb-5 border-b-2 border-light-blue-500">
             About Me
           </h1>
           I am a passionate full-stack web developer with experience in building
@@ -42,23 +39,9 @@ const About = () => {
           </span>
           which demonstrate my technical expertise and attention to detail.
           <br />
-          <div className="flex items-center justify-center gap-2">
-            <Link to="/resume">
-              <Button className="mt-5 flex items-center gap-2">
-                <MdOutlineDocumentScanner className="text-white text-lg" />
-                Resume
-              </Button>
-            </Link>
-            <Link to={"/contact"}>
-              <Button className="mt-5 flex items-center gap-2">
-                <MdContactMail className="text-white text-lg" />
-                Contact
-              </Button>
-            </Link>
-          </div>
-        </motion.div>
+        </div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 

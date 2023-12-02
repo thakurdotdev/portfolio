@@ -62,7 +62,7 @@ const Data = [
 
 const Navigation = () => {
   return (
-    <section className="fixed bottom-0 w-full xl:bottom-10 lg:flex justify-center items-center z-50">
+    <section className="fixed bottom-0 w-full xl:bottom-5 lg:flex justify-center items-center z-50">
       <div className=" bg-white rounded-2xl border border-gray-300 py-3 flex justify-center z-50 md:gap-1 shadow-xl">
         {Data.map(({ label, value, icon, src }) => (
           <Link to={src} key={value}>

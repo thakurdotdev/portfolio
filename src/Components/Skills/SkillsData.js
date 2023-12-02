@@ -53,12 +53,4 @@ export const ToolSkills = [
     name: "Git Version Control",
     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg",
   },
-  {
-    name: "NPM Package Manager",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/npm/npm-original-wordmark.svg",
-  },
-  {
-    name: "Yarn Package Manager",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/yarn/yarn-original-wordmark.svg",
-  },
 ];

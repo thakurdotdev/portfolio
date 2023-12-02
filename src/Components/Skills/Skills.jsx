@@ -3,33 +3,22 @@ import Frontend from "./Frontend";
 import Backend from "./Backend";
 import Tools from "./Tools";
 import { motion } from "framer-motion";
-import { FaLaptopCode, FaCodeBranch, FaNodeJs } from "react-icons/fa";
-import {
-  Tabs,
-  TabsHeader,
-  TabsBody,
-  Tab,
-  TabPanel,
-} from "@material-tailwind/react";
 
 const Skills = () => {
   const data = [
     {
       label: "Frontend",
       value: Frontend,
-      icon: FaLaptopCode,
       desc: <Frontend />,
     },
     {
       label: "Backend",
       value: "Backend",
-      icon: FaNodeJs,
       desc: <Backend />,
     },
     {
       label: "Tools",
       value: "Tools",
-      icon: FaCodeBranch,
       desc: <Tools />,
     },
   ];
@@ -40,35 +29,26 @@ const Skills = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <Tabs
-        value={data[0].value}
-        className="w-full flex items-center flex-col px-5 py-10"
-      >
-        <TabsHeader className="w-96 flex items-center">
-          {data.map(({ label, value, icon }) => (
-            <Tab key={value} value={value}>
-              <div className="flex items-center gap-2">
-                {React.createElement(icon, { className: "w-5 h-5" })}
-                {label}
+      <div className="flex flex-col items-center justify-center py-5">
+        <p className="text-gray-600 text-xl">I can do these things</p>
+        <div className="w-20 h-[1px] bg-blue-500 rounded-full my-1"></div>
+      </div>
+      <div className="flex flex-col items-center justify-center">
+        <div className="flex flex-col items-center">
+          {data.map(({ label, value, desc }) => (
+            <div
+              key={value}
+              className="flex flex-col items-center justify-center m-1"
+            >
+              <div className="flex flex-col items-center justify-center">
+                <span className="text-xl mt-1">{label}</span>
+                <div className="w-16 h-[1px] bg-blue-500 rounded-full my-1"></div>
               </div>
-            </Tab>
-          ))}
-        </TabsHeader>
-        <TabsBody
-          className="flex items-center"
-          animate={{
-            initial: { y: 50 },
-            mount: { y: 0 },
-            unmount: { y: 50 },
-          }}
-        >
-          {data.map(({ value, desc }) => (
-            <TabPanel key={value} value={value}>
               {desc}
-            </TabPanel>
+            </div>
           ))}
-        </TabsBody>
-      </Tabs>
+        </div>
+      </div>
     </motion.div>
   );
 };
