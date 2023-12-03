@@ -2,6 +2,7 @@ import { Tooltip } from "@material-tailwind/react";
 import React from "react";
 import { MdMailOutline } from "react-icons/md";
 import x from "../assets/x.png";
+
 const Social = () => {
   return (
     <section className="fixed xl:bottom-40 xl:left-4 2xl:bottom-80 2xl:left-10 hidden lg:flex flex-col gap-3 z-20">
