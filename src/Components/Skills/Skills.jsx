@@ -2,7 +2,6 @@ import React from "react";
 import Frontend from "./Frontend";
 import Backend from "./Backend";
 import Tools from "./Tools";
-import { motion } from "framer-motion";
 
 const Skills = () => {
   const data = [
@@ -24,32 +23,23 @@ const Skills = () => {
   ];
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 100 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-    >
+    <div>
       <div className="flex flex-col items-center justify-center py-5">
-        <p className="text-gray-600 text-xl">I can do these things</p>
-        <div className="w-20 h-[1px] bg-blue-500 rounded-full my-1"></div>
+        <p className="text-gray-900 font-bold text-xl">I can do these things</p>
+        <div className="w-44 h-[2px] bg-blue-500 rounded-full my-1"></div>
       </div>
-      <div className="flex flex-col items-center justify-center">
-        <div className="flex flex-col items-center">
-          {data.map(({ label, value, desc }) => (
-            <div
-              key={value}
-              className="flex flex-col items-center justify-center m-1"
-            >
-              <div className="flex flex-col items-center justify-center">
-                <span className="text-xl mt-1">{label}</span>
-                <div className="w-16 h-[1px] bg-blue-500 rounded-full my-1"></div>
-              </div>
-              {desc}
+      <div className="flex flex-col justify-center items-center px-3">
+        {data.map(({ label, value, desc }) => (
+          <div key={value} className="flex flex-col m-1">
+            <div className="flex flex-col">
+              <span className="text-xl mt-1">{label}</span>
+              <div className="w-16 h-[1px] bg-blue-500 rounded-full my-1"></div>
             </div>
-          ))}
-        </div>
+            {desc}
+          </div>
+        ))}
       </div>
-    </motion.div>
+    </div>
   );
 };
 
