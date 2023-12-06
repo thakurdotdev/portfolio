@@ -1,5 +1,4 @@
 import React from "react";
-import { motion } from "framer-motion";
 
 import PPic from "../assets/about.webp";
 import { Button } from "@material-tailwind/react";
@@ -7,19 +6,11 @@ import { Link } from "react-router-dom";
 import wavingHand from "../assets/waving-hand.gif";
 import { FaUserTie } from "react-icons/fa";
 import { MdOutlineDocumentScanner } from "react-icons/md";
-import { SiJavascript, SiReact, SiTailwindcss, SiHtml5 } from "react-icons/si";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import "react-lazy-load-image-component/src/effects/blur.css";
 
 const Hero = () => {
   return (
     <div className="py-16 min-h-[80vh] md:min-h-[85vh] flex items-center flex-col-reverse lg:flex-row gap-10 justify-center">
-      <motion.div
-        initial={{ opacity: 0, y: -100 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.7 }}
-        className="flex flex-col gap-4 md:gap-6 text-left lg:w-1/2 2xl:w-1/3 mx-6 xl:mx-0 "
-      >
+      <div className="flex flex-col gap-4 md:gap-6 text-left lg:w-1/2 2xl:w-1/3 mx-6 xl:mx-0 ">
         <div className="flex items-center">
           <img
             src={wavingHand}
@@ -53,7 +44,10 @@ const Hero = () => {
               About Me
             </Button>
           </Link>
-          <Link to="/resume">
+          <Link
+            to="https://drive.google.com/file/d/1Yd3Z6GO8-vxHOldYckjj42sf8mjP2SgP/view?usp=drive_open"
+            target="_blank"
+          >
             <Button
               variant="gradient"
               color="light-blue"
@@ -64,24 +58,14 @@ const Hero = () => {
             </Button>
           </Link>
         </div>
-      </motion.div>
-      <motion.div
-        initial={{ opacity: 0, y: 100 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5 }}
-        className="relative"
-      >
-        <LazyLoadImage
-          effect="blur"
+      </div>
+      <div className="relative">
+        <img
           src={PPic}
           alt="Pankaj Kumar"
           className="w-44 md:w-80 z-10 rounded-full"
         />
-        <SiTailwindcss className="absolute -top-4 text-light-blue-400 text-3xl" />
-        <SiHtml5 className="absolute -top-4 right-0 text-light-blue-600 text-3xl" />
-        <SiReact className="absolute left-5 text-light-blue-600 text-3xl" />
-        <SiJavascript className="absolute -right-1 text-amber-700 text-3xl" />
-      </motion.div>
+      </div>
     </div>
   );
 };

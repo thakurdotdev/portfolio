@@ -8,7 +8,6 @@ import About from "./Components/About";
 import Projects from "./Components/Projects/Projects";
 import Contact from "./Components/Contact";
 import Experience from "./Components/Experience/Experience";
-import Resume from "./Components/Resume";
 import Navigation from "./Components/Navigation";
 import Loader from "./Components/Loader";
 
@@ -76,11 +75,6 @@ const appRouter = createBrowserRouter([
         path: "/contact",
         exact: true,
         element: <Contact />,
-      },
-      {
-        path: "/resume",
-        exact: true,
-        element: <Resume />,
       },
     ],
   },

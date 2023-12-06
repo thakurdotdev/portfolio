@@ -1,10 +1,7 @@
 import emailjs from "@emailjs/browser";
-import { motion } from "framer-motion";
 import React, { useState } from "react";
 import { Button, Input, Textarea } from "@material-tailwind/react";
 import contactimg from "../assets/contact-img.svg";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import "react-lazy-load-image-component/src/effects/blur.css";
 
 const Contact = () => {
   const [message, showMessage] = useState(false);
@@ -32,15 +29,13 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-[84vh] w-full flex flex-col justify-center items-center">
+    <div className="w-full flex flex-col justify-center items-center">
+      <h1 className="text-3xl font-bold text-center border-spacing-2 border-b-2 border-b-blue-600 my-10">
+        Contact
+      </h1>
       <div className="flex flex-col md:flex-row lg:w-[70%] items-center justify-around">
-        <motion.div
-          initial={{ opacity: 0, x: -100 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ duration: 0.5 }}
-          className="w-[100vw] p-5 lg:w-[500px]"
-        >
-          <div className="relative rounded-lg bg-white bg-opacity-40 backdrop-blur-sm p-8  sm:p-12">
+        <div className="w-[100vw] p-5 lg:w-[500px]">
+          <div className="relative rounded-lg bg-white bg-opacity-60 backdrop-blur-sm p-8  sm:p-12">
             <form onSubmit={sendEmail}>
               <div className="mb-6">
                 <Input
@@ -80,20 +75,14 @@ const Contact = () => {
               </div>
             </form>
           </div>
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0, x: 100 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ duration: 0.5 }}
-          className="lg:w-[500px] lg-max:hidden"
-        >
-          <LazyLoadImage
-            effect="blur"
+        </div>
+        <div className="lg:w-[500px] lg-max:hidden">
+          <img
             className="h-[300px] w-[300px] lg:h-[500px] lg:w-[500px]"
             src={contactimg}
             alt="contactimg"
           />
-        </motion.div>
+        </div>
       </div>
     </div>
   );

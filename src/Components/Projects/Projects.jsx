@@ -1,18 +1,13 @@
 import React from "react";
 import MernProjects from "./MernProjects";
 import { FaReact } from "react-icons/fa";
-import { LazyLoadComponent } from "react-lazy-load-image-component";
 
 const Projects = () => {
   const data = [
     {
       value: "Projects",
       icon: FaReact,
-      desc: (
-        <LazyLoadComponent>
-          <MernProjects />
-        </LazyLoadComponent>
-      ),
+      desc: <MernProjects />,
     },
   ];
 

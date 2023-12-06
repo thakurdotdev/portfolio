@@ -3,8 +3,6 @@ import { FaGithub } from "react-icons/fa";
 import { BiLinkExternal } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import { MernProjectData } from "./ProjectData";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import "react-lazy-load-image-component/src/effects/blur.css";
 
 const MernProjects = () => {
   return (
@@ -15,8 +13,7 @@ const MernProjects = () => {
           className="flex flex-col w-96 gap-2 bg-gray-50 drop-shadow-xl dark:bg-grey-800 rounded-lg p-4"
         >
           <div className="relative group rounded-lg bg-violet-50">
-            <LazyLoadImage
-              effect="blur"
+            <img
               alt="Project Image"
               className="max-w-full h-48 max-h-full object-cover object-top rounded-lg"
               src={img}

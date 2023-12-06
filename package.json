@@ -1,7 +1,7 @@
 {
   "name": "portfolio",
   "private": true,
-  "version": "0.0.0",
+  "version": "2.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -9,14 +9,10 @@
   },
   "dependencies": {
     "@emailjs/browser": "^3.11.0",
-    "@heroicons/react": "^2.0.18",
-    "@material-tailwind/react": "^2.0.1",
-    "framer-motion": "^10.12.16",
+    "@material-tailwind/react": "^2.1.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.9.0",
-    "react-lazy-load-image-component": "^1.6.0",
-    "react-pdf": "^7.5.1",
     "react-router-dom": "^6.12.1"
   },
   "devDependencies": {

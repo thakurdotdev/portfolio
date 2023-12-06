@@ -1,6 +1,5 @@
 import React from "react";
 import { ToolSkills } from "./SkillsData";
-import "react-lazy-load-image-component/src/effects/blur.css";
 
 const Tools = () => {
   return (

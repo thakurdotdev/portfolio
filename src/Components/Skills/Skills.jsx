@@ -23,7 +23,7 @@ const Skills = () => {
   ];
 
   return (
-    <div>
+    <div className="md:py-10">
       <div className="flex flex-col items-center justify-center py-5">
         <p className="text-gray-900 font-bold text-xl">I can do these things</p>
         <div className="w-44 h-[2px] bg-blue-500 rounded-full my-1"></div>

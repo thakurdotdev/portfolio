@@ -1,10 +1,6 @@
 import React from "react";
 import { FaHome, FaLaptopCode, FaReact } from "react-icons/fa";
-import {
-  MdEmail,
-  MdOutlineDocumentScanner,
-  MdPersonOutline,
-} from "react-icons/md";
+import { MdEmail, MdPersonOutline } from "react-icons/md";
 import { HiOutlineBriefcase } from "react-icons/hi";
 import { Link } from "react-router-dom";
 
@@ -51,13 +47,6 @@ const Data = [
     desc: "Contact",
     src: "/contact",
   },
-  {
-    label: "Resume",
-    value: "resume",
-    icon: MdOutlineDocumentScanner,
-    desc: "Resume",
-    src: "/resume",
-  },
 ];
 
 const Navigation = () => {
@@ -66,7 +55,7 @@ const Navigation = () => {
       <div className=" bg-white rounded-2xl border border-gray-300 py-3 flex justify-center z-50 md:gap-1 shadow-xl">
         {Data.map(({ label, value, icon, src }) => (
           <Link to={src} key={value}>
-            <div className="group relative px-2 md:px-4 cursor-pointer">
+            <div className="group relative px-3 cursor-pointer">
               <div className="flex h-10 w-10 items-center justify-center rounded-full hover:text-blue-500">
                 {React.createElement(icon, { className: "text-2xl" })}
               </div>
