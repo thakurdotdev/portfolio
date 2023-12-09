@@ -1,55 +1,50 @@
 import { Tooltip } from "@material-tailwind/react";
-import React from "react";
-import { MdMailOutline } from "react-icons/md";
-import x from "../assets/x.png";
+
+const Data = [
+  {
+    link: "https://www.linkedin.com/in/pankajktech/",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg",
+    tooltip: "Connect On Linkedin",
+  },
+  {
+    link: "https://github.com/pankajktech",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg",
+    tooltip: "Connect On Github",
+  },
+  {
+    link: "https://twitter.com/pankajktech1",
+    icon: "https://cdn.iconscout.com/icon/free/png-512/free-twitter-9420782-7651212.png?f=webp&w=256",
+    tooltip: "Follow On X",
+  },
+  {
+    link: "mailto:mailto:tunewithpk@gmail.com",
+    icon: "https://cdn.iconscout.com/icon/free/png-512/free-mail-1299-1100772.png?f=webp&w=256",
+    tooltip: "Mail Us",
+  },
+];
 
 const Social = () => {
   return (
     <section className="fixed xl:bottom-40 xl:left-4 2xl:bottom-80 2xl:left-10 hidden lg:flex flex-col gap-3 z-20">
-      <a
-        href="https://www.linkedin.com/in/pankajktech/"
-        target="_blank"
-        className="rounded-full text-2xl bg-gray-600 bg-opacity-20 hover:bg-opacity-50 w-10 h-10 flex items-center justify-center"
-      >
-        <Tooltip content="Connect On Linkedin" placement="right">
-          <img
-            src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg"
-            className="p-2"
-          />
-        </Tooltip>
-      </a>
-      <a
-        href="https://github.com/pankajktech"
-        target="_blank"
-        className="rounded-full text-2xl bg-gray-600 bg-opacity-20 hover:bg-opacity-50 w-10 h-10 flex items-center justify-center"
-      >
-        <Tooltip content="Connect On Github" placement="right">
-          <img
-            src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
-            className="p-2"
-          />
-        </Tooltip>
-      </a>
-      <a
-        href="https://twitter.com/pankajktech1"
-        target="_blank"
-        className="rounded-full text-2xl bg-gray-600 bg-opacity-20 hover:bg-opacity-50 w-10 h-10 flex items-center justify-center"
-      >
-        <Tooltip content="Follow On X(Twitter)" placement="right">
-          <img src={x} className="p-2" />
-        </Tooltip>
-      </a>
-      <a
-        href="mailto:tunewithpk@gmail.com"
-        target="_blank"
-        className="rounded-full text-2xl bg-gray-600 bg-opacity-20 hover:bg-opacity-50 w-10 h-10 flex items-center justify-center"
-      >
-        <Tooltip content="Mail Us" placement="right">
-          <span>
-            <MdMailOutline className="p-2 text-5xl text-red-800" />
-          </span>
-        </Tooltip>
-      </a>
+      {Data.map((item, index) => {
+        return (
+          <Tooltip
+            key={index}
+            color="lightBlue"
+            placement="right"
+            content={item.tooltip}
+          >
+            <a
+              href={item.link}
+              target="_blank"
+              rel="noreferrer"
+              className="rounded-full text-2xl bg-gray-600 bg-opacity-20 hover:bg-opacity-50 w-10 h-10 flex items-center justify-center"
+            >
+              <img src={item.icon} alt={item.tooltip} className="p-2" />
+            </a>
+          </Tooltip>
+        );
+      })}
     </section>
   );
 };

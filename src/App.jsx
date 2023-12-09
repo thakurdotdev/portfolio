@@ -1,41 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { lazy, Suspense } from "react";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import "./App.css";
 import Hero from "./Components/Hero";
-import Skills from "./Components/Skills/Skills";
 import Social from "./Components/Social";
-import About from "./Components/About";
-import Projects from "./Components/Projects/Projects";
-import Contact from "./Components/Contact";
-import Experience from "./Components/Experience/Experience";
+const Skills = lazy(() => import("./Components/Skills/Skills"));
+const About = lazy(() => import("./Components/About"));
+const Projects = lazy(() => import("./Components/Projects/Projects"));
+const Experience = lazy(() => import("./Components/Experience/Experience"));
+const Contact = lazy(() => import("./Components/Contact"));
 import Navigation from "./Components/Navigation";
 import Loader from "./Components/Loader";
 
 const App = () => {
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setTimeout(() => {
-        setLoading(false);
-      }, 1000);
-    };
-
-    fetchData();
-  }, []);
-
   return (
-    <div className="Hero">
-      {loading ? (
-        <Loader />
-      ) : (
-        <>
-          <Social />
-          <Outlet />
-          <Navigation />
-        </>
-      )}
-    </div>
+    <Suspense fallback={<Loader />}>
+      <div className="Hero">
+        <Social />
+        <Outlet />
+        <Navigation />
+      </div>
+    </Suspense>
   );
 };
 

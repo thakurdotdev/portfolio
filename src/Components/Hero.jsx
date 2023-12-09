@@ -1,9 +1,6 @@
-import React from "react";
-
 import PPic from "../assets/about.webp";
 import { Button } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
-import wavingHand from "../assets/waving-hand.gif";
 import { FaUserTie } from "react-icons/fa";
 import { MdOutlineDocumentScanner } from "react-icons/md";
 
@@ -11,14 +8,7 @@ const Hero = () => {
   return (
     <div className="py-16 min-h-[80vh] md:min-h-[85vh] flex items-center flex-col-reverse lg:flex-row gap-10 justify-center">
       <div className="flex flex-col gap-4 md:gap-6 text-left lg:w-1/2 2xl:w-1/3 mx-6 xl:mx-0 ">
-        <div className="flex items-center">
-          <img
-            src={wavingHand}
-            alt="waving hand"
-            className="w-10 h-10 mr-2 animate-bounce"
-          />
-          <p className="text-xl">Hey,</p>
-        </div>
+        <p className="text-2xl font-bold text-light-blue-700">Hey,</p>
         <p className="text-3xl md:text-5xl font-bold relative">
           I'm
           <span className="text-light-blue-500 ml-4 uppercase">
@@ -59,11 +49,11 @@ const Hero = () => {
           </Link>
         </div>
       </div>
-      <div className="relative">
+      <div>
         <img
           src={PPic}
           alt="Pankaj Kumar"
-          className="w-44 md:w-80 z-10 rounded-full"
+          className="rounded-full w-72 h-72 object-cover object-center shadow-lg"
         />
       </div>
     </div>
