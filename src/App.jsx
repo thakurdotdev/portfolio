@@ -10,11 +10,13 @@ const Experience = lazy(() => import("./Components/Experience/Experience"));
 const Contact = lazy(() => import("./Components/Contact"));
 import Navigation from "./Components/Navigation";
 import Loader from "./Components/Loader";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 
 const App = () => {
   return (
     <Suspense fallback={<Loader />}>
       <div className="Hero">
+        <SpeedInsights />
         <Social />
         <Outlet />
         <Navigation />
