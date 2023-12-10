@@ -14,14 +14,14 @@ import { SpeedInsights } from "@vercel/speed-insights/react";
 
 const App = () => {
   return (
-    <Suspense fallback={<Loader />}>
-      <div className="Hero">
-        <SpeedInsights />
-        <Social />
+    <div className="Hero">
+      <SpeedInsights />
+      <Social />
+      <Suspense fallback={<Loader />}>
         <Outlet />
-        <Navigation />
-      </div>
-    </Suspense>
+      </Suspense>
+      <Navigation />
+    </div>
   );
 };
 

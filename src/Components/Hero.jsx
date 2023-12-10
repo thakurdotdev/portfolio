@@ -53,7 +53,7 @@ const Hero = () => {
         <img
           src={PPic}
           alt="Pankaj Kumar"
-          className="rounded-full w-72 h-72 object-cover object-center shadow-lg"
+          className="rounded-full w-52 h-52 md:w-72 md:h-72 object-cover object-center shadow-lg"
         />
       </div>
     </div>
