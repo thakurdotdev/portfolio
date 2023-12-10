@@ -7,7 +7,7 @@ export const MernProjectData = [
     img: jobPortal,
     title: "Job Portal",
     techstack: "React, Redux, Node, Express, MongoDB",
-    live: "https://landyourjob.netlify.app/",
+    live: "https://findyourjob.vercel.app",
     github: "https://github.com/pankajktech/FindYourJob",
   },
   {
