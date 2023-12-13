@@ -1,4 +1,4 @@
-import PPic from "../assets/about.webp";
+import PPic from "../assets/pk.jpg";
 import { Button } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import { FaUserTie } from "react-icons/fa";

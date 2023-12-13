@@ -1,12 +1,10 @@
 import React from "react";
 import MernProjects from "./MernProjects";
-import { FaReact } from "react-icons/fa";
 
 const Projects = () => {
   const data = [
     {
       value: "Projects",
-      icon: FaReact,
       desc: <MernProjects />,
     },
   ];
