@@ -10,12 +10,12 @@ const Experience = lazy(() => import("./Components/Experience/Experience"));
 const Contact = lazy(() => import("./Components/Contact"));
 import Navigation from "./Components/Navigation";
 import Loader from "./Components/Loader";
-import { SpeedInsights } from "@vercel/speed-insights/react";
+import { Analytics } from "@vercel/analytics/react";
 
-const App = () => {
+function App() {
   return (
     <div className="Hero">
-      <SpeedInsights />
+      <Analytics />
       <Social />
       <Suspense fallback={<Loader />}>
         <Outlet />
@@ -23,7 +23,7 @@ const App = () => {
       <Navigation />
     </div>
   );
-};
+}
 
 const appRouter = createBrowserRouter([
   {
