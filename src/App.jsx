@@ -10,12 +10,10 @@ const Experience = lazy(() => import("./Components/Experience/Experience"));
 const Contact = lazy(() => import("./Components/Contact"));
 import Navigation from "./Components/Navigation";
 import Loader from "./Components/Loader";
-import { Analytics } from "@vercel/analytics/react";
 
 function App() {
   return (
     <div className="Hero">
-      <Analytics />
       <Social />
       <Suspense fallback={<Loader />}>
         <Outlet />
