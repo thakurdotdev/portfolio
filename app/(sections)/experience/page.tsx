@@ -27,16 +27,16 @@ function page() {
         <ol className="relative border-s  border-gray-200 dark:border-gray-700">
           {Data.map((data) => (
             <li className="mb-10 ms-6" key={data.name}>
-              <span className="absolute flex items-center justify-center w-8 h-8 bg-blue-100 rounded-full -start-5 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
+              <span className="absolute flex items-center justify-center w-10 h-10 rounded-full -start-6  bg-blue-500">
                 <img
                   src={data.logo}
-                  className="rounded-full"
-                  alt="Netclues Logo"
+                  className="rounded-full p-1"
+                  alt={data.name}
                 />
               </span>
               <h3 className="flex flex-col md:flex-row mb-1 text-lg font-semibold">
                 {data.name}
-                <span className="bg-blue-100 text-blue-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 ms-3">
+                <span className="bg-blue-100 items-center my-2 max-w-fit text-blue-800 text-sm font-medium px-2.5 py-0.5 rounded md:ms-3">
                   {data.timeSpan}
                 </span>
               </h3>

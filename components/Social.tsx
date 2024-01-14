@@ -6,6 +6,7 @@ import {
 } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 import { Github, Linkedin, Mail, Twitter } from "lucide-react";
+import Link from "next/link";
 
 const Data = [
   {
@@ -36,18 +37,20 @@ const Social = () => {
       {Data.map((item, index) => {
         return (
           <TooltipProvider key={index}>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant="secondary"
-                  size="icon"
-                  className="rounded-full"
-                >
-                  <item.icon />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>{item.tooltip}</TooltipContent>
-            </Tooltip>
+            <Link href={item.link} passHref={true} target="_blank">
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="secondary"
+                    size="icon"
+                    className="rounded-full"
+                  >
+                    <item.icon />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>{item.tooltip}</TooltipContent>
+              </Tooltip>
+            </Link>
           </TooltipProvider>
         );
       })}
