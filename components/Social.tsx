@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Github, Linkedin, Mail, Twitter } from "lucide-react";
 import Link from "next/link";
 
-const Data = [
+export const Data = [
   {
     link: "https://www.linkedin.com/in/pankajktech/",
     icon: Linkedin,
@@ -33,7 +33,7 @@ const Data = [
 
 const Social = () => {
   return (
-    <section className="md:fixed xl:bottom-40 xl:left-4 2xl:bottom-80 2xl:left-10 flex-row lg:flex-col gap-3 z-20 flex justify-center">
+    <section className="md:fixed xl:bottom-40 xl:left-4 2xl:bottom-80 2xl:left-10 hidden lg:flex lg:flex-col gap-3 z-20">
       {Data.map((item, index) => {
         return (
           <TooltipProvider key={index}>

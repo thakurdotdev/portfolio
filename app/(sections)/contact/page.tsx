@@ -24,15 +24,10 @@ export default function page() {
           e.target,
           "4i6NhRQVTAgwoBcc9"
         )
-        .then(
-          () => {
-            toast.success("Email Sent Successfully");
-          },
-          (error) => {
-            console.log(error.text);
-          }
-        );
-      e.target.reset();
+        .then(() => {
+          toast.success("Email Sent Successfully");
+        }),
+        e.target.reset();
     } catch (error) {
       console.log(error);
     } finally {
@@ -46,7 +41,7 @@ export default function page() {
       <div className="flex flex-col md:flex-row lg:w-[70%] items-center justify-around">
         <Card className="w-[90vw] lg:w-[500px] drop-shadow-md">
           <CardHeader className="text-center font-semibold">
-            Fill Free To Write Anything
+            Feel Free To Write Anything
           </CardHeader>
           <CardContent>
             <form onSubmit={sendEmail}>

@@ -4,10 +4,16 @@ import Link from "next/link";
 import { File, User } from "lucide-react";
 import Image from "next/image";
 
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
 import { TypewriterEffectSmooth } from "./ui/typewriter-effect";
-import Social from "./Social";
+import { Data } from "./Social";
 
 export default function Hero() {
   return (
@@ -18,13 +24,34 @@ export default function Hero() {
           I'm
           <span className="text-blue-500 ml-4 uppercase">Pankaj Kumar</span>
         </p>
-
         <TypewriterEffectSmooth words={words} />
         <p className="text-lg md:text-xl font-medium relative">
           I'm a Full Stack Developer based in India. I have a passion for web
           development and love to create for web apps.
         </p>
-
+        //Social Links
+        <div className="flex flex-row justify-center space-x-5 mt-2 sm:hidden">
+          {Data.map((item, index) => {
+            return (
+              <TooltipProvider key={index}>
+                <Link href={item.link} passHref={true} target="_blank">
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        variant="secondary"
+                        size="icon"
+                        className="rounded-full"
+                      >
+                        <item.icon />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>{item.tooltip}</TooltipContent>
+                  </Tooltip>
+                </Link>
+              </TooltipProvider>
+            );
+          })}
+        </div>
         <div className="flex flex-row justify-center md:justify-normal gap-4 md:gap-6 mt-5">
           <Link href={"/about"}>
             <Button variant="outline" className="flex gap-2 items-center">
@@ -44,6 +71,7 @@ export default function Hero() {
           <ThemeSwitcher />
         </div>
       </div>
+
       <div>
         <Image
           src="/pk.jpg"
