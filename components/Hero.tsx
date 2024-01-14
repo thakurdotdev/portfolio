@@ -29,7 +29,7 @@ export default function Hero() {
           I'm a Full Stack Developer based in India. I have a passion for web
           development and love to create for web apps.
         </p>
-        //Social Links
+
         <div className="flex flex-row justify-center space-x-5 mt-2 sm:hidden">
           {Data.map((item, index) => {
             return (
