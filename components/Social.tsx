@@ -33,7 +33,7 @@ const Data = [
 
 const Social = () => {
   return (
-    <section className="fixed xl:bottom-40 xl:left-4 2xl:bottom-80 2xl:left-10 hidden lg:flex flex-col gap-3 z-20">
+    <section className="md:fixed xl:bottom-40 xl:left-4 2xl:bottom-80 2xl:left-10 flex-row lg:flex-col gap-3 z-20 flex justify-center">
       {Data.map((item, index) => {
         return (
           <TooltipProvider key={index}>

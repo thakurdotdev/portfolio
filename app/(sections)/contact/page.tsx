@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Label } from "@/components/ui/label";
+import Image from "next/image";
 
 export default function page() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -44,7 +45,9 @@ export default function page() {
       <h1 className="text-3xl font-semibold text-center my-10">Contact</h1>
       <div className="flex flex-col md:flex-row lg:w-[70%] items-center justify-around">
         <Card className="w-[90vw] lg:w-[500px] drop-shadow-md">
-          <CardHeader className="text-center">Contact Me</CardHeader>
+          <CardHeader className="text-center font-semibold">
+            Fill Free To Write Anything
+          </CardHeader>
           <CardContent>
             <form onSubmit={sendEmail}>
               <div className="grid w-full items-center gap-1.5 my-5">
@@ -88,7 +91,11 @@ export default function page() {
           </CardContent>
         </Card>
         <div className="lg:w-[500px] hidden lg:block">
-          <img
+          <Image
+            height={500}
+            width={500}
+            loading="lazy"
+            quality={80}
             className="h-[300px] w-[300px] lg:h-[500px] lg:w-[500px]"
             src="/contact.svg"
             alt="contactimg"

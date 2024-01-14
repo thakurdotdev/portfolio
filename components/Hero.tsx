@@ -7,6 +7,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
 import { TypewriterEffectSmooth } from "./ui/typewriter-effect";
+import Social from "./Social";
 
 export default function Hero() {
   return (
@@ -48,9 +49,8 @@ export default function Hero() {
           src="/pk.jpg"
           width={300}
           height={300}
-          quality={100}
+          quality={80}
           loading="lazy"
-          priority={false}
           alt="Pankaj Kumar"
           className="rounded-full w-52 h-52 md:w-72 md:h-72 object-cover object-center shadow-lg"
         />
