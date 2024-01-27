@@ -4,16 +4,10 @@ import Link from "next/link";
 import { File, User } from "lucide-react";
 import Image from "next/image";
 
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
 import { TypewriterEffectSmooth } from "./ui/typewriter-effect";
-import { Data } from "./Social";
+import { PhoneSocial } from "./Social";
 
 export default function Hero() {
   return (
@@ -30,28 +24,8 @@ export default function Hero() {
           development and love to create for web apps.
         </p>
 
-        <div className="flex flex-row justify-center space-x-5 mt-2 sm:hidden">
-          {Data.map((item, index) => {
-            return (
-              <TooltipProvider key={index}>
-                <Link href={item.link} passHref={true} target="_blank">
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button
-                        variant="secondary"
-                        size="icon"
-                        className="rounded-full"
-                      >
-                        <item.icon />
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>{item.tooltip}</TooltipContent>
-                  </Tooltip>
-                </Link>
-              </TooltipProvider>
-            );
-          })}
-        </div>
+        <PhoneSocial />
+
         <div className="flex flex-row justify-center md:justify-normal gap-4 md:gap-6 mt-5">
           <Link href={"/about"}>
             <Button variant="outline" className="flex gap-2 items-center">
