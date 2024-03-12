@@ -7,7 +7,7 @@ export const FrontendSkills = [
   },
   {
     name: "React",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original-wordmark.svg",
   },
   {
     name: "Redux",
@@ -15,7 +15,7 @@ export const FrontendSkills = [
   },
   {
     name: "JavaScript",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-plain.svg",
   },
   {
     name: "HTML5",
@@ -27,14 +27,18 @@ export const FrontendSkills = [
   },
   {
     name: "Tailwind CSS",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-plain.svg",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg",
+  },
+  {
+    name: "Bootstrap",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/bootstrap/bootstrap-original-wordmark.svg",
   },
 ];
 
 export const BackendSkills = [
   {
     name: "Node JS",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-plain-wordmark.svg",
   },
   {
     name: "Express JS",
@@ -42,7 +46,11 @@ export const BackendSkills = [
   },
   {
     name: "MongoDB",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-plain-wordmark.svg",
+  },
+  {
+    name: "MySQL",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original-wordmark.svg",
   },
 ];
 
@@ -53,11 +61,15 @@ export const ToolSkills = [
   },
   {
     name: " GitHub",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/github/github-original-wordmark.svg",
   },
   {
-    name: "Git Version Control",
+    name: "Git",
     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg",
+  },
+  {
+    name: "NPM",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/npm/npm-original-wordmark.svg",
   },
 ];
 
@@ -68,9 +80,13 @@ function SkillCategory({ skills }: { skills: any[] }) {
         <div key={index}>
           <Button
             variant="secondary"
-            className="p-2 flex justify-center items-center gap-2"
+            className="p-2 h-12 flex justify-center items-center gap-2 ring-1"
           >
-            <img src={skill?.icon} alt={skill?.name} className="w-8" />
+            <img
+              src={skill?.icon}
+              alt={skill?.name}
+              className="w-10 h-10 text-slate-300"
+            />
             {skill?.name}
           </Button>
         </div>
