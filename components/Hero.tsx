@@ -37,7 +37,7 @@ export default function Hero() {
             href="https://drive.google.com/file/d/1Yd3Z6GO8-vxHOldYckjj42sf8mjP2SgP/view?usp=drive_open"
             target="_blank"
           >
-            <Button variant="secondary" className="flex gap-2 items-center">
+            <Button variant="outline" className="flex gap-2 items-center">
               <File className="text-lg" />
               Resume
             </Button>

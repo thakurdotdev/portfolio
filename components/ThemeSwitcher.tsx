@@ -17,7 +17,7 @@ export default function ThemeSwitcher() {
     <Button
       variant="outline"
       size="icon"
-      className=" rounded-full"
+      className="rounded-full"
       onClick={toggleTheme}
     >
       <Sun className="h-[1.5rem] w-[1.5rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
