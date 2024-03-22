@@ -1,19 +1,32 @@
+"use client";
+
 import { Github, LucideExternalLink } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
-import { Card } from "@/components/ui/card";
 import { ProjectData } from "./constant";
 
-function page() {
+function ProjectsPage() {
   return (
-    <div className="flex flex-col justify-center items-center px-3">
+    <motion.div
+      className="flex flex-col justify-center items-center px-3"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
       <h1 className="text-3xl font-bold text-center border-spacing-2 border-b-2 border-b-blue-600 my-10">
         Projects
       </h1>
       <div className="flex flex-wrap justify-center gap-10">
         {ProjectData.map(({ title, img, live, github, techstack }, index) => (
-          <Card key={index} className="flex flex-col w-96 gap-2 rounded-lg p-4">
+          <motion.div
+            key={index}
+            className="flex flex-col w-96 gap-2 rounded-lg p-4 ring-2 ring-gray-200 dark:ring-gray-700 shadow-md hover:shadow-lg transition-all"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: index * 0.1 }}
+          >
             <div className="relative group rounded-lg">
               <Image
                 src={img}
@@ -50,11 +63,11 @@ function page() {
                 {techstack}
               </p>
             </div>
-          </Card>
+          </motion.div>
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 }
 
-export default page;
+export default ProjectsPage;

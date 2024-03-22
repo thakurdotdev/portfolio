@@ -1,11 +1,27 @@
+"use client";
+
 import React from "react";
+import { motion } from "framer-motion";
 
 export default function About() {
   return (
     <div className="flex flex-col md:flex-row items-center justify-center pt-2 pb-10">
       <div className="text-justify p-6 md:w-1/2">
-        <h1 className="text-2xl font-bold text-center mt-2 mb-5">About Me</h1>
-        <p className="text-lg md:text-xl">
+        <motion.h1
+          className="text-2xl font-bold text-center mt-2 mb-5"
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7 }}
+        >
+          About Me
+        </motion.h1>
+
+        <motion.p
+          className="text-lg md:text-xl"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3, duration: 0.7 }}
+        >
           I am a passionate full-stack web developer with experience in building
           innovative and scalable web applications.
           <br />
@@ -26,12 +42,12 @@ export default function About() {
           Code, Netlify, and Vercel.
           <br />
           <br />I have completed various projects, including
-          <span className="font-semibold mx-2">
+          <span className="font-semibold mx-2 transition-all duration-200 hover:scale-105">
             a job portal, article summarizer, and notes web application,
           </span>
           which demonstrate my technical expertise and attention to detail.
           <br />
-        </p>
+        </motion.p>
       </div>
     </div>
   );

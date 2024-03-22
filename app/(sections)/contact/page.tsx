@@ -1,4 +1,5 @@
 "use client";
+
 import emailjs from "@emailjs/browser";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -8,6 +9,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { Label } from "@/components/ui/label";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 export default function page() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -36,9 +38,19 @@ export default function page() {
   };
 
   return (
-    <div className="w-full flex flex-col min-h-full justify-center items-center">
+    <motion.div
+      className="w-full flex flex-col min-h-full justify-center items-center"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
       <h1 className="text-3xl font-semibold text-center my-10">Contact</h1>
-      <div className="flex flex-col md:flex-row lg:w-[70%] items-center justify-around">
+      <motion.div
+        className="flex flex-col md:flex-row lg:w-[70%] items-center justify-around"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+      >
         <Card className="w-[90vw] lg:w-[500px] drop-shadow-md">
           <CardHeader className="text-center font-semibold">
             Feel Free To Write Anything
@@ -85,7 +97,12 @@ export default function page() {
             </form>
           </CardContent>
         </Card>
-        <div className="lg:w-[500px] hidden lg:block">
+        <motion.div
+          className="lg:w-[500px] hidden lg:block"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+        >
           <Image
             height={500}
             width={500}
@@ -95,8 +112,8 @@ export default function page() {
             src="/contact.svg"
             alt="contactimg"
           />
-        </div>
-      </div>
-    </div>
+        </motion.div>
+      </motion.div>
+    </motion.div>
   );
 }

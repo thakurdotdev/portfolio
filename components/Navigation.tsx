@@ -62,10 +62,10 @@ export default function Navigation() {
               <div
                 className={cn(
                   "flex h-10 w-10 items-center justify-center rounded-full hover:text-blue-500 transition-all",
-                  pathName === src ? "text-rose-500 font-bold" : ""
+                  pathName === src ? "text-blue-500" : ""
                 )}
               >
-                {React.createElement(icon, { className: "text-2xl" })}
+                {React.createElement(icon)}
               </div>
             </div>
           </Link>

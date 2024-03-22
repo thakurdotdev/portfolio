@@ -82,11 +82,13 @@ function SkillCategory({ skills }: { skills: any[] }) {
             variant="secondary"
             className="p-3 h-12 flex justify-center drop-shadow-sm items-center gap-2"
           >
-            <img
-              src={skill?.icon}
-              alt={skill?.name}
-              className="w-10 h-10 text-slate-300"
-            />
+            <div>
+              <img
+                src={skill?.icon}
+                alt={skill?.name}
+                className="w-10 h-10 text-slate-300"
+              />
+            </div>
             {skill?.name}
           </Button>
         </div>

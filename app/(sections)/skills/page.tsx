@@ -1,17 +1,17 @@
+"use client";
+
 import React from "react";
 import { Frontend, Backend, Tools } from "./constant";
+import { motion } from "framer-motion";
 
 interface SkillComponents {
-  Frontend: () => JSX.Element;
-  Backend: () => JSX.Element;
-  Tools: () => JSX.Element;
   [key: string]: () => JSX.Element;
 }
 
 const skillComponents: SkillComponents = {
-  Frontend,
-  Backend,
-  Tools,
+  Frontend: Frontend,
+  Backend: Backend,
+  Tools: Tools,
 };
 
 const data = [
@@ -41,9 +41,16 @@ const Skills = () => {
               <div className="w-16 h-[1px] bg-blue-500 rounded-full my-1"></div>
             </div>
 
-            <div className="flex flex-wrap justify-center items-center gap-5">
-              {skillComponents[label]?.()}
-            </div>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3 }}
+              className="flex flex-wrap justify-center items-center gap-5"
+            >
+              {skillComponents[label] && (
+                <motion.div>{skillComponents[label]()}</motion.div>
+              )}
+            </motion.div>
           </div>
         ))}
       </div>
