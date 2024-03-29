@@ -47,9 +47,9 @@ export default function page() {
       <h1 className="text-3xl font-semibold text-center my-10">Contact</h1>
       <motion.div
         className="flex flex-col md:flex-row lg:w-[70%] items-center justify-around"
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
+        transition={{ duration: 0.7 }}
       >
         <Card className="w-[90vw] lg:w-[500px] drop-shadow-md">
           <CardHeader className="text-center font-semibold">
@@ -99,9 +99,9 @@ export default function page() {
         </Card>
         <motion.div
           className="lg:w-[500px] hidden lg:block"
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
+          transition={{ duration: 0.7 }}
         >
           <Image
             height={500}

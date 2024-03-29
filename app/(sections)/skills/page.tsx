@@ -37,14 +37,21 @@ const Skills = () => {
         {data.map(({ label }) => (
           <div key={label} className="flex flex-col m-1">
             <div className="flex flex-col">
-              <span className="text-xl mt-1">{label}</span>
+              <motion.span
+                initial={{ opacity: 0, y: -50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7 }}
+                className="text-xl mt-1"
+              >
+                {label}
+              </motion.span>
               <div className="w-16 h-[1px] bg-blue-500 rounded-full my-1"></div>
             </div>
 
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.3 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3, duration: 0.7 }}
               className="flex flex-wrap justify-center items-center gap-5"
             >
               {skillComponents[label] && (
