@@ -6,6 +6,9 @@ import Navigation from "@/components/Navigation";
 import Social from "@/components/Social";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { Analytics } from "@vercel/analytics/next";
+
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -13,7 +16,7 @@ export const metadata: Metadata = {
   title: "Portfolio: Pankaj Kumar",
   description:
     "Pankaj Kumar is FullStack Web Developer and Currently working at Netclues India Private Limited",
-  keywords: "pankajktech, pankajthakur, pankajkumar portfolio",
+  keywords: "pankajktech, pankajthakur, pankajkumar portfolio, dev_pthakur",
 };
 
 export default function RootLayout({
@@ -30,6 +33,7 @@ export default function RootLayout({
             <div className="hidden md:block absolute top-0 right-4 size-[500px] bg-fuchsia-200 mix-blend-multiply rounded-full filter blur-2xl opacity-50 animate-blob animation-delay-2000 -z-10"></div>
             <div className="absolute bottom-20 left-20 size-[500px] bg-pink-200 rounded-full mix-blend-multiply filter blur-2xl opacity-50 animate-blob animation-delay-4000 -z-10"></div>
             <div className=" hidden md:block absolute -bottom-8 right-1/4 size-[500px] bg-green-200 rounded-full mix-blend-multiply filter blur-2xl opacity-50 animate-blob animation-delay-4000 -z-10"></div>
+            <Analytics mode="production"/>
             {children}
             <Navigation />
             <Social />
