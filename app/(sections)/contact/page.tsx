@@ -8,8 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Label } from "@/components/ui/label";
-import Image from "next/image";
-import { motion } from "framer-motion";
+import NextImage from "@/components/NextImage";
 
 export default function page() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -38,19 +37,9 @@ export default function page() {
   };
 
   return (
-    <motion.div
-      className="w-full flex flex-col min-h-full justify-center items-center"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-    >
+    <div className="w-full flex animate_in flex-col min-h-full justify-center items-center">
       <h1 className="text-3xl font-semibold text-center my-10">Contact</h1>
-      <motion.div
-        className="flex flex-col md:flex-row lg:w-[70%] items-center justify-around"
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7 }}
-      >
+      <div className="flex flex-col md:flex-row lg:w-[70%] items-center justify-around">
         <Card className="w-[90vw] lg:w-[500px] drop-shadow-md">
           <CardHeader className="text-center font-semibold">
             Feel Free To Write Anything
@@ -97,23 +86,16 @@ export default function page() {
             </form>
           </CardContent>
         </Card>
-        <motion.div
-          className="lg:w-[500px] hidden lg:block"
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-        >
-          <Image
+        <div className="lg:w-[500px] hidden lg:block">
+          <NextImage
             height={500}
             width={500}
-            loading="lazy"
-            quality={80}
             className="h-[300px] w-[300px] lg:h-[500px] lg:w-[500px]"
             src="/contact.svg"
             alt="contactimg"
           />
-        </motion.div>
-      </motion.div>
-    </motion.div>
+        </div>
+      </div>
+    </div>
   );
 }

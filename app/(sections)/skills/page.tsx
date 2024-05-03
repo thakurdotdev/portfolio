@@ -2,7 +2,6 @@
 
 import React from "react";
 import { Frontend, Backend, Tools } from "./constant";
-import { motion } from "framer-motion";
 
 interface SkillComponents {
   [key: string]: () => JSX.Element;
@@ -35,29 +34,15 @@ const Skills = () => {
       </div>
       <div className="flex flex-col justify-center items-center px-3">
         {data.map(({ label }) => (
-          <div key={label} className="flex flex-col m-1">
+          <div key={label} className="flex animate_in flex-col m-1">
             <div className="flex flex-col">
-              <motion.span
-                initial={{ opacity: 0, y: -50 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7 }}
-                className="text-xl mt-1"
-              >
-                {label}
-              </motion.span>
+              <span className="text-xl mt-1">{label}</span>
               <div className="w-16 h-[1px] bg-blue-500 rounded-full my-1"></div>
             </div>
 
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3, duration: 0.7 }}
-              className="flex flex-wrap justify-center items-center gap-5"
-            >
-              {skillComponents[label] && (
-                <motion.div>{skillComponents[label]()}</motion.div>
-              )}
-            </motion.div>
+            <div className="flex flex-wrap justify-center items-center gap-5">
+              {skillComponents[label] && <div>{skillComponents[label]()}</div>}
+            </div>
           </div>
         ))}
       </div>

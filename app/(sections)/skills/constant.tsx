@@ -1,3 +1,4 @@
+import NextImage from "@/components/NextImage";
 import { Button } from "@/components/ui/button";
 
 export const FrontendSkills = [
@@ -82,13 +83,14 @@ function SkillCategory({ skills }: { skills: any[] }) {
             variant="secondary"
             className="p-3 h-12 flex justify-center drop-shadow-sm items-center gap-2"
           >
-            <div>
-              <img
-                src={skill?.icon}
-                alt={skill?.name}
-                className="w-10 h-10 text-slate-300"
-              />
-            </div>
+            <NextImage
+              src={skill?.icon}
+              width={30}
+              height={30}
+              alt={skill?.name}
+              className=""
+            />
+
             {skill?.name}
           </Button>
         </div>

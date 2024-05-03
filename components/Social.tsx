@@ -5,31 +5,8 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
-import { Github, Linkedin, Mail, Twitter } from "lucide-react";
 import Link from "next/link";
-
-export const Data = [
-  {
-    link: "https://www.linkedin.com/in/pankajktech/",
-    icon: Linkedin,
-    tooltip: "Connect On Linkedin",
-  },
-  {
-    link: "https://github.com/pankajktech",
-    icon: Github,
-    tooltip: "Connect On Github",
-  },
-  {
-    link: "https://twitter.com/pankajktech1",
-    icon: Twitter,
-    tooltip: "Follow On X",
-  },
-  {
-    link: "mailto:mailto:tunewithpk@gmail.com",
-    icon: Mail,
-    tooltip: "Mail Us",
-  },
-];
+import NextImage from "./NextImage";
 
 export default function Social() {
   return (
@@ -45,7 +22,13 @@ export default function Social() {
                     size="icon"
                     className="rounded-full"
                   >
-                    <item.icon />
+                    <NextImage
+                      src={item.icon}
+                      alt={item.tooltip}
+                      width={24}
+                      height={24}
+                      className={"fill-current text-gray-800"}
+                    />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>{item.tooltip}</TooltipContent>
@@ -72,7 +55,13 @@ export const PhoneSocial = () => {
                     size="icon"
                     className="rounded-full"
                   >
-                    <item.icon />
+                    <NextImage
+                      src={item.icon}
+                      alt={item.tooltip}
+                      width={24}
+                      height={24}
+                      className={"fill-current text-gray-800"}
+                    />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>{item.tooltip}</TooltipContent>
@@ -84,3 +73,26 @@ export const PhoneSocial = () => {
     </div>
   );
 };
+
+export const Data = [
+  {
+    link: "https://www.linkedin.com/in/pankajktech/",
+    icon: "https://www.svgrepo.com/show/475661/linkedin-color.svg",
+    tooltip: "Connect On Linkedin",
+  },
+  {
+    link: "https://github.com/pankajktech",
+    icon: "https://www.svgrepo.com/show/475654/github-color.svg",
+    tooltip: "Connect On Github",
+  },
+  {
+    link: "https://twitter.com/dev_pthakur",
+    icon: "https://www.svgrepo.com/show/475689/twitter-color.svg",
+    tooltip: "Follow On X",
+  },
+  {
+    link: "mailto:tunewithpk@gmail.com",
+    icon: "https://www.svgrepo.com/show/19352/email.svg",
+    tooltip: "Mail Us",
+  },
+];

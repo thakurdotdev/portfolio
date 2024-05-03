@@ -1,21 +1,22 @@
 "use client";
+import NextImage from "@/components/NextImage";
 import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
 
 const Experience = () => {
   return (
-    <div className="flex flex-col my-20 gap-10">
+    <div className="flex animate_in flex-col my-20 gap-10">
       <div className="max-w-[32rem] flex justify-center items-center mx-auto">
-        <motion.ol
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          className="relative border-s  border-gray-200 dark:border-gray-700"
-        >
+        <ol className="relative border-s  border-gray-200 dark:border-gray-700">
           {Data.map((data) => (
             <li className="mb-10 ms-6" key={data.name}>
               <span className="absolute flex items-center justify-center w-10 h-10 rounded-full -start-4 md:-start-6  ring-2">
-                <img src={data.logo} className="rounded-full" alt={data.name} />
+                <NextImage
+                  src={data.logo}
+                  width={40}
+                  height={40}
+                  className="rounded-full"
+                  alt={data.name}
+                />
               </span>
               <h3 className="flex flex-col md:flex-row mb-2 ml-3 text-lg font-semibold">
                 {data.name}
@@ -36,7 +37,7 @@ const Experience = () => {
               </time>
             </li>
           ))}
-        </motion.ol>
+        </ol>
       </div>
     </div>
   );
