@@ -33,8 +33,8 @@ export default function RootLayout({
             <div className="hidden md:block absolute top-0 right-4 size-[500px] bg-fuchsia-200 mix-blend-multiply rounded-full filter blur-2xl opacity-50 animate-blob animation-delay-2000 -z-10"></div>
             <div className="absolute bottom-20 left-20 size-[500px] bg-pink-200 rounded-full mix-blend-multiply filter blur-2xl opacity-50 animate-blob animation-delay-4000 -z-10"></div>
             <div className=" hidden md:block absolute -bottom-8 right-1/4 size-[500px] bg-green-200 rounded-full mix-blend-multiply filter blur-2xl opacity-50 animate-blob animation-delay-4000 -z-10"></div>
-            <Analytics/>
             {children}
+            <Analytics/>
             <Navigation />
             <Social />
             <Toaster position="top-center" />

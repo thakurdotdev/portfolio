@@ -4,37 +4,48 @@ import { Button } from "@/components/ui/button";
 
 const Experience = () => {
   return (
-    <div className="flex animate_in flex-col my-20 gap-10">
-      <div className="max-w-[32rem] flex justify-center items-center mx-auto">
-        <ol className="relative border-s  border-gray-200 dark:border-gray-700">
+    <div className="flex flex-col items-center my-20">
+      <div className="max-w-3xl mx-auto">
+        <ol className="relative border-l-2 border-gray-200 dark:border-gray-700">
           {Data.map((data) => (
-            <li className="mb-10 ms-6" key={data.name}>
-              <span className="absolute flex items-center justify-center w-10 h-10 rounded-full -start-4 md:-start-6  ring-2">
-                <NextImage
-                  src={data.logo}
-                  width={40}
-                  height={40}
-                  className="rounded-full"
-                  alt={data.name}
-                />
-              </span>
-              <h3 className="flex flex-col md:flex-row mb-2 ml-3 text-lg font-semibold">
-                {data.name}
-                <Button
-                  size="sm"
-                  variant="outline"
-                  className="max-w-fit md:ms-3"
-                >
-                  {data.timeSpan}
-                </Button>
-              </h3>
-              <time className="block mb-2 ml-3 text-base font-normal leading-none text-blue-400-200 ">
-                {data.role}
-                <ul className="list-disc font-sans text-sm mt-3 ml-5 ">
-                  <li className="my-1">{data?.about1}</li>
-                  <li className="my-1">{data?.about2}</li>
-                </ul>
-              </time>
+            <li
+              className="mb-10 ml-6"
+              key={data.name}
+            >
+              <div className="flex items-center">
+                <span className="flex items-center justify-center w-10 h-10 rounded-full bg-blue-100 ring-2 ring-white dark:ring-gray-800 shadow-md">
+                  <NextImage
+                    src={data.logo}
+                    width={40}
+                    height={40}
+                    className="rounded-full"
+                    alt={data.name}
+                  />
+                </span>
+                <div className="ml-4">
+                  <h3 className="flex flex-col lg:flex-row text-lg font-semibold">
+                    {data.name}
+                    <Button
+                      size="sm"
+                      variant="secondary"
+                      className="max-w-fit max-md:my-1 md:ml-3 px-3 py-1 rounded-full"
+                    >
+                      {data.timeSpan}
+                    </Button>
+                  </h3>
+                  <p className="text-base font-medium text-gray-600 dark:text-gray-400">
+                    {data.role}
+                  </p>
+                  <ul className="list-disc font-sans text-sm mt-2 ml-5">
+                    <li className="my-1 text-gray-700 dark:text-gray-300">
+                      {data?.about1}
+                    </li>
+                    <li className="my-1 text-gray-700 dark:text-gray-300">
+                      {data?.about2}
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </li>
           ))}
         </ol>

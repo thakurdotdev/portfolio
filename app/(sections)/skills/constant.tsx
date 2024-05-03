@@ -81,7 +81,7 @@ function SkillCategory({ skills }: { skills: any[] }) {
         <div key={index}>
           <Button
             variant="secondary"
-            className="p-3 h-12 flex justify-center drop-shadow-sm items-center gap-2"
+            className="p-3 h-12 rounded-full flex justify-center drop-shadow-sm items-center gap-2"
           >
             <NextImage
               src={skill?.icon}

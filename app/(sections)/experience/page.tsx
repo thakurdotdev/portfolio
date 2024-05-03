@@ -6,9 +6,9 @@ function page() {
   return (
     <div className="flex justify-center mt-20">
       <Tabs defaultValue="experience" className="w-[400px] md:w-[500px]">
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="experience">Experience</TabsTrigger>
-          <TabsTrigger value="education">Education</TabsTrigger>
+        <TabsList className="grid w-full rounded-full grid-cols-2">
+          <TabsTrigger className="rounded-full" value="experience">Experience</TabsTrigger>
+          <TabsTrigger className="rounded-full" value="education">Education</TabsTrigger>
         </TabsList>
         <TabsContent value="experience">
           <Experience />

@@ -40,7 +40,7 @@ export default function page() {
     <div className="w-full flex animate_in flex-col min-h-full justify-center items-center">
       <h1 className="text-3xl font-semibold text-center my-10">Contact</h1>
       <div className="flex flex-col md:flex-row lg:w-[70%] items-center justify-around">
-        <Card className="w-[90vw] lg:w-[500px] drop-shadow-md">
+        <Card className="w-[90vw] lg:w-[500px]">
           <CardHeader className="text-center font-semibold">
             Feel Free To Write Anything
           </CardHeader>
@@ -76,7 +76,7 @@ export default function page() {
               <div>
                 <Button
                   disabled={isSubmitting}
-                  variant="default"
+                  variant="secondary"
                   className="w-full"
                   type="submit"
                 >
