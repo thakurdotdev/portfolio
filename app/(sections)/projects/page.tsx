@@ -1,49 +1,49 @@
-"use client";
-
 import { Github, LucideExternalLink } from "lucide-react";
 import Link from "next/link";
 
 import { ProjectData } from "./constant";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 function ProjectsPage() {
   return (
-    <div className="flex flex-col justify-center items-center px-3">
-      <h1 className="text-3xl font-bold text-center border-spacing-2 border-b-2 border-b-blue-600 my-10">
+    <div className="flex flex-col space-y-10 justify-center items-center px-3 my-5">
+      <h1 className="text-3xl font-bold text-center border-b-2 border-blue-600 pb-4">
         Projects
       </h1>
-      <div className="flex animate_in lg:max-w-[80%] flex-wrap justify-center gap-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {ProjectData.map(
           ({ title, live, description, github, techstack }, index) => (
             <Card
               key={index}
-              className="flex flex-col max-md:w-[95%] gap-2 rounded-lg p-4 outline-1 outline-dashed "
+              className="shadow-md rounded-lg overflow-hidden"
             >
-              <div className="flex flex-col md:flex-row items-center gap-4 justify-between">
-                <h3 className="text-xl text-center font-medium">{title}</h3>
-                <div className="flex gap-2">
+              <div className="p-6 flex flex-col gap-4">
+                <div className="flex flex-col lg:flex-row justify-between">
+                <h3 className="text-xl font-medium">{title}</h3>
+                <div className="flex max-md:my-2 gap-2">
                   <Link href={live} target="_blank">
-                    <Button variant="outline">
-                      <LucideExternalLink size={15} />
+                    <Button variant="secondary">
+                      <LucideExternalLink size={18} className="mr-1" /> View Live
                     </Button>
                   </Link>
-
                   <Link href={github} target="_blank">
-                    <Button variant="secondary">
-                      <Github size={15} />
+                    <Button variant="outline">
+                      <Github size={18} className="mr-1" /> Github
                     </Button>
                   </Link>
                 </div>
+                </div>
+                <p className="text-base leading-relaxed">{description}</p>
+                <div className="flex flex-wrap gap-2">
+                  {techstack.map((tech, index) => (
+                    <Badge key={index} variant={"outline"}>
+                      {tech}
+                    </Badge>
+                  ))}
+                </div>
               </div>
-              <p className="text-sm text-center">{description}</p>
-              <p className="text-sm flex flex-wrap justify-center gap-2">
-                {techstack.map((tech, index) => (
-                  <p key={index} className="border  p-1 rounded-md">
-                    {tech}
-                  </p>
-                ))}
-              </p>
             </Card>
           )
         )}

@@ -1,9 +1,9 @@
 export const ProjectData = [
   {
-    title: "Job Portal",
+    title: "Find Your Job",
     description:
-      "A job portal where users can search for jobs and apply for them.",
-    techstack: ["React", "Redux", "Node", "Express", "MongoDB"],
+      "A MERN stack application where users can search for jobs and apply for them.",
+    techstack: ["MERN Stack", "React", "Redux", "Node", "Express", "MongoDB"],
     live: "https://findyourjob.vercel.app",
     github: "https://github.com/pankajktech/FindYourJob",
   },

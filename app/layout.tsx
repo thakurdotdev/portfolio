@@ -6,7 +6,8 @@ import Navigation from "@/components/Navigation";
 import Social from "@/components/Social";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
-import { Analytics } from "@vercel/analytics/react";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 
 
@@ -35,6 +36,7 @@ export default function RootLayout({
             <div className=" hidden md:block absolute -bottom-8 right-1/4 size-[500px] bg-green-200 rounded-full mix-blend-multiply filter blur-2xl opacity-50 animate-blob animation-delay-4000 -z-10"></div>
             {children}
             <Analytics/>
+            <SpeedInsights/>
             <Navigation />
             <Social />
             <Toaster position="top-center" />
