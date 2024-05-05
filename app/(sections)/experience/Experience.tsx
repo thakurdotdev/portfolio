@@ -22,7 +22,7 @@ const Experience = () => {
                     alt={data.name}
                   />
                 </span>
-                <div className="ml-4">
+                <div className="ml-4 animate_in">
                   <h3 className="flex flex-col lg:flex-row text-lg font-semibold">
                     {data.name}
                     <Button

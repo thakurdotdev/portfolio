@@ -34,9 +34,9 @@ const Skills = () => {
       </div>
       <div className="flex flex-col justify-center items-center px-3">
         {data.map(({ label }) => (
-          <div key={label} className="flex animate_in flex-col m-1">
+          <div key={label} className="flex flex-col m-1">
             <div className="flex flex-col">
-              <span className="text-xl mt-1">{label}</span>
+              <span className="animate_in text-xl mt-1">{label}</span>
               <div className="w-16 h-[1px] bg-blue-500 rounded-full my-1"></div>
             </div>
 

@@ -20,7 +20,7 @@ const Education = () => {
                     alt={data.name}
                   />
                 </span>
-                <div className="ml-4">
+                <div className="ml-4 animate_in">
                   <h3 className="flex flex-col lg:flex-row text-lg font-semibold">
                     {data.name}
                     <Button
@@ -31,9 +31,9 @@ const Education = () => {
                       {data.timeSpan}
                     </Button>
                   </h3>
-                  <p className="text-base mt-2 font-medium text-gray-600 dark:text-gray-400">
+                  <p className="text-base flex flex-wrap gap-1 mt-2 font-medium text-gray-600 dark:text-gray-400">
                     {data.department}
-                     <span className="text-base ml-2 font-mono text-gray-600 dark:text-gray-400">
+                     <span className="text-base font-mono text-gray-600 dark:text-gray-400">
                     ({data.course})
                   </span>
                   </p>
@@ -56,7 +56,7 @@ const Data = [
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbKRZ3cXcWn67pqykFC3pBO7F-ESU96o5wLVWy7QrlDHslvAe9ifAE&s",
     timeSpan: "2020 - 2024",
     department: "Computer Engineering",
-    course: "B.Tech",
+    course: "Bachelor of Engineering",
   },
   {
     name: "Samastipur College Samastipur",

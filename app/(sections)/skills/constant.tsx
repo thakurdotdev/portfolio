@@ -90,8 +90,7 @@ function SkillCategory({ skills }: { skills: any[] }) {
               alt={skill?.name}
               className=""
             />
-
-            {skill?.name}
+            <span className="animate_in">{skill?.name}</span>
           </Button>
         </div>
       ))}
