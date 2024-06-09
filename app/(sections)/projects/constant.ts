@@ -1,9 +1,17 @@
 export const ProjectData = [
   {
-    title: "Find Your Job",
+    title: "FaceGram: A Social Media App",
     description:
-      "A MERN stack application where users can search for jobs and apply for them.",
-    techstack: ["MERN Stack", "React", "Redux", "Node", "Express", "MongoDB"],
+      "A social media app that allows users to create profiles, connect with friends, and share photos, also allowing users to search for friends and view their profiles and chat with them in real-time.",
+    techstack: [, "React", "Node", "Express", "PostgreSQL", "Material UI"],
+    live: "https://facegraam.vercel.app",
+    github: "https://github.com/pankajktech/facegraam",
+  },
+  {
+    title: "Find Your Job: A Job Search App",
+    description:
+      "A MERN stack application where users can search for jobs and apply for them, also you can post job offers and view them.",
+    techstack: ["MERN Stack", "React", "Node", "Express", "MongoDB"],
     live: "https://findyourjob.vercel.app",
     github: "https://github.com/pankajktech/FindYourJob",
   },

@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 
 function ProjectsPage() {
   return (
-    <div className="flex flex-col space-y-10 justify-center items-center px-3 my-5">
+    <div className="flex flex-col space-y-10 justify-center items-center px-3 my-5 mx-auto md:max-w-[80%]">
       <h1 className="text-3xl font-bold text-center border-b-2 border-blue-600 pb-4">
         Projects
       </h1>
@@ -17,7 +17,7 @@ function ProjectsPage() {
           ({ title, live, description, github, techstack }, index) => (
             <Card
               key={index}
-              className="shadow-md rounded-lg overflow-hidden"
+              className="drop-shadow-xl rounded-lg overflow-hidden"
             >
               <div className="p-6 flex flex-col gap-4">
                 <div className="flex flex-col lg:flex-row justify-between">
