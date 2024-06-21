@@ -5,8 +5,6 @@ import { Button } from "@/components/ui/button";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
 import { PhoneSocial } from "@/components/Social";
 
-
-
 export default function Home() {
   return (
     <div className="py-16 min-h-[80vh] animate_in  md:min-h-[85vh] flex items-center flex-col-reverse lg:flex-row gap-10 justify-center">
@@ -14,7 +12,7 @@ export default function Home() {
         <p className="text-2xl font-bold text-light-blue-700">Hey,</p>
         <p className="text-3xl md:text-5xl font-bold relative">
           I'm
-          <span className="text-blue-500 ml-4 uppercase">Pankaj Kumar</span>
+          <span className="text-blue-500 ml-4 uppercase">Pankaj Thakur</span>
         </p>
         <p className="text-3xl md:text-4xl font-bold text-light-blue-500">
           Full Stack Developer
@@ -23,21 +21,24 @@ export default function Home() {
           I'm a Full Stack Developer based in India. I have a passion for web
           development and love to create for web apps.
         </p>
-       
-          <PhoneSocial />
-        
+
+        <PhoneSocial />
+
         <div className="flex flex-row justify-center md:justify-normal gap-4 md:gap-6 mt-5">
           <Link href={"/about"}>
-            <Button variant="secondary" className="flex rounded-full gap-2 items-center">
+            <Button
+              variant="secondary"
+              className="flex rounded-full gap-2 items-center">
               <User className="text-lg" />
               About Me
             </Button>
           </Link>
           <Link
             href="https://drive.google.com/file/d/1Yd3Z6GO8-vxHOldYckjj42sf8mjP2SgP/view?usp=drive_open"
-            target="_blank"
-          >
-            <Button variant="secondary" className="flex rounded-full gap-2 items-center">
+            target="_blank">
+            <Button
+              variant="secondary"
+              className="flex rounded-full gap-2 items-center">
               <File className="text-lg" />
               Resume
             </Button>
@@ -56,5 +57,5 @@ export default function Home() {
         />
       </div>
     </div>
-  )
+  );
 }

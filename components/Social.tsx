@@ -20,8 +20,7 @@ export default function Social() {
                   <Button
                     variant="secondary"
                     size="icon"
-                    className="rounded-full"
-                  >
+                    className="rounded-full">
                     <NextImage
                       src={item.icon}
                       alt={item.tooltip}
@@ -53,8 +52,7 @@ export const PhoneSocial = () => {
                   <Button
                     variant="secondary"
                     size="icon"
-                    className="rounded-full"
-                  >
+                    className="rounded-full">
                     <NextImage
                       src={item.icon}
                       alt={item.tooltip}
@@ -76,22 +74,22 @@ export const PhoneSocial = () => {
 
 export const Data = [
   {
-    link: "https://www.linkedin.com/in/pankajktech/",
+    link: "https://www.linkedin.com/in/thakurdotdev",
     icon: "https://www.svgrepo.com/show/475661/linkedin-color.svg",
     tooltip: "Connect On Linkedin",
   },
   {
-    link: "https://github.com/pankajktech",
+    link: "https://github.com/thakurdotdev",
     icon: "https://www.svgrepo.com/show/475654/github-color.svg",
     tooltip: "Connect On Github",
   },
   {
-    link: "https://twitter.com/dev_pthakur",
+    link: "https://twitter.com/thakurdotdev",
     icon: "https://www.svgrepo.com/show/475689/twitter-color.svg",
     tooltip: "Follow On X",
   },
   {
-    link: "mailto:tunewithpk@gmail.com",
+    link: "mailto:thakurdotdev@gmail.com",
     icon: "https://www.svgrepo.com/show/19352/email.svg",
     tooltip: "Mail Us",
   },
