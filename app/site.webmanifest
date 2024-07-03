@@ -1,0 +1,22 @@
+{
+  "name": "Pankaj Thakur's Portfolio",
+  "short_name": "thakurdotdev",
+  "description": "Pankaj Thakur is a software developer based in India. He specializes in building web applications and websites using modern technologies.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "./icons/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "lang": "en-IN"
+}
