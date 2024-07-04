@@ -59,59 +59,63 @@ export default function Contact() {
     setErrors(newErrors);
   };
 
-  const sendEmail = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsSubmitting(true);
+ const sendEmail = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  setIsSubmitting(true);
 
-    const formData = new FormData(e.currentTarget);
-    const name = formData.get("name") as string;
-    const email = formData.get("email") as string;
-    const message = formData.get("message") as string;
+  const form = e.currentTarget;
+  const formData = new FormData(form);
+  const name = formData.get("name") as string;
+  const email = formData.get("email") as string;
+  const message = formData.get("message") as string;
 
-    const newErrors: { name?: string; email?: string; message?: string } = {};
+  const newErrors: { name?: string; email?: string; message?: string } = {};
 
-    if (!validateName(name)) {
-      newErrors.name = "Please enter a valid name.";
-    }
+  if (!validateName(name)) {
+    newErrors.name = "Please enter a valid name.";
+  }
 
-    if (!validateEmail(email)) {
-      newErrors.email = "Please enter a valid email.";
-    }
+  if (!validateEmail(email)) {
+    newErrors.email = "Please enter a valid email.";
+  }
 
-    if (!validateMessage(message)) {
-      newErrors.message = "Please enter a message.";
-    }
+  if (!validateMessage(message)) {
+    newErrors.message = "Please enter a message.";
+  }
 
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      setIsSubmitting(false);
-      return;
-    }
+  if (Object.keys(newErrors).length > 0) {
+    setErrors(newErrors);
+    setIsSubmitting(false);
+    return;
+  }
 
-    try {
-      await emailjs.sendForm(
-        "service_ldx72vg",
-        "template_tionfoh",
-        e.currentTarget,
-        "4i6NhRQVTAgwoBcc9"
-      );
-      e.currentTarget.reset();
+  try {
+    const result = await emailjs.sendForm(
+      "service_ldx72vg",
+      "template_tionfoh",
+      form,
+      "4i6NhRQVTAgwoBcc9"
+    );
+    if (result.status === 200) {
+      alert("Email sent successfully!");
+      if (form) {
+        form.reset();
+      }
       setErrors({});
-    } catch (error) {
-      console.error(error);
-      setErrors({ message: "Failed to send email." });
-    } finally {
-      setIsSubmitting(false);
+    } else {
+      throw new Error(`Unexpected status code: ${result.status}`);
     }
-  };
+  } catch (error) {
+    console.error("Detailed error:", error);
+    setErrors({ message: "Failed to send email. Please try again later." });
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   return (
-    <div className="mt-8">
-      <h1 className="text-xl font-bold">Contact Us</h1>
-      <p className="text-gray-600">
-        Feel free to reach out to me for any queries or just to say hi.
-      </p>
-      <div className="h-[1px] w-[50%] bg-slate-300/40 rounded-full mb-4"></div>
+    <div className="mt-12">
+      <h4 className="text-md md:text-xl font-medium mb-4">Contact</h4>
       <Card className="mx-auto">
         <CardHeader className="text-center font-semibold">
           Get in Touch

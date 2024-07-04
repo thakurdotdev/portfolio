@@ -2,9 +2,6 @@ import type { Metadata } from "next";
 import { Montserrat } from "next/font/google"
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import { Toaster } from "@/components/ui/sonner";
-import { Analytics } from "@vercel/analytics/next";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import Head from "next/head";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
@@ -85,31 +82,8 @@ export default function RootLayout({
         <ThemeProvider attribute="class">
           <div className="relative overflow-hidden min-h-screen">
             {children}
-            <Analytics />
-            <SpeedInsights />
-            <Toaster position="top-center" />
           </div>
         </ThemeProvider>
-        <script type="application/ld+json">
-          {`
-            {
-              "@context": "https://schema.org",
-              "@type": "Person",
-              "name": "Pankaj Thakur",
-              "url": "https://thakur.dev",
-              "sameAs": [
-                "https://twitter.com/thakurdotdev",
-                "https://github.com/thakurdotdev",
-                "https://linkedin.com/in/thakurdotdev"
-              ],
-              "jobTitle": "Software Developer",
-              "worksFor": {
-                "@type": "Organization",
-                "name": "Netclues Technologies Pvt. Ltd.",
-              }
-            }
-          `}
-        </script>
       </body>
     </html>
   );

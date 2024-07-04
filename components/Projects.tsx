@@ -6,17 +6,13 @@ import { Badge } from "@/components/ui/badge";
 
 function ProjectsPage() {
   return (
-    <div className="mx-auto">
-      <h2 className="text-2xl font-semibold">Projects</h2>
-      <p className="text-gray-600">
-        Here are some of the projects I have worked on.
-      </p>
-      <div className="h-[1px] w-[40%] bg-slate-300/40 rounded-full mb-4"></div>
+    <div className="mx-auto mt-10">
+      <h4 className="text-md md:text-xl font-medium mb-4"> Projects</h4>
       <div className="space-y-4">
         {ProjectData.map(({ title, live, description, github, techstack }, index) => (
           <Card key={index} className="p-4">
             <div className="flex justify-between items-start mb-2">
-              <h3 className="text-lg font-medium">{title}</h3>
+              <h4 className="text-md font-medium">{title}</h4>
               <div className="flex gap-5">
                 <Link href={live} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-800">
                   <ExternalLinkIcon height={22} width={22} />
@@ -26,10 +22,10 @@ function ProjectsPage() {
                 </Link>
               </div>
             </div>
-            <p className="text-sm text-gray-500 mb-2">{description}</p>
+            <p className="text-sm mb-2 text-gray-600 dark:text-neutral-400">{description}</p>
             <div className="flex flex-wrap gap-1">
               {techstack.map((tech, index) => (
-                <Badge key={index} variant="outline" className="text-xs px-2 py-0.5">
+                <Badge key={index} variant="outline" className="text-xs px-2 py-0.5 text-gray-600 dark:text-neutral-400">
                   {tech}
                 </Badge>
               ))}

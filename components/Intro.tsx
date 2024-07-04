@@ -5,7 +5,7 @@ import NextImage from './NextImage'
 
 const Intro = () => {
     return (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 text-gray-600 dark:text-neutral-400">
             <div className="flex items-center gap-4">
                 <NextImage
                     src="/pk.webp"
@@ -29,7 +29,7 @@ const Intro = () => {
                 </div>
             </div>
             <hr />
-            <p className="flex flex-col gap-4">
+            <p className="flex flex-col gap-4 text-justify ">
                 <span>
                     I'm a software developer based in India. I specialize in building
                     websites and applications. I'm passionate about learning new
