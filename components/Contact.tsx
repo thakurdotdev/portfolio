@@ -1,159 +1,109 @@
 "use client";
 
-import { useState } from "react";
-import emailjs from "@emailjs/browser";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
+import { ChangeEvent, FormEvent, useState } from "react";
+import { sendForm } from "@emailjs/browser";
+import { Button } from "./ui/button";
+import { Card, CardContent, CardHeader } from "./ui/card";
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
+import { Textarea } from "./ui/textarea";
+
+interface Errors {
+  name?: string;
+  email?: string;
+  message?: string;
+}
 
 export default function Contact() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errors, setErrors] = useState<{ name?: string; email?: string; message?: string }>({});
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [errors, setErrors] = useState<Errors>({});
 
-  const validateName = (name: string): boolean => {
-    return name.trim().length > 0;
+  const validate: { [key: string]: (value: string) => boolean } = {
+    name: (value) => value.trim().length > 0,
+    email: (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
+    message: (value) => value.trim().length > 0,
   };
 
-  const validateEmail = (email: string): boolean => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
+  const handleChange = ({
+    target: { name, value },
+  }: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: validate[name](value) ? "" : `Please enter a valid ${name}.`,
+    }));
   };
 
-  const validateMessage = (message: string): boolean => {
-    return message.trim().length > 0;
-  };
+  const sendEmail = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    const formErrors = Object.keys(validate).reduce((acc: Errors, key: string) => {
+      const value = formData.get(key) as string;
+      if (!validate[key](value)) acc[key] = `Please enter a valid ${key}.`;
+      return acc;
+    }, {});
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-
-    let newErrors = { ...errors };
-
-    switch (name) {
-      case "name":
-        if (validateName(value)) {
-          delete newErrors.name;
-        } else {
-          newErrors.name = "Please enter a valid name.";
-        }
-        break;
-      case "email":
-        if (validateEmail(value)) {
-          delete newErrors.email;
-        } else {
-          newErrors.email = "Please enter a valid email.";
-        }
-        break;
-      case "message":
-        if (validateMessage(value)) {
-          delete newErrors.message;
-        } else {
-          newErrors.message = "Please enter a message.";
-        }
-        break;
-      default:
-        break;
+    if (Object.keys(formErrors).length > 0) {
+      setErrors(formErrors);
+      setIsSubmitting(false);
+      return;
     }
 
-    setErrors(newErrors);
-  };
-
- const sendEmail = async (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
-  setIsSubmitting(true);
-
-  const form = e.currentTarget;
-  const formData = new FormData(form);
-  const name = formData.get("name") as string;
-  const email = formData.get("email") as string;
-  const message = formData.get("message") as string;
-
-  const newErrors: { name?: string; email?: string; message?: string } = {};
-
-  if (!validateName(name)) {
-    newErrors.name = "Please enter a valid name.";
-  }
-
-  if (!validateEmail(email)) {
-    newErrors.email = "Please enter a valid email.";
-  }
-
-  if (!validateMessage(message)) {
-    newErrors.message = "Please enter a message.";
-  }
-
-  if (Object.keys(newErrors).length > 0) {
-    setErrors(newErrors);
-    setIsSubmitting(false);
-    return;
-  }
-
-  try {
-    const result = await emailjs.sendForm(
-      "service_ldx72vg",
-      "template_tionfoh",
-      form,
-      "4i6NhRQVTAgwoBcc9"
-    );
-    if (result.status === 200) {
-      alert("Email sent successfully!");
-      if (form) {
+    try {
+      const result = await sendForm(
+        "service_ldx72vg",
+        "template_tionfoh",
+        form,
+        "4i6NhRQVTAgwoBcc9"
+      );
+      if (result.status === 200) {
+        alert("Email sent successfully!");
         form.reset();
+        setErrors({});
+      } else {
+        throw new Error(`Unexpected status code: ${result.status}`);
       }
-      setErrors({});
-    } else {
-      throw new Error(`Unexpected status code: ${result.status}`);
+    } catch (error) {
+      console.error("Detailed error:", error);
+      setErrors({ message: "Failed to send email. Please try again later." });
+    } finally {
+      setIsSubmitting(false);
     }
-  } catch (error) {
-    console.error("Detailed error:", error);
-    setErrors({ message: "Failed to send email. Please try again later." });
-  } finally {
-    setIsSubmitting(false);
-  }
-};
+  };
 
   return (
     <div className="mt-12">
       <h4 className="text-md md:text-xl font-medium mb-4">Contact</h4>
       <Card className="mx-auto">
-        <CardHeader className="text-center font-semibold">
-          Get in Touch
-        </CardHeader>
+        <CardHeader className="text-center font-semibold">Get in Touch</CardHeader>
         <CardContent>
           <form onSubmit={sendEmail} className="space-y-4">
-            <div>
-              <Label htmlFor="name">Name</Label>
-              <Input
-                id="name"
-                name="name"
-                placeholder="Your name"
-                onChange={handleChange}
-              />
-              {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
-            </div>
-            <div>
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                placeholder="Your email"
-                onChange={handleChange}
-              />
-              {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
-            </div>
-            <div>
-              <Label htmlFor="message">Message</Label>
-              <Textarea
-                id="message"
-                name="message"
-                placeholder="Your message"
-                rows={4}
-                onChange={handleChange}
-              />
-              {errors.message && <p className="text-red-500 text-sm mt-1">{errors.message}</p>}
-            </div>
+            {["name", "email", "message"].map((field) => (
+              <div key={field}>
+                <Label htmlFor={field}>{field.charAt(0).toUpperCase() + field.slice(1)}</Label>
+                {field !== "message" ? (
+                  <Input
+                    id={field}
+                    name={field}
+                    placeholder={`Your ${field}`}
+                    onChange={handleChange}
+                    type={field === "email" ? "email" : "text"}
+                  />
+                ) : (
+                  <Textarea
+                    id={field}
+                    name={field}
+                    placeholder="Your message"
+                    rows={4}
+                    onChange={handleChange}
+                  />
+                )}
+                {errors[field] && (
+                  <p className="text-red-500 text-sm mt-1">{errors[field]}</p>
+                )}
+              </div>
+            ))}
             <Button
               variant="secondary"
               type="submit"

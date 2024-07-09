@@ -9,13 +9,16 @@ import Combined from "@/components/Combined";
 const DynamicContact = dynamic(() => import("@/components/Contact"), { ssr: false });
 
 export default function Home() {
+  
   return (
     <div className="relative mx-auto md:max-w-[70%] lg:max-w-[40%] px-3 pt-10 animate_in">
       <Particles
-        className="absolute inset-0 pointer-events-none -z-10"
+        className="fixed inset-0 pointer-events-none -z-10"
         quantity={100}
-        ease={80}
-        refresh
+        ease={100}
+        refresh={true}
+        color="#ffffff"
+        size={0.4}        
       />
       <main>
         <Intro />

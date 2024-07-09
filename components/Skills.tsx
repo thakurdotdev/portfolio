@@ -6,7 +6,7 @@ const Skills = () => {
       <h4 className="text-md md:text-xl font-medium mb-4">Skills</h4>
       <div className="flex flex-wrap gap-3">
         {skills.map((skill) => (
-          <Badge key={skill} variant="secondary" className="text-gray-600 dark:text-neutral-400 text-sm font-mono">
+          <Badge key={skill} variant="outline" className="text-gray-600 dark:text-neutral-400 text-sm font-sans">
             {skill}
           </Badge>
         ))}
