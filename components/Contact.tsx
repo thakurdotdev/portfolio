@@ -9,9 +9,7 @@ import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
 
 interface Errors {
-  name?: string;
-  email?: string;
-  message?: string;
+  [key: string]: string; // Allow string keys with string values
 }
 
 export default function Contact() {
