@@ -1,41 +1,81 @@
-const Experience = () => {
-  return (
-    <div className="max-w-2xl mx-auto px-4 py-8">
-      {Data.map((experience) => (
-        <div key={experience.company} className="mb-6 last:mb-0">
-          <h3 className="text-md mb-2">{experience.company}</h3>
-          <p className="text-sm text-gray-600 dark:text-neutral-400 mb-1">{experience.role}</p>
-          <p className="text-sm text-gray-600 dark:text-neutral-400 mb-2">{experience.duration}</p>
-          <ul className="list-disc pl-5 text-sm text-gray-600 dark:text-neutral-400">
-            {experience.responsibilities.map((item, i) => (
-              <li key={i}>{item}</li>
-            ))}
-          </ul>
-        </div>
-      ))}
-    </div>
-  );
-};
+import React from "react";
+import { companiesData } from "@/lib/Constant";
+import NextImage from "./NextImage";
+
+interface JobHistoryItemProps {
+	position: string;
+	duration: string;
+	top: string;
+	isCurrent?: boolean;
+}
+
+const JobHistoryItem: React.FC<JobHistoryItemProps> = ({
+	position,
+	duration,
+	top,
+	isCurrent,
+}) => (
+	<div className="relative" style={{ marginTop: top }}>
+		{/* Line */}
+		<div className="absolute left-0 top-3 w-8 h-px bg-gray-300"></div>
+		{/* Circle */}
+		<div className="absolute -left-1 top-2 w-2 h-2 bg-gray-300 rounded-full"></div>
+		<div
+			className={`ml-10 ${
+				isCurrent ? "font-medium text-teal-200 dark:text-teal-400" : ""
+			}`}>
+			<h3 className="text-gray-600 dark:text-neutral-400">{position}</h3>
+			<p className="text-sm text-gray-600 dark:text-neutral-400 mt-1">
+				{duration}
+			</p>
+		</div>
+	</div>
+);
+
+interface CompanyExperienceProps {
+	company: string;
+	companyLogo: string;
+	location: string;
+	jobs: JobHistoryItemProps[];
+}
+
+const CompanyExperience: React.FC<CompanyExperienceProps> = ({
+	company,
+	companyLogo,
+	location,
+	jobs,
+}) => (
+	<div className="relative mb-12">
+		<div className="absolute left-0 top-0 bottom-0 w-px bg-gray-300"></div>
+		<div className="absolute -left-5 top-0 w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">
+			<NextImage src={companyLogo} className="w-11 h-11 rounded-full" />
+		</div>
+		<div className="ml-10">
+			<h1 className="font-semibold text-gray-600 dark:text-neutral-300">
+				{company}
+			</h1>
+			<h3 className="text-sm text-gray-600 dark:text-neutral-400">
+				{location}
+			</h3>
+		</div>
+		{jobs.map((job, index) => (
+			<JobHistoryItem key={index} {...job} />
+		))}
+	</div>
+);
+
+const Experience: React.FC = () => (
+	<>
+		<div className="mt-5">
+			<hr />
+			<h4 className="text-md md:text-xl font-medium my-4">Experience</h4>
+			<div className="p-6">
+				{companiesData.map((companyData, index) => (
+					<CompanyExperience key={index} {...companyData} />
+				))}
+			</div>
+		</div>
+	</>
+);
 
 export default Experience;
-
-const Data = [
-  {
-    company: "Netclues Technologies Pvt. Ltd.",
-    role: "Software Developer Trainee",
-    duration: "Feb 2024 - May 2024",
-    responsibilities: [
-      "Worked on various projects using React and Node.js",
-      "Contributed to fullstack project development"
-    ]
-  },
-  {
-    company: "Innomatics Research Labs",
-    role: "Full Stack Web Developer Intern",
-    duration: "Feb 2023 - April 2023",
-    responsibilities: [
-      "Worked on various projects using MERN stack",
-      "Developed a website for a startup using MERN stack"
-    ]
-  }
-];
