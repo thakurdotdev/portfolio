@@ -31,15 +31,17 @@ const Intro = () => {
             <hr />
             <p className="flex flex-col gap-4 text-justify">
                 <span>
-                    I am a dedicated software developer based in India, with a strong focus on building high-quality websites and applications. My passion lies in continuously learning new technologies and applying them to create innovative and efficient solutions.
+                    I am a software developer based in India, with a strong focus on building high-quality websites and applications. My passion lies in continuously learning new technologies and applying them to create innovative and efficient solutions.
                 </span>
                 <span>
                     Currently, I am employed as a Junior Software Developer at Netclues India Private Limited, where I contribute to various projects and enhance my technical skills.
                 </span>
                 <span>
-                    Feel free to contact me at <a href="mailto:pankaj@thakur.dev" className="text-blue-600 underline">pankaj@thakur.dev</a>
+                    Feel free to contact me at <a href="mailto:pankaj@thakur.dev" className="bg-slate-200 dark:bg-slate-800 rounded-full px-2">pankaj@thakur.dev</a>
                 </span>
             </p>
+
+            
 
 
         </div>

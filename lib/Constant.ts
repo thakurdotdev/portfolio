@@ -25,25 +25,9 @@ export const socialLinks = [
 	},
 ];
 
-export const tabs = [
-	{
-		title: "Profile",
-		link: "/",
-	},
-	{
-		title: "Contact",
-		link: "/contact",
-	},
-	// {
-	//   title: "Store",
-	//   link: "/store"
-	// }
-];
-
 export const companiesData = [
 	{
-		companyLogo:
-			"https://scontent.famd4-1.fna.fbcdn.net/v/t39.30808-1/341250460_746637277185106_6312355967036338054_n.jpg?stp=dst-jpg_p200x200&_nc_cat=105&ccb=1-7&_nc_sid=f4b9fd&_nc_ohc=Q1g7F2BWP_AQ7kNvgGZMC-n&_nc_ht=scontent.famd4-1.fna&oh=00_AYBcnIdvLyzfR2dVGgT3tX1ojKuVrTgfy6uiuPAXezAh9g&oe=669E9FCA",
+		companyLogo:"./netclues.jpg",
 		company: "Netclues Technologies Pvt. Ltd.",
 		location: "Ahmedabad, India",
 		jobs: [
@@ -60,7 +44,6 @@ export const companiesData = [
 			},
 		],
 	},
-	// Add more companies here
 ];
 
 export const educationData = [
@@ -68,13 +51,13 @@ export const educationData = [
 		institution: "Gujarat Technological University",
 		degree: "Bachelor of Engineering",
 		duration: "2020 - 2024",
-		logo: "https://scontent.famd4-1.fna.fbcdn.net/v/t39.30808-1/299624191_5604306519633160_7970186020195724104_n.jpg?stp=dst-jpg_p200x200&_nc_cat=101&ccb=1-7&_nc_sid=f4b9fd&_nc_ohc=k-5fxpU4ynQQ7kNvgGz-Q60&_nc_ht=scontent.famd4-1.fna&oh=00_AYDvqIRzZSj5McIE1RyB2o0oHiymck95G57f4QA6BfQsMg&oe=669E84CB",
+		logo: "/gtu.jpg",
 	},
 	{
 		institution: "Bihar State Examination Board",
 		degree: "Intermediate",
 		duration: "2018 - 2020",
-		logo: "https://scontent.famd4-1.fna.fbcdn.net/v/t39.30808-1/343562402_250660047344824_2801684525784007461_n.jpg?stp=dst-jpg_p200x200&_nc_cat=101&ccb=1-7&_nc_sid=f4b9fd&_nc_ohc=8zVyONCxnHkQ7kNvgH-CMwQ&_nc_ht=scontent.famd4-1.fna&oh=00_AYAvGArqTsdePkfYi6Hqks-FHfCmAneFJnBHb8SdGKNZjA&oe=669E97F5",
+		logo: "/bseb.jpg",
 	},
 ];
 
@@ -111,12 +94,26 @@ export const ProjectData = [
 		live: "https://summarizearticle.netlify.app/",
 		github: "https://github.com/thakurdotdev/ai-summariser",
 	},
-	// {
-	//   title: "MERN Blog App",
-	//   description:
-	//     "A blog website where users can read, write, and delete blogs.",
-	//   techstack: ["React", "Node", "Express", "MongoDB", "Tailwind CSS"],
-	//   live: "https://pankajktechblog.vercel.app/",
-	//   github: "https://github.com/thakurdotdev/Blog-Website",
-	// },
+];
+
+
+export const skillsData = [
+  { name: "Next.js", iconUrl: "https://d26c7l40gvbbg2.cloudfront.net/tool_icons/nextjs.svg" },
+  { name: "Node.js", iconUrl: "https://d26c7l40gvbbg2.cloudfront.net/tool_icons/nodejs.svg" },
+  { name: "React", iconUrl: "https://d26c7l40gvbbg2.cloudfront.net/tool_icons/reactjs.svg" },
+  { name: "TypeScript", iconUrl: "https://d26c7l40gvbbg2.cloudfront.net/tool_icons/typescript.svg" },
+  { name: "JavaScript", iconUrl: "https://d26c7l40gvbbg2.cloudfront.net/tool_icons/javascript.svg" },
+  { name: "Express.js", iconUrl: "" }, // Add the correct URL for Express.js icon
+  { name: "PostgreSQL", iconUrl: "https://d26c7l40gvbbg2.cloudfront.net/tool_icons/postgresql.svg" },
+  { name: "Docker", iconUrl: "" }, // Add the correct URL for Docker icon
+  { name: "HTML5", iconUrl: "https://d26c7l40gvbbg2.cloudfront.net/tool_icons/html.svg" },
+  { name: "CSS3", iconUrl: "" }, // Add the correct URL for CSS3 icon
+  { name: "Sequelize", iconUrl: "" }, // Add the correct URL for Sequelize icon
+  { name: "MongoDB", iconUrl: "https://d26c7l40gvbbg2.cloudfront.net/tool_icons/mongodb.svg" },
+  { name: "MySQL", iconUrl: "https://d26c7l40gvbbg2.cloudfront.net/tool_icons/mysql.svg" },
+  { name: "Tailwind CSS", iconUrl: "" }, // Add the correct URL for Tailwind CSS icon
+  { name: "Material-UI", iconUrl: "" }, // Add the correct URL for Material-UI icon
+  { name: "Socket.IO", iconUrl: "" }, // Add the correct URL for Socket.IO icon
+  { name: "Git", iconUrl: "https://d26c7l40gvbbg2.cloudfront.net/tool_icons/git.svg" },
+  { name: "GitHub", iconUrl: "" }, // Add the correct URL for GitHub icon
 ];

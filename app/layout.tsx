@@ -1,10 +1,14 @@
 import type { Metadata } from "next";
-import { Montserrat } from "next/font/google"
+import { Poppins } from "next/font/google"
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import Head from "next/head";
 
-const montserrat = Montserrat({ subsets: ["latin"] });
+const poppins = Poppins({
+  weight: ['400', '500', '600', '700'],
+  display: 'swap',
+  subsets: ['latin'],
+});
 
 export const metadata: Metadata = {
   title: "Portfolio: Pankaj Thakur | Software Developer",
@@ -78,7 +82,7 @@ export default function RootLayout({
         <meta name="theme-color" content="#ffffff" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <body className={montserrat.className}>
+      <body className={poppins.className}>
         <ThemeProvider attribute="class">
           <div className="relative overflow-hidden min-h-screen">
             {children}
