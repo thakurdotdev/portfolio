@@ -34,6 +34,7 @@ export const companiesData = [
       {
         position: "Software Developer Intern",
         duration: "Feb 2024 - Present",
+        isCurrent:true,
       },
     ],
   },
