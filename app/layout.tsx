@@ -1,19 +1,21 @@
 import type { Metadata } from "next";
-import { Poppins } from "next/font/google"
+import { Poppins } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import Head from "next/head";
 
 const poppins = Poppins({
-  weight: ['400', '500', '600', '700'],
-  display: 'swap',
-  subsets: ['latin'],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+  subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
   title: "Portfolio: Pankaj Thakur | Software Developer",
-  description: "Pankaj Thakur is a software developer based in India. He specializes in building web applications and websites using modern technologies.",
-  keywords: "thakurdotdev, thakur.dev, pankajthakur, software developer, web developer, India",
+  description:
+    "Pankaj Thakur is a software developer based in India. He specializes in building web applications and websites using modern technologies.",
+  keywords:
+    "thakurdotdev, thakur.dev, pankajthakur, software developer, web developer, India",
   authors: [{ name: "Pankaj Thakur" }],
   creator: "Pankaj Thakur",
   publisher: "Pankaj Thakur",
@@ -21,8 +23,9 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_IN",
     url: "https://thakur.dev",
-    title: "Portfolio: Pankaj Thakur | Software Developer",
-    description: "Pankaj Thakur is a software developer based in India. He specializes in building web applications and websites using modern technologies.",
+    title: "Pankaj Thakur | Software Developer",
+    description:
+      "Pankaj Thakur is a software developer based in India. He specializes in building web applications and websites using modern technologies.",
     siteName: "Pankaj Thakur's Portfolio",
     images: [
       {
