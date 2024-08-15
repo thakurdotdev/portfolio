@@ -5,7 +5,6 @@ import NextImage from "./NextImage";
 interface JobHistoryItemProps {
   position: string;
   duration: string;
-  top: string;
   isCurrent?: boolean;
 }
 
