@@ -84,6 +84,7 @@ export default function RootLayout({
         <link rel="me" href="https://linkedin.com/in/thakurdotdev" />
         <meta name="theme-color" content="#ffffff" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script defer src="https://cloud.umami.is/script.js" data-website-id="ce8f1102-baef-4791-a4c7-d0f1f3f396ed"></script>
       </Head>
       <body className={poppins.className}>
         <ThemeProvider attribute="class">
