@@ -1,6 +1,6 @@
 import React from "react";
-import NextImage from "./NextImage";
 import { educationData } from "@/lib/Constant";
+import { Card } from "./ui/card";
 
 interface EducationItemProps {
   institution: string;
@@ -17,35 +17,32 @@ const EducationItem: React.FC<EducationItemProps> = ({
   duration,
   logo,
 }) => (
-  <div className="relative mb-12">
-    <div className="absolute left-0 top-0 bottom-0 w-px bg-gray-300"></div>
-    <div className="absolute -left-5 top-0 w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">
-      <NextImage src={logo} className="w-11 h-11 rounded-full" />
-    </div>
-    <div className="ml-10">
-      <h1 className="font-medium text-gray-600 dark:text-neutral-300">
+  <Card className="mb-6 p-4">
+    <div>
+      <h1 className="font-medium text-gray-700 dark:text-neutral-300">
         {institution}
+        <span className="text-xs text-gray-600 dark:text-neutral-400 ml-2">
+          ( {duration})
+        </span>
       </h1>
-      <h3 className="text-base text-gray-600 dark:text-neutral-400">
-        {degree}
-      </h3>
-      {stream && (
+      <div className="flex items-center gap-2">
         <h3 className="text-sm text-gray-600 dark:text-neutral-400">
-          {stream}
+          {degree}
         </h3>
-      )}
-      <p className="text-sm text-gray-600 dark:text-neutral-400 mt-1">
-        {duration}
-      </p>
+        {stream && (
+          <span className="text-xs text-gray-600 dark:text-neutral-400">
+            ({stream})
+          </span>
+        )}
+      </div>
     </div>
-  </div>
+  </Card>
 );
 
 const Education: React.FC = () => (
-  <div className="">
-    <hr />
-    <h4 className="text-md md:text-xl font-medium my-4">Education</h4>
-    <div className="p-6">
+  <div>
+    <h4 className="text-lg font-medium my-4">Education</h4>
+    <div className="">
       {educationData.map((education, index) => (
         <EducationItem key={index} {...education} />
       ))}

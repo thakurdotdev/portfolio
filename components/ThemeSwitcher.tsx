@@ -1,7 +1,7 @@
 "use client";
 import * as React from "react";
 import { useTheme } from "next-themes";
-import {SunIcon, MoonIcon} from "@radix-ui/react-icons"
+import { SunIcon, MoonIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
 
 export default function ThemeSwitcher() {
@@ -15,7 +15,7 @@ export default function ThemeSwitcher() {
     <Button
       variant="outline"
       size="icon"
-      className="rounded-full"
+      className="rounded-full relative"
       onClick={toggleTheme}
     >
       <SunIcon className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />

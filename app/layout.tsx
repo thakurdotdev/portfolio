@@ -11,7 +11,7 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Portfolio: Pankaj Thakur | Software Developer",
+  title: "Portfolio: Pankaj Thakur",
   description:
     "Pankaj Thakur is a software developer based in India. He specializes in building web applications and websites using modern technologies.",
   keywords:
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_IN",
     url: "https://thakur.dev",
-    title: "Pankaj Thakur | Software Developer",
+    title: "Pankaj Thakur - Software Developer",
     description:
       "Pankaj Thakur is a software developer based in India. He specializes in building web applications and websites using modern technologies.",
     siteName: "Pankaj Thakur's Portfolio",
@@ -84,7 +84,11 @@ export default function RootLayout({
         <link rel="me" href="https://linkedin.com/in/thakurdotdev" />
         <meta name="theme-color" content="#ffffff" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <script defer src="https://cloud.umami.is/script.js" data-website-id="ce8f1102-baef-4791-a4c7-d0f1f3f396ed"></script>
+        <script
+          defer
+          src="https://cloud.umami.is/script.js"
+          data-website-id="ce8f1102-baef-4791-a4c7-d0f1f3f396ed"
+        ></script>
       </Head>
       <body className={poppins.className}>
         <ThemeProvider attribute="class">

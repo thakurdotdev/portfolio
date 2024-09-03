@@ -34,7 +34,7 @@ export const companiesData = [
       {
         position: "Software Developer Intern",
         duration: "Feb 2024 - Present",
-        isCurrent:true,
+        isCurrent: true,
       },
     ],
   },
@@ -42,14 +42,14 @@ export const companiesData = [
 
 export const educationData = [
   {
-    institution: "Gujarat Technological University",
+    institution: "GTU",
     degree: "Bachelor of Engineering",
     stream: "Computer Engineering",
     duration: "2020 - 2024",
     logo: "/gtu.jpg",
   },
   {
-    institution: "Bihar State Examination Board",
+    institution: "BSEB",
     degree: "Intermediate",
     stream: "Science",
     duration: "2018 - 2020",

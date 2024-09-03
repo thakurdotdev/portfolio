@@ -84,3 +84,17 @@
     transform: translateY(0);
   }
 }
+
+.scrollable-content {
+  height: 100%;
+  overflow-y: auto;
+  scrollbar-width: none;
+  /* For Firefox */
+  -ms-overflow-style: none;
+  /* For Internet Explorer and Edge */
+}
+
+.scrollable-content::-webkit-scrollbar {
+  display: none;
+  /* For Chrome, Safari, and Opera */
+}
