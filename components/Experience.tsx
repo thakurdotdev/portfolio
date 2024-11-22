@@ -6,6 +6,7 @@ import {
   IconMapPin, 
   IconCalendar,
 } from '@tabler/icons-react';
+import { companiesData } from "@/lib/Constant";
 
 interface JobHistoryItemProps {
   position: string;
