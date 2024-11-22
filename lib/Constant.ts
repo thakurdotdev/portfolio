@@ -32,9 +32,14 @@ export const companiesData = [
     location: "Ahmedabad, India",
     jobs: [
       {
-        position: "Software Developer Intern",
-        duration: "Feb 2024 - Present",
+        position: "Junior Software Developer",
+        duration: "Sep 2024 - Present",
         isCurrent: true,
+      },
+      {
+        position: "Software Developer Intern",
+        duration: "Feb 2024 - Aug 2024",
+        isCurrent: false,
       },
     ],
   },
