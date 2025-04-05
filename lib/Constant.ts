@@ -64,7 +64,7 @@ export const educationData = [
 
 export const ProjectData = [
   {
-    title: "FaceGram: A Social Media App",
+    title: "SyncVibe: A Social Media App",
     description:
       "A social media app that allows users to create profiles, connect with friends, and share photos, also allowing users to search for friends and view their profiles and chat with them in real-time.",
     techstack: [
@@ -76,25 +76,29 @@ export const ProjectData = [
       "Material UI",
       "Socket.io",
     ],
-    live: "https://social.thakur.dev",
-    github: "https://github.com/thakurdotdev/facegraam",
+    live: "https://syncvibe.xyz",
+    github: "https://github.com/thakurdotdev/syncvibe",
+    image:
+      "https://res.cloudinary.com/dr7lkelwl/image/upload/v1736532162/posts/cyj0itbvmcv2tyaivu8q.webp",
   },
-  {
-    title: "Find Your Job: A Job Search App",
-    description:
-      "A MERN stack application where users can search for jobs and apply for them, also you can post job offers and view them.",
-    techstack: ["MERN Stack", "React", "Node", "Express", "MongoDB"],
-    live: "https://jobs.thakur.dev",
-    github: "https://github.com/thakurdotdev/FindYourJob",
-  },
-  {
-    title: "AI Article Summariser",
-    description:
-      "An AI article summariser that uses an external API to summarize articles.",
-    techstack: ["React", "Redux", "Article Summarizer API"],
-    live: "https://ai.thakur.dev",
-    github: "https://github.com/thakurdotdev/ai-summariser",
-  },
+  // {
+  //   title: "Find Your Job: A Job Search App",
+  //   description:
+  //     "A MERN stack application where users can search for jobs and apply for them, also you can post job offers and view them.",
+  //   techstack: ["MERN Stack", "React", "Node", "Express", "MongoDB"],
+  //   live: "https://jobs.thakur.dev",
+  //   github: "https://github.com/thakurdotdev/FindYourJob",
+  //   image: "/findyourjob.png",
+  // },
+  // {
+  //   title: "AI Article Summariser",
+  //   description:
+  //     "An AI article summariser that uses an external API to summarize articles.",
+  //   techstack: ["React", "Redux", "Article Summarizer API"],
+  //   live: "https://ai.thakur.dev",
+  //   github: "https://github.com/thakurdotdev/ai-summariser",
+  //   image: "/ai.png",
+  // },
 ];
 
 export const skillsData = [
