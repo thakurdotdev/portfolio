@@ -6,6 +6,9 @@ import { useTheme } from "next-themes";
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
 
+// Helper function to safely check if we're in a browser environment
+const isBrowser = typeof window !== "undefined";
+
 interface Experience {
   title: string;
   company: string;
@@ -77,6 +80,8 @@ export default function Experience() {
 
   // Track mouse position for interactive elements
   useEffect(() => {
+    if (!isBrowser) return;
+
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({
         x: e.clientX / window.innerWidth,
@@ -93,6 +98,8 @@ export default function Experience() {
 
   // Track when section is in view
   useEffect(() => {
+    if (!isBrowser) return;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -317,9 +324,12 @@ function ExperienceCard({
   const isEven = index % 2 === 0;
   const cardRef = useRef<HTMLDivElement>(null);
   const [cardRect, setCardRect] = useState({ x: 0, y: 0, width: 0, height: 0 });
+  const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
 
   // Track when element is in view for animations
   useEffect(() => {
+    if (!isBrowser) return;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -340,22 +350,48 @@ function ExperienceCard({
     };
   }, []);
 
+  // Update window dimensions
+  useEffect(() => {
+    if (!isBrowser) return;
+
+    // Initialize window size
+    setWindowSize({
+      width: window.innerWidth,
+      height: window.innerHeight,
+    });
+
+    // Update on resize
+    const handleResize = () => {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   // Update card position for mouse interactions
   useEffect(() => {
-    if (cardRef.current) {
-      const rect = cardRef.current.getBoundingClientRect();
-      setCardRect({
-        x: rect.left,
-        y: rect.top,
-        width: rect.width,
-        height: rect.height,
-      });
-    }
-  }, [isInView]);
+    if (!isBrowser || !cardRef.current) return;
+
+    const rect = cardRef.current.getBoundingClientRect();
+    setCardRect({
+      x: rect.left,
+      y: rect.top,
+      width: rect.width,
+      height: rect.height,
+    });
+  }, [isInView, windowSize]);
 
   // Calculate relative mouse position to this card
-  const relativeMouseX = mousePosition.x * window.innerWidth - cardRect.x;
-  const relativeMouseY = mousePosition.y * window.innerHeight - cardRect.y;
+  const relativeMouseX = isBrowser
+    ? mousePosition.x * windowSize.width - cardRect.x
+    : 0;
+  const relativeMouseY = isBrowser
+    ? mousePosition.y * windowSize.height - cardRect.y
+    : 0;
   const mouseOverCard =
     mouseEnter &&
     relativeMouseX > 0 &&

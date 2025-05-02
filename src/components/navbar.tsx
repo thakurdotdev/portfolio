@@ -8,6 +8,9 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { ThemeToggle } from "./theme-toggle";
 
+// Helper function to safely check if we're in a browser environment
+const isBrowser = typeof window !== "undefined";
+
 const Navbar = () => {
   const { theme } = useTheme();
   const isDark = theme === "dark";
@@ -19,6 +22,7 @@ const Navbar = () => {
   // Track scroll position for navbar transparency and active section
   useEffect(() => {
     const handleScroll = () => {
+      if (!isBrowser) return;
       setScrolled(window.scrollY > 50);
 
       // Determine which section is currently visible
@@ -41,21 +45,26 @@ const Navbar = () => {
 
     // Track mouse position for interactive elements
     const handleMouseMove = (e: MouseEvent) => {
+      if (!isBrowser) return;
       setMousePosition({
         x: e.clientX / window.innerWidth,
         y: e.clientY / window.innerHeight,
       });
     };
 
-    window.addEventListener("scroll", handleScroll);
-    window.addEventListener("mousemove", handleMouseMove);
+    if (isBrowser) {
+      window.addEventListener("scroll", handleScroll);
+      window.addEventListener("mousemove", handleMouseMove);
 
-    // Initial check
-    handleScroll();
+      // Initial check
+      handleScroll();
+    }
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("mousemove", handleMouseMove);
+      if (isBrowser) {
+        window.removeEventListener("scroll", handleScroll);
+        window.removeEventListener("mousemove", handleMouseMove);
+      }
     };
   }, []);
 
