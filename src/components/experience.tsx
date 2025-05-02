@@ -1,6 +1,8 @@
-import { ArrowUpRight, Building2, Calendar } from "lucide-react";
+import { ArrowUpRight, Building2, Calendar, ChevronUp } from "lucide-react";
+import { motion } from "motion/react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
+import { useState, useRef, useEffect } from "react";
 
 interface Experience {
   title: string;
@@ -66,272 +68,467 @@ const experiences: Experience[] = [
 export default function Experience() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
+  const [isInView, setIsInView] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [mouseEnter, setMouseEnter] = useState(false);
+
+  // Track mouse position for interactive elements
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({
+        x: e.clientX / window.innerWidth,
+        y: e.clientY / window.innerHeight,
+      });
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, []);
+
+  // Track when section is in view
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+        }
+      },
+      { threshold: 0.1 },
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
 
   return (
-    <div className="py-16 md:py-20">
-      <div className="max-w-[1300px] mx-auto px-3 md:px-10">
-        <div className="mb-12 md:mb-16">
-          <h2 className="text-4xl sm:text-5xl md:text-7xl font-bold mb-4 relative">
-            <span className="relative z-10">Experience</span>
-            <span
-              className="absolute -bottom-2 left-0 h-1 w-36 md:w-44 rounded-full opacity-20 -z-10"
-              style={{ backgroundColor: experiences[0].color }}
-            ></span>
-          </h2>
-          <p
-            className={`text-base sm:text-lg md:text-xl max-w-2xl ${
-              isDark ? "text-gray-400" : "text-gray-600"
-            }`}
-          >
-            My professional journey and the impact I've made along the way
-          </p>
+    <section
+      className="py-20 md:py-28 relative overflow-hidden"
+      id="experience"
+      ref={sectionRef}
+      onMouseEnter={() => setMouseEnter(true)}
+      onMouseLeave={() => setMouseEnter(false)}
+    >
+      <div className="absolute inset-0 grid grid-cols-12 grid-rows-6 pointer-events-none -z-10">
+        {/* Horizontal guide lines with varying opacity */}
+        <div className="col-span-full row-start-1 h-[1px] w-full bg-neutral-800 dark:bg-neutral-200 opacity-30 hidden md:block"></div>
+        <div className="col-span-full row-start-2 h-[1px] w-full bg-neutral-800 dark:bg-neutral-200 opacity-30 hidden md:block"></div>
+      </div>
 
-          <div
-            className="h-1 w-full rounded-full opacity-20"
-            style={{
-              background: isDark
-                ? `linear-gradient(to right, ${experiences[0].color}10, ${experiences[0].color}20, ${experiences[0].color}10)`
-                : `linear-gradient(to right, ${experiences[0].color}10, ${experiences[0].color}20, ${experiences[0].color}10)`,
-            }}
-          />
+      {/* Minimal geometric background elements */}
+      <div className="absolute inset-0 -z-10 overflow-hidden">
+        {/* Diamond element */}
+        <motion.div
+          initial={{ opacity: 0, rotate: 45, scale: 0.8 }}
+          animate={{
+            opacity: isInView ? 0.05 : 0,
+            rotate: isInView ? 45 : 60,
+            scale: isInView ? 1 : 0.8,
+            x: mouseEnter ? (mousePosition.x - 0.5) * -20 : 0,
+            y: mouseEnter ? (mousePosition.y - 0.5) * -20 : 0,
+          }}
+          transition={{ duration: 2, ease: "easeOut" }}
+          className="absolute -right-[15vw] top-[30vh] w-[30vw] h-[30vw] border-neutral-300 dark:border-neutral-700 border opacity-40"
+        />
+
+        {/* Vertical line pattern for timeline */}
+        <motion.div
+          initial={{ scaleY: 0, opacity: 0 }}
+          animate={{
+            scaleY: isInView ? 1 : 0,
+            opacity: isInView ? 0.1 : 0,
+            x: mouseEnter ? (mousePosition.x - 0.5) * 10 : 0,
+          }}
+          transition={{ duration: 1.5, delay: 0.2, ease: "easeOut" }}
+          style={{ transformOrigin: "top" }}
+          className="absolute left-1/2 top-[20%] bottom-[10%] w-[1px] bg-neutral-400 dark:bg-neutral-600"
+        />
+
+        {/* Section indicator overlay */}
+        <motion.div
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: isInView ? 0.7 : 0, x: isInView ? 0 : -50 }}
+          transition={{ duration: 0.7, delay: 0.3 }}
+          className="absolute top-20 left-8 pointer-events-none"
+        >
+          <span
+            className="text-[8rem] font-thin tracking-tighter select-none
+            text-neutral-200 dark:text-neutral-800"
+          >
+            03
+          </span>
+        </motion.div>
+      </div>
+
+      <motion.div
+        initial={{ opacity: 0, rotate: 90, x: 50 }}
+        animate={{ opacity: 0.07, rotate: 90, x: 0 }}
+        transition={{ duration: 0.7, delay: 0.3 }}
+        className="absolute right-[100px] top-0 -translate-y-1/2 select-none pointer-events-none hidden md:block"
+      >
+        <span className="text-[120px] md:text-[180px] font-bold tracking-tight opacity-50 text-neutral-900 dark:text-neutral-100">
+          /E
+        </span>
+      </motion.div>
+
+      <div className="max-w-7xl mx-auto">
+        {/* Section Header - Deconstructed and asymmetric, matching other sections */}
+        <div className="relative mb-20 md:mb-32 px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7 }}
+            className="absolute -left-2 md:left-4 top-0 hidden md:block"
+          >
+            <div className="flex flex-col items-start space-y-1">
+              <div className="h-[1px] w-8 bg-neutral-400"></div>
+              <div className="h-[1px] w-16 bg-neutral-400"></div>
+              <div className="h-[1px] w-4 bg-neutral-400"></div>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.1 }}
+            className="ml-0 md:ml-20"
+          >
+            <h2 className="text-5xl md:text-7xl font-light tracking-tighter mb-8">
+              <span className="block">Experience</span>
+            </h2>
+            <p className="text-base max-w-lg text-neutral-600 dark:text-neutral-400">
+              My professional journey and the impact I've made along the way.
+            </p>
+          </motion.div>
         </div>
 
-        <div className="relative">
-          {/* Timeline line for tablet and desktop */}
-          <div
-            className="absolute left-0 md:left-8 top-0 bottom-0 w-px"
-            style={{
-              background: isDark
-                ? `linear-gradient(to bottom, rgba(255,255,255,0.1), rgba(255,255,255,0.05), rgba(255,255,255,0.01))`
-                : `linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.05), rgba(0,0,0,0.01))`,
-            }}
-          >
-            {/* Animated gradient line */}
-            <div
-              className="absolute w-px h-24 top-0 animate-timeline-pulse"
-              style={{
-                background: `linear-gradient(to bottom, ${experiences[0].color}10, ${experiences[0].color}, ${experiences[0].color}10)`,
-              }}
-            />
-          </div>
+        {/* Timeline indicator - vertical line that connects all experiences */}
+        <div className="relative px-4 sm:px-6 lg:px-8">
+          <div className="absolute left-1/2 transform -translate-x-1/2 top-0 bottom-0 w-[1px] bg-neutral-300 dark:bg-neutral-700 opacity-30 hidden md:block" />
 
-          <div className="space-y-16 md:space-y-24 relative">
+          {/* Experiences Container with Timeline */}
+          <div className="relative">
             {experiences.map((exp, index) => (
-              <div
-                key={index}
-                className="relative group"
-                style={{
-                  background: "transparent",
-                }}
-              >
-                {/* Mobile timeline indicator */}
-                <div
-                  className="absolute left-0 top-0 h-full w-px md:hidden"
-                  style={{
-                    background: `linear-gradient(to bottom, ${exp.color}60, transparent)`,
-                  }}
+              <div key={index} className="mb-32 sm:mb-40 md:mb-56 relative">
+                <ExperienceCard
+                  experience={exp}
+                  index={index}
+                  totalExperiences={experiences.length}
+                  mousePosition={mousePosition}
+                  mouseEnter={mouseEnter}
                 />
 
-                {/* Timeline dot - tablet and desktop */}
-                <div className="absolute left-8 top-8 transform -translate-x-1/2 hidden md:block">
-                  <div className="relative">
-                    <div
-                      className={`w-4 h-4 rounded-full border-[3px] bg-background transition-all duration-500 group-hover:scale-125 ${
-                        exp.isCurrent ? "ring-2 ring-offset-2" : ""
-                      }`}
-                      style={
-                        {
-                          borderColor: exp.color,
-                          "--ring-color": exp.isCurrent ? exp.color : undefined,
-                          "--ring-offset-color": isDark
-                            ? "rgba(15, 15, 25, 1)"
-                            : "rgba(255, 255, 255, 1)",
-                        } as React.CSSProperties
-                      }
+                {/* Timeline connector between experiences */}
+                {index < experiences.length - 1 && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.8, delay: 0.5 }}
+                    className="hidden md:block absolute left-1/2 transform -translate-x-1/2 -bottom-24 text-neutral-400"
+                  >
+                    <ChevronUp
+                      size={24}
+                      className="animate-bounce opacity-40"
                     />
-                    {/* Pulse effect */}
-                    <div
-                      className={`absolute inset-0 rounded-full transition-opacity duration-500 ${
-                        exp.isCurrent
-                          ? "opacity-100"
-                          : "opacity-0 group-hover:opacity-100"
-                      }`}
-                      style={{
-                        boxShadow: `0 0 0 10px ${exp.color}20`,
-                        animation: exp.isCurrent
-                          ? "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite"
-                          : undefined,
-                      }}
-                    />
-                  </div>
-                </div>
-
-                {/* Content */}
-                <div className="ml-4 md:ml-16 lg:ml-32 transition-all duration-500">
-                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-10">
-                    {/* Left Column - Title & Company */}
-                    <div className="lg:col-span-4">
-                      <div className="space-y-3">
-                        <div className="flex items-center gap-2">
-                          <h3
-                            className="text-xl font-bold tracking-tight relative inline-block"
-                            style={{ color: exp.color }}
-                          >
-                            {exp.title}
-                          </h3>
-                        </div>
-
-                        <div className="flex flex-col gap-2">
-                          {/* Company link with indicator */}
-                          <div className="flex items-center gap-2">
-                            <Link
-                              href={exp.companyUrl}
-                              target="_blank"
-                              className="group/company inline-flex items-center gap-2 text-base sm:text-lg transition-colors"
-                            >
-                              <Building2
-                                className="size-4 transition-transform duration-300 group-hover/company:text-blue-500"
-                                style={{ color: exp.color }}
-                              />
-                              <span className="relative">
-                                {exp.company}
-                                <span
-                                  className="absolute -bottom-0.5 left-0 h-px w-0 group-hover/company:w-full transition-all duration-300 ease-in-out"
-                                  style={{ backgroundColor: exp.color }}
-                                />
-                              </span>
-                              <ArrowUpRight
-                                className="size-4 transition-transform duration-300 
-                                group-hover/company:translate-x-1 group-hover/company:-translate-y-1"
-                              />
-                            </Link>
-                          </div>
-
-                          <div className="flex items-center gap-2 text-sm sm:text-base">
-                            <Calendar
-                              className="size-4"
-                              style={{ color: exp.color }}
-                            />
-                            <span
-                              className={
-                                isDark ? "text-gray-400" : "text-gray-600"
-                              }
-                            >
-                              {exp.period}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Right Column - Description & Skills */}
-                    <div className="lg:col-span-8">
-                      <div
-                        className={`p-6 rounded-lg relative transition-all duration-500 group-hover:shadow-lg ${
-                          exp.isCurrent ? "border-l-2" : ""
-                        }`}
-                        style={{
-                          backgroundColor: isDark
-                            ? "rgba(25, 25, 35, 0.5)"
-                            : "rgba(250, 250, 255, 0.5)",
-                          backdropFilter: "blur(8px)",
-                          border: `1px solid ${exp.color}15`,
-                          borderLeftColor: exp.isCurrent
-                            ? exp.color
-                            : `${exp.color}15`,
-                          boxShadow: exp.isCurrent
-                            ? `0 0 20px ${exp.color}10`
-                            : "none",
-                        }}
-                      >
-                        {/* Current position top indicator */}
-                        {exp.isCurrent && (
-                          <div
-                            className="absolute -top-3 left-6 px-4 py-1 rounded-full text-xs font-medium"
-                            style={{
-                              backgroundColor: isDark
-                                ? "rgba(25, 25, 35, 0.8)"
-                                : "rgba(255, 255, 255, 0.9)",
-                              border: `1px solid ${exp.color}30`,
-                              color: exp.color,
-                            }}
-                          >
-                            <span className="flex items-center gap-1">
-                              <span className="relative flex h-2 w-2">
-                                <span
-                                  className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"
-                                  style={{ backgroundColor: exp.color }}
-                                ></span>
-                                <span
-                                  className="relative inline-flex rounded-full h-2 w-2"
-                                  style={{ backgroundColor: exp.color }}
-                                ></span>
-                              </span>
-                              Present
-                            </span>
-                          </div>
-                        )}
-
-                        {/* Subtle corner accent */}
-                        <div className="absolute -top-1 -right-1 w-8 h-8 rounded-br-lg opacity-20" />
-
-                        <p
-                          className={`text-base sm:text-lg mb-6 ${
-                            isDark ? "text-gray-300" : "text-gray-700"
-                          }`}
-                        >
-                          {exp.description}
-                        </p>
-
-                        {/* Key Achievements - new section */}
-                        <div className="mb-6">
-                          <h4
-                            className="text-sm font-semibold mb-3"
-                            style={{ color: exp.color }}
-                          >
-                            Key Achievements
-                          </h4>
-                          <ul className="space-y-2">
-                            {exp.achievements.map((achievement, i) => (
-                              <li key={i} className="flex items-start gap-2">
-                                <span
-                                  className="mt-1.5 min-w-1.5 h-1.5 rounded-full"
-                                  style={{ backgroundColor: exp.color }}
-                                />
-                                <span className="text-sm">{achievement}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-
-                        <div className="flex flex-wrap gap-2">
-                          {exp.skills.map((skill, i) => (
-                            <span
-                              key={i}
-                              className={`px-3 py-1 text-xs rounded-full transition-all duration-300 hover:shadow-sm ${
-                                exp.isCurrent ? "hover:scale-105" : ""
-                              }`}
-                              style={{
-                                backgroundColor: isDark
-                                  ? "rgba(35, 35, 45, 0.5)"
-                                  : "rgba(245, 245, 250, 0.5)",
-                                border: `1px solid ${exp.color}25`,
-                                color: exp.color,
-                              }}
-                            >
-                              {skill}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                  </motion.div>
+                )}
               </div>
             ))}
+
+            {/* Timeline markers updated to match reverse chronological flow */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 hidden md:flex items-center justify-center"
+            >
+              <div className="relative h-6 w-6 rounded-full flex items-center justify-center">
+                <span className="absolute -top-8 text-xs tracking-wider text-neutral-500 whitespace-nowrap">
+                  Present
+                </span>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-12 hidden md:flex flex-col items-center justify-center"
+            >
+              <div className="h-4 w-4 rotate-45 bg-neutral-200 dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700" />
+              <span className="mt-4 text-xs tracking-wider text-neutral-500">
+                Past
+              </span>
+            </motion.div>
           </div>
+
+          {/* Timeline direction indicator */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+            className="hidden md:flex absolute left-full ml-8 top-1/2 transform -translate-y-1/2 items-center gap-2 text-neutral-500"
+          >
+            <div className="flex flex-col items-center gap-1">
+              <span className="text-xs uppercase tracking-wider">Career</span>
+              <span className="text-xs uppercase tracking-wider">
+                Progression
+              </span>
+              <div className="h-12 w-[1px] bg-neutral-400 mt-1"></div>
+              <div className="rotate-180">
+                <ChevronUp size={20} className="opacity-60" />
+              </div>
+            </div>
+          </motion.div>
         </div>
       </div>
-    </div>
+    </section>
+  );
+}
+
+function ExperienceCard({
+  experience,
+  index,
+  totalExperiences,
+  mousePosition,
+  mouseEnter,
+}: {
+  experience: Experience;
+  index: number;
+  totalExperiences: number;
+  mousePosition: { x: number; y: number };
+  mouseEnter: boolean;
+}) {
+  const [isHovered, setIsHovered] = useState(false);
+  const [isInView, setIsInView] = useState(false);
+  const expRef = useRef<HTMLDivElement>(null);
+  const isEven = index % 2 === 0;
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [cardRect, setCardRect] = useState({ x: 0, y: 0, width: 0, height: 0 });
+
+  // Track when element is in view for animations
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+        }
+      },
+      { threshold: 0.1 },
+    );
+
+    if (expRef.current) {
+      observer.observe(expRef.current);
+    }
+
+    return () => {
+      if (expRef.current) {
+        observer.unobserve(expRef.current);
+      }
+    };
+  }, []);
+
+  // Update card position for mouse interactions
+  useEffect(() => {
+    if (cardRef.current) {
+      const rect = cardRef.current.getBoundingClientRect();
+      setCardRect({
+        x: rect.left,
+        y: rect.top,
+        width: rect.width,
+        height: rect.height,
+      });
+    }
+  }, [isInView]);
+
+  // Calculate relative mouse position to this card
+  const relativeMouseX = mousePosition.x * window.innerWidth - cardRect.x;
+  const relativeMouseY = mousePosition.y * window.innerHeight - cardRect.y;
+  const mouseOverCard =
+    mouseEnter &&
+    relativeMouseX > 0 &&
+    relativeMouseX < cardRect.width &&
+    relativeMouseY > 0 &&
+    relativeMouseY < cardRect.height;
+
+  return (
+    <motion.article
+      ref={expRef}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: isInView ? 1 : 0 }}
+      transition={{ duration: 0.8, delay: 0.1 }}
+      className="relative"
+    >
+      {/* Timeline position indicator */}
+      <div className="absolute -left-20 top-12 hidden md:block">
+        <span className="text-xs uppercase tracking-wider text-neutral-500">
+          {index === 0
+            ? "Current"
+            : index === totalExperiences - 1
+            ? "First Role"
+            : ""}
+        </span>
+      </div>
+
+      {/* Timeline node */}
+      <div className="absolute left-1/2 top-0 transform -translate-x-1/2 -translate-y-1/2 z-20 hidden md:block">
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: isInView ? 1 : 0 }}
+          transition={{ duration: 0.4, delay: 0.3 }}
+          className={`h-5 w-5 rounded-full ${
+            experience.isCurrent
+              ? "bg-neutral-700 dark:bg-neutral-300"
+              : "bg-neutral-200 dark:bg-neutral-800"
+          } border border-neutral-300 dark:border-neutral-700 flex items-center justify-center`}
+        >
+          {experience.isCurrent && (
+            <span className="animate-ping absolute inline-flex h-3 w-3 rounded-full opacity-75 bg-neutral-400"></span>
+          )}
+        </motion.div>
+      </div>
+
+      {/* Main grid layout for each experience - fixed alignment */}
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-0 relative">
+        {/* Role and Company Card - consistent positioning for both sides */}
+        <div
+          className={`md:col-span-5 ${
+            isEven ? "md:col-start-1" : "md:col-start-8"
+          } row-start-1 relative order-1`}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          ref={cardRef}
+        >
+          <motion.div
+            initial={{ y: 30, opacity: 0 }}
+            animate={{ y: isInView ? 0 : 30, opacity: isInView ? 1 : 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="p-6 md:p-8 bg-white/70 dark:bg-neutral-900/70 backdrop-blur-md relative"
+          >
+            <h3 className="text-2xl md:text-3xl font-light tracking-tight mb-4">
+              {experience.title}
+            </h3>
+
+            <div className="space-y-4 mb-6">
+              <Link
+                href={experience.companyUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-2"
+              >
+                <Building2 size={18} className="text-neutral-500" />
+                <span className="relative font-light text-lg group-hover:text-neutral-800 dark:group-hover:text-neutral-200 transition-colors duration-300">
+                  {experience.company}
+                  <span className="absolute -bottom-px left-0 h-px w-full bg-current transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
+                </span>
+                <ArrowUpRight
+                  size={16}
+                  className="text-neutral-500 transform transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
+                />
+              </Link>
+
+              <div className="flex items-center gap-2">
+                <Calendar size={18} className="text-neutral-500" />
+                <span
+                  className={`font-light text-neutral-600 dark:text-neutral-400`}
+                >
+                  {experience.period}
+                </span>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap gap-2">
+              {experience.skills.map((skill, i) => (
+                <span
+                  key={i}
+                  className="px-3 py-1 text-[10px] uppercase tracking-wider border rounded-none bg-transparent border-neutral-300/30 dark:border-neutral-700/30 text-neutral-700 dark:text-neutral-400"
+                >
+                  {skill}
+                </span>
+              ))}
+            </div>
+
+            {/* Decorative corner elements */}
+            <div className="absolute -bottom-3 -left-3 w-12 h-12 md:w-16 md:h-16 border-l-2 border-b-2 border-neutral-400 opacity-40" />
+            <div className="absolute -top-3 -right-3 w-12 h-12 md:w-16 md:h-16 border-r-2 border-t-2 border-neutral-400 opacity-40" />
+
+            {/* Timeline connector from card to center line */}
+            <div
+              className={`absolute ${
+                isEven ? "right-0" : "left-0"
+              } top-1/2 h-[1px] w-6 md:w-12 bg-neutral-300 dark:bg-neutral-700 opacity-30 hidden md:block`}
+            />
+          </motion.div>
+        </div>
+
+        {/* Description and Achievements Card - fixed alignment for consistent spacing */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: isInView ? 1 : 0, y: isInView ? 0 : 40 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+          className={`md:col-span-5 ${
+            isEven ? "md:col-start-7" : "md:col-start-2"
+          } md:row-start-1 relative z-10 order-2`}
+        >
+          <div className="mt-0 md:mt-[100px] p-6 md:p-8 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-md shadow-lg">
+            <p className="mb-8 text-sm md:text-base font-light text-neutral-600 dark:text-neutral-400">
+              {experience.description}
+            </p>
+
+            <div className="space-y-6">
+              <div>
+                <h4 className="text-xs uppercase tracking-wider text-neutral-500 mb-4">
+                  Key Achievements
+                </h4>
+                <ul className="space-y-3">
+                  {experience.achievements.map((achievement, i) => (
+                    <motion.li
+                      key={i}
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{
+                        opacity: isInView ? 1 : 0,
+                        x: isInView ? 0 : -10,
+                      }}
+                      transition={{
+                        duration: 0.3,
+                        delay: 0.6 + i * 0.1,
+                      }}
+                      className="flex items-start gap-3 text-neutral-600 dark:text-neutral-400"
+                    >
+                      <span className="inline-block h-3 w-[2px] bg-neutral-400 mt-1.5 flex-shrink-0" />
+                      <span className="text-sm font-light">{achievement}</span>
+                    </motion.li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          {/* Timeline connector from card to center line */}
+          <div
+            className={`absolute ${
+              isEven ? "left-0" : "right-0"
+            } top-[calc(100px+50%)] h-[1px] w-6 md:w-12 bg-neutral-300 dark:bg-neutral-700 opacity-30 hidden md:block`}
+          />
+
+          {/* Decorative side element */}
+          <div
+            className={`absolute ${
+              isEven ? "right-0" : "left-0"
+            } top-[70px] w-[1px] h-16 bg-neutral-400 opacity-30 hidden md:block`}
+          />
+        </motion.div>
+      </div>
+    </motion.article>
   );
 }

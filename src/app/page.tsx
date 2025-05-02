@@ -1,44 +1,44 @@
 "use client";
 
-import { Particles } from "@/components/magicui/particles";
 import ProjectCard from "@/components/project-card";
+import { useTheme } from "next-themes";
 import ContactSection from "../components/contact-section";
 import Experience from "../components/experience";
 import HeroSection from "../components/hero";
 import TechStack from "../components/tech-stack";
 
-const highlightColor = "#3B82F6";
-
 export default function Page() {
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
+
   return (
-    <main className="relative">
-      <Particles
-        className="absolute inset-0 z-0"
-        quantity={150}
-        ease={80}
-        color={highlightColor}
-        refresh
+    <main className="relative overflow-hidden">
+      <div
+        className={`fixed inset-0 opacity-[0.03] ${
+          isDark ? "opacity-[0.07]" : "opacity-[0.03]"
+        } pointer-events-none z-[-1]`}
+        style={{
+          backgroundImage: `linear-gradient(${
+            isDark ? "#fff" : "#000"
+          } 1px, transparent 1px), linear-gradient(90deg, ${
+            isDark ? "#fff" : "#000"
+          } 1px, transparent 1px)`,
+          backgroundSize: "10px 10px",
+
+          transition: "background-position 0.1s ease-out",
+        }}
       />
 
-      <section id="about" className="px-4">
-        <HeroSection />
-      </section>
+      <div className="absolute inset-0 grid grid-cols-12 grid-rows-6 pointer-events-none -z-10">
+        <div className="col-start-3 row-span-full w-[1px] h-full bg-neutral-800 dark:bg-neutral-200 opacity-30 hidden md:block"></div>
+        <div className="col-start-11 row-span-full w-[1px] h-full bg-neutral-800 dark:bg-neutral-200 opacity-30 hidden md:block"></div>
+      </div>
 
-      <section className="px-4">
-        <TechStack />
-      </section>
-
-      <section id="experience" className="px-4">
-        <Experience />
-      </section>
-
-      <section id="projects" className="px-4">
-        <ProjectCard />
-      </section>
-
-      <section id="contact" className="px-4">
-        <ContactSection />
-      </section>
+      <HeroSection />
+      <TechStack />
+      <Experience />
+      <ProjectCard />
+      <ContactSection />
     </main>
   );
 }

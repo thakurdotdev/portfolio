@@ -9,25 +9,18 @@ export function ThemeToggle() {
   const { setTheme, theme } = useTheme();
 
   return (
-    <div className="border rounded-full">
+    <div className="rounded-full">
       <Button
         variant="ghost"
         size="icon"
-        className="hover:bg-transparent"
+        className="hover:bg-transparent rounded-full"
         onClick={() => setTheme(theme === "light" ? "dark" : "light")}
       >
-        <Sun />
-
-        <span className="sr-only">Toggle theme</span>
-      </Button>
-
-      <Button
-        onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-        variant="ghost"
-        size="icon"
-        className="hover:bg-transparent dark:bg-zinc-800 rounded-full w-8 h-7 mr-1"
-      >
-        <Moon />
+        {theme === "dark" ? (
+          <Sun className="h-[1.2rem] w-[1.2rem]" />
+        ) : (
+          <Moon className="h-[1.2rem] w-[1.2rem]" />
+        )}
         <span className="sr-only">Toggle theme</span>
       </Button>
     </div>

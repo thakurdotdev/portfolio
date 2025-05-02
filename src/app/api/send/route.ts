@@ -12,12 +12,10 @@ if (!process.env.MAILER_SEND_API_KEY) {
   );
 }
 
-// Create mailer instance outside handler for better performance
 const mailerSend = new MailerSend({
   apiKey: process.env.MAILER_SEND_API_KEY,
 });
 
-// Custom validation functions
 const validateEmail = (email: string): boolean => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) return false;
@@ -36,9 +34,6 @@ const sanitizeInput = (input: string): string => {
     .replace(/'/g, "&#039;");
 };
 
-/**
- * Generates a modern, responsive HTML email template
- */
 const generateEmailTemplate = (
   name: string,
   email: string,
