@@ -13,8 +13,6 @@ export default function ContactSection() {
   const isDark = theme === "dark";
   const [isInView, setIsInView] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [mouseEnter, setMouseEnter] = useState(false);
 
   // Form state
   const [name, setName] = useState("");
@@ -24,22 +22,6 @@ export default function ContactSection() {
   const [submitStatus, setSubmitStatus] = useState<
     "idle" | "success" | "error"
   >("idle");
-
-  // Track mouse position for interactive elements
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({
-        x: e.clientX / window.innerWidth,
-        y: e.clientY / window.innerHeight,
-      });
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-    };
-  }, []);
 
   // Track when section is in view
   useEffect(() => {
@@ -102,8 +84,6 @@ export default function ContactSection() {
       id="contact"
       className="py-20 md:py-28 relative overflow-hidden"
       ref={sectionRef}
-      onMouseEnter={() => setMouseEnter(true)}
-      onMouseLeave={() => setMouseEnter(false)}
     >
       <div className="absolute inset-0 grid grid-cols-12 grid-rows-6 pointer-events-none -z-10">
         <div className="col-span-full row-start-3 h-[1px] w-full bg-neutral-800 dark:bg-neutral-200 opacity-30 hidden md:block"></div>

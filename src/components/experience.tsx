@@ -1,3 +1,5 @@
+"use client";
+
 import { ArrowUpRight, Building2, Calendar, ChevronUp } from "lucide-react";
 import { motion } from "motion/react";
 import { useTheme } from "next-themes";
