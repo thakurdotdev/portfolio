@@ -10,7 +10,6 @@ const HeroSection = () => {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
 
-  // Track when section is in view
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -53,7 +52,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: isVisible ? 0.7 : 0, x: isVisible ? 0 : -50 }}
           transition={{ duration: 0.7, delay: 0.3 }}
-          className="absolute top-4 left-8 pointer-events-none"
+          className="absolute top-4 left-8 pointer-events-none hidden md:block"
         >
           <span
             className={`text-[8rem] font-thin tracking-tighter select-none
@@ -62,8 +61,6 @@ const HeroSection = () => {
             01
           </span>
         </motion.div>
-
-        {/* Triangular element - adds visual balance with other sections */}
         <motion.div
           initial={{ opacity: 0, rotate: 0, scale: 0.8 }}
           animate={{
@@ -75,7 +72,6 @@ const HeroSection = () => {
           className="absolute -left-[25vw] top-[20vh] w-[50vw] h-[50vw] border-t-2 border-l-2 opacity-30 border-neutral-300/50 dark:border-neutral-700/50"
         />
 
-        {/* Circular decorative element - similar to tech stack section */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{
@@ -98,12 +94,10 @@ const HeroSection = () => {
         </motion.div>
       </div>
 
-      {/* Main content container with improved asymmetric grid */}
       <div className="h-full flex flex-col justify-center py-16 md:py-0">
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-8 gap-y-16 items-start min-h-[65vh]">
             <div className="lg:col-span-12 lg:col-start-2 lg:row-start-1 flex flex-col items-start justify-center z-10 order-1 lg:order-2">
-              {/* Section label indicator with enhanced styling */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 20 }}
@@ -145,16 +139,13 @@ const HeroSection = () => {
                         }}
                         className="inline-block"
                       >
-                        {letter === " "
-                          ? "\u00A0" // Non-breaking space
-                          : letter}
+                        {letter === " " ? "\u00A0" : letter}
                       </motion.span>
                     ))}
                   </span>
                 </div>
               </div>
 
-              {/* Role/title with animated underline and improved styling */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 20 }}
@@ -173,8 +164,6 @@ const HeroSection = () => {
                   />
                 </div>
               </motion.div>
-
-              {/* Description with staggered line reveal and improved typography */}
               <div className="max-w-2xl mb-16 overflow-hidden">
                 {[
                   "Creating elegant digital experiences with modern web technologies.",
@@ -193,14 +182,12 @@ const HeroSection = () => {
                 ))}
               </div>
 
-              {/* CTAs and contact with fixed layout - properly positioned buttons */}
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 30 }}
                 transition={{ duration: 0.6, delay: 1 }}
                 className="w-full grid grid-cols-1 md:grid-cols-12 gap-y-10 gap-x-4"
               >
-                {/* CTA Button - Enhanced with better hover animation */}
                 <div className="md:col-span-5 md:col-start-1">
                   <Link
                     href="#projects"
@@ -240,8 +227,6 @@ const HeroSection = () => {
                     </div>
                   </Link>
                 </div>
-
-                {/* Email - Repositioned for proper alignment */}
                 <div className="md:col-span-3 md:col-start-7">
                   <Link
                     href="mailto:pankaj@thakur.dev"
@@ -268,8 +253,6 @@ const HeroSection = () => {
                     </div>
                   </Link>
                 </div>
-
-                {/* Social links with improved position */}
                 <div className="md:col-span-3 md:col-start-10">
                   <div className="space-y-2">
                     <div className="text-xs uppercase tracking-wider text-neutral-500">

@@ -96,7 +96,7 @@ export default function ContactSection() {
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: isInView ? 0.7 : 0, x: isInView ? 0 : -50 }}
           transition={{ duration: 0.7, delay: 0.3 }}
-          className="absolute top-20 left-8 pointer-events-none"
+          className="absolute top-20 left-8 pointer-events-none hidden md:block"
         >
           <span
             className={`text-[8rem] font-thin tracking-tighter select-none
