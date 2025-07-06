@@ -46,6 +46,8 @@ interface MetadataField {
 }
 
 export default function UploadPage() {
+  const isUploadDisabled = process.env.NODE_ENV === "development";
+
   const [content, setContent] = useState("");
   const [category, setCategory] = useState("");
   const [pasteInput, setPasteInput] = useState("");
@@ -206,6 +208,16 @@ tools: ["Git", "Docker", "AWS"]`,
   };
 
   const handleSubmit = async () => {
+    // Additional safety check for disabled upload
+    if (isUploadDisabled) {
+      setUploadResult({
+        success: false,
+        error:
+          "Upload functionality is disabled in production to prevent unauthorized data modifications. Use development mode to add content.",
+      });
+      return;
+    }
+
     if (!content.trim() || !category) {
       setUploadResult({
         success: false,
@@ -268,6 +280,81 @@ tools: ["Git", "Docker", "AWS"]`,
     setMetadataFields([{ key: "", value: "" }]);
     setUploadResult(null);
   };
+
+  // If upload is disabled, show disabled state
+  if (isUploadDisabled) {
+    return (
+      <div className="min-h-screen bg-background pt-20">
+        <div className="container mx-auto py-12 px-4 max-w-2xl">
+          {/* Header */}
+          <div className="text-center mb-12">
+            <h1 className="text-4xl font-bold tracking-tight mb-3">
+              Upload Content
+            </h1>
+            <p className="text-muted-foreground text-lg">
+              Add your professional information to the knowledge base
+            </p>
+          </div>
+
+          {/* Disabled State Card */}
+          <Card className="border-2 border-dashed border-muted-foreground/20">
+            <CardHeader className="text-center pb-4">
+              <div className="mx-auto w-12 h-12 bg-muted rounded-full flex items-center justify-center mb-4">
+                <Upload className="w-6 h-6 text-muted-foreground" />
+              </div>
+              <CardTitle className="text-xl">Upload Feature Disabled</CardTitle>
+              <CardDescription className="text-base">
+                Content upload functionality is disabled in production to
+                prevent unauthorized modifications
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="text-center space-y-4">
+              <Alert className="border-amber-200 bg-amber-50 dark:border-amber-900 dark:bg-amber-950/20">
+                <div className="flex items-start gap-3">
+                  <div className="rounded-full bg-amber-100 dark:bg-amber-900 p-1">
+                    <XCircle className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+                  </div>
+                  <div className="flex-1 text-left">
+                    <AlertDescription className="text-amber-800 dark:text-amber-200 font-medium">
+                      Production Environment - Upload Disabled
+                    </AlertDescription>
+                    <p className="text-sm text-amber-700 dark:text-amber-300 mt-1">
+                      This feature is intentionally disabled in production to
+                      prevent unauthorized users from adding unwanted data to
+                      the portfolio.
+                    </p>
+                  </div>
+                </div>
+              </Alert>
+
+              <div className="pt-4 text-sm text-muted-foreground space-y-2">
+                <p className="font-medium">This is an open source project!</p>
+                <div className="text-left bg-muted/50 p-3 rounded-lg">
+                  <p className="font-medium text-foreground mb-2">
+                    For developers who forked this project:
+                  </p>
+                  <ol className="text-xs space-y-1 list-decimal list-inside">
+                    <li>Run locally in development mode to enable uploads</li>
+                    <li>Add your content through the upload interface</li>
+                    <li>
+                      Deploy to production (uploads will be auto-disabled)
+                    </li>
+                    <li>
+                      This protects your live site from unauthorized content
+                    </li>
+                  </ol>
+                </div>
+                <p className="text-xs mt-2">
+                  <strong>Security:</strong> Never enable uploads in production
+                  unless you have proper authentication.
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">

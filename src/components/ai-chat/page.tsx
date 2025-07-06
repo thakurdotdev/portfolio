@@ -1,14 +1,14 @@
 "use client";
 
-import { useState, useRef } from "react";
-import InputMessage, { SheetInputMessage } from "./InputMessage";
-import MessageList from "./MessageList";
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
+import { useState, useEffect } from "react";
+import InputMessage, { SheetInputMessage } from "./InputMessage";
+import MessageList from "./MessageList";
 
 interface Source {
   id: number;
@@ -40,11 +40,19 @@ export default function SearchPage() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isAsking, setIsAsking] = useState(false);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
-  const [sessionId] = useState(
-    () =>
-      localStorage.getItem("sessionId") ||
-      `session_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
-  );
+  const [sessionId, setSessionId] = useState<string>("");
+
+  useEffect(() => {
+    const existingSessionId = localStorage.getItem("sessionId");
+    const newSessionId =
+      existingSessionId ||
+      `session_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+
+    setSessionId(newSessionId);
+    if (!existingSessionId) {
+      localStorage.setItem("sessionId", newSessionId);
+    }
+  }, []);
 
   const addUserMessage = (query: string) => {
     const userMessageId = `user-${Date.now()}`;
@@ -154,7 +162,7 @@ export default function SearchPage() {
   };
 
   const handleAskQuestion = async (query: string) => {
-    if (!query.trim() || isAsking) return;
+    if (!query.trim() || isAsking || !sessionId) return;
 
     setIsSheetOpen(true);
     localStorage.setItem("sessionId", sessionId);
