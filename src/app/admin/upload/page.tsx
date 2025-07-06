@@ -46,7 +46,7 @@ interface MetadataField {
 }
 
 export default function UploadPage() {
-  const isUploadDisabled = process.env.NODE_ENV === "development";
+  const isUploadDisabled = process.env.NODE_ENV === "production";
 
   const [content, setContent] = useState("");
   const [category, setCategory] = useState("");
