@@ -6,6 +6,8 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
+import { Trash2 } from "lucide-react";
 import { useState, useEffect } from "react";
 import InputMessage, { SheetInputMessage } from "./InputMessage";
 import MessageList from "./MessageList";
@@ -43,6 +45,9 @@ export default function SearchPage() {
   const [sessionId, setSessionId] = useState<string>("");
 
   useEffect(() => {
+    // Clean up old sessions first
+    cleanupOldSessions();
+
     const existingSessionId = localStorage.getItem("sessionId");
     const newSessionId =
       existingSessionId ||
@@ -52,34 +57,70 @@ export default function SearchPage() {
     if (!existingSessionId) {
       localStorage.setItem("sessionId", newSessionId);
     }
+
+    // Load persisted messages
+    const savedMessages = localStorage.getItem(`messages_${newSessionId}`);
+    if (savedMessages) {
+      try {
+        const parsedMessages = JSON.parse(savedMessages).map((msg: any) => ({
+          ...msg,
+          timestamp: new Date(msg.timestamp),
+        }));
+        setMessages(parsedMessages);
+      } catch (error) {
+        console.error("Error parsing saved messages:", error);
+      }
+    }
   }, []);
+
+  // Clean up old sessions (keep only last 5 sessions)
+  const cleanupOldSessions = () => {
+    const allKeys = Object.keys(localStorage);
+    const messageKeys = allKeys
+      .filter((key) => key.startsWith("messages_"))
+      .sort()
+      .reverse(); // Most recent first
+
+    // Keep only the last 5 sessions
+    if (messageKeys.length > 5) {
+      const keysToRemove = messageKeys.slice(5);
+      keysToRemove.forEach((key) => localStorage.removeItem(key));
+    }
+  };
+
+  // Persist messages whenever they change (debounced)
+  useEffect(() => {
+    if (sessionId && messages.length > 0) {
+      const timeoutId = setTimeout(() => {
+        localStorage.setItem(`messages_${sessionId}`, JSON.stringify(messages));
+      }, 500); // Debounce by 500ms
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [messages, sessionId]);
 
   const addUserMessage = (query: string) => {
     const userMessageId = `user-${Date.now()}`;
-    setMessages((prev) => [
-      ...prev,
-      {
-        id: userMessageId,
-        role: "user",
-        content: query,
-        timestamp: new Date(),
-      },
-    ]);
+    const userMessage = {
+      id: userMessageId,
+      role: "user" as MessageRole,
+      content: query,
+      timestamp: new Date(),
+    };
+    addMessageWithLimit(userMessage);
     return userMessageId;
   };
 
   const addAssistantMessage = () => {
     const assistantMessageId = `assistant-${Date.now()}`;
-    setMessages((prev) => [
-      ...prev,
-      {
-        id: assistantMessageId,
-        role: "assistant",
-        content: "",
-        isStreaming: true,
-        timestamp: new Date(),
-      },
-    ]);
+    const assistantMessage = {
+      id: assistantMessageId,
+      role: "assistant" as MessageRole,
+      content: "",
+      isStreaming: true,
+      timestamp: new Date(),
+    };
+    addMessageWithLimit(assistantMessage);
     return assistantMessageId;
   };
 
@@ -195,6 +236,25 @@ export default function SearchPage() {
     }
   };
 
+  const clearChatHistory = () => {
+    setMessages([]);
+    if (sessionId) {
+      localStorage.removeItem(`messages_${sessionId}`);
+    }
+  };
+
+  const MAX_MESSAGES = 50; // Limit to prevent localStorage bloat
+
+  const addMessageWithLimit = (newMessage: Message) => {
+    setMessages((prev) => {
+      const updated = [...prev, newMessage];
+      // Keep only the last MAX_MESSAGES
+      return updated.length > MAX_MESSAGES
+        ? updated.slice(-MAX_MESSAGES)
+        : updated;
+    });
+  };
+
   return (
     <>
       <div>
@@ -210,7 +270,19 @@ export default function SearchPage() {
           side="right"
         >
           <SheetHeader>
-            <SheetTitle>Ask Anything</SheetTitle>
+            <div className="flex items-center justify-between">
+              <SheetTitle>Ask Anything</SheetTitle>
+              {messages.length > 0 && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={clearChatHistory}
+                  className="text-muted-foreground hover:text-destructive mr-3"
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              )}
+            </div>
           </SheetHeader>
 
           <div className="flex-1 overflow-hidden mt-4">

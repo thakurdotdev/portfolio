@@ -39,7 +39,7 @@ const InputMessage = ({ handleAskQuestion, isAsking }: InputMessageProps) => {
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={handleKeyPress}
                 placeholder="Ask anything about me..."
-                className="relative bg-white/10 backdrop-blur-sm border-0 focus:ring-2 focus:ring-purple-400/50 transition-all duration-300 text-white placeholder-white/60 pr-12 rounded-lg"
+                className="relative backdrop-blur-sm border-0 focus:ring-2 focus:ring-purple-400/50 transition-all duration-300 text-white placeholder-white/60 pr-12 rounded-lg"
                 disabled={isAsking}
               />
 

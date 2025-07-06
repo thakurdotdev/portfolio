@@ -6,6 +6,7 @@ import ContactSection from "../components/contact-section";
 import Experience from "../components/experience";
 import HeroSection from "../components/hero";
 import TechStack from "../components/tech-stack";
+import ScrollToTop from "../components/ScrollToTop";
 
 export default function Page() {
   return (
@@ -17,6 +18,7 @@ export default function Page() {
       <Experience />
       <ProjectCard />
       <ContactSection />
+      <ScrollToTop />
     </main>
   );
 }

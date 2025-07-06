@@ -84,7 +84,7 @@ const Navbar = () => {
           whileHover={{ scale: 1.02 }}
           transition={{ type: "spring", stiffness: 400, damping: 10 }}
         >
-          <Link className="flex items-center group" href="/">
+          <Link className="flex items-center group" href="/about">
             <span className="relative overflow-hidden">
               <motion.span
                 className="text-xl font-light tracking-tight inline-block relative"

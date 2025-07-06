@@ -1,7 +1,7 @@
 "use client";
 
 import { socialLinks } from "@/constants";
-import { ExternalLink, MessageCircle, Sparkles } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { motion } from "motion/react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
@@ -36,14 +36,13 @@ const HeroSection = () => {
 
   return (
     <div
+      id="about"
       ref={sectionRef}
-      className="relative min-h-screen w-full overflow-hidden pt-28 md:pt-[100px]"
+      className="relative min-h-screen w-full overflow-hidden pt-20 md:pt-[100px]"
     >
-      {/* Main Content */}
       <div className="relative z-10 min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl w-full">
           <div className="text-center space-y-12">
-            {/* Name Animation */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 30 }}
@@ -70,7 +69,6 @@ const HeroSection = () => {
                   </span>
                 </div>
 
-                {/* Animated underline */}
                 <motion.div
                   initial={{ scaleX: 0 }}
                   animate={{ scaleX: isVisible ? 1 : 0 }}
@@ -79,7 +77,6 @@ const HeroSection = () => {
                 />
               </div>
 
-              {/* Title with icon */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 20 }}
@@ -94,7 +91,6 @@ const HeroSection = () => {
               </motion.div>
             </motion.div>
 
-            {/* Enhanced Description */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 30 }}
@@ -129,44 +125,26 @@ const HeroSection = () => {
               </p>
             </motion.div>
 
-            {/* AI Chat Section */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 30 }}
               transition={{ duration: 0.8, delay: 1.2 }}
               className="max-w-2xl mx-auto"
             >
-              <div className="bg-white/5 dark:bg-black/20 backdrop-blur-sm rounded-2xl p-8 border border-neutral-200/20 dark:border-neutral-800/30 shadow-xl">
-                <div className="flex items-center justify-center gap-3 mb-6">
-                  <div className="p-2 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-full">
-                    <MessageCircle className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+              <div className="space-y-6">
+                <div className="relative">
+                  <div className="absolute inset-0"></div>
+                  <div className="relative p-3 md:p-6">
+                    <p className="text-sm text-neutral-600 dark:text-neutral-400 font-light text-center mb-4 leading-relaxed">
+                      Curious about my experience, projects, or development
+                      approach?
+                    </p>
+                    <SearchPage />
                   </div>
-                  <h3 className="text-lg font-medium text-neutral-900 dark:text-neutral-100">
-                    Ask me anything
-                  </h3>
-                  <motion.div
-                    animate={{ rotate: 360 }}
-                    transition={{
-                      duration: 2,
-                      repeat: Infinity,
-                      ease: "linear",
-                    }}
-                  >
-                    <Sparkles className="w-4 h-4 text-yellow-500" />
-                  </motion.div>
                 </div>
-
-                <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-6 text-center">
-                  Curious about my experience, projects, or approach to
-                  development? Start a conversation and discover what I can
-                  bring to your next project.
-                </p>
-
-                <SearchPage />
               </div>
             </motion.div>
 
-            {/* Contact & Social Links */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 30 }}
@@ -225,7 +203,7 @@ const HeroSection = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: isVisible ? 1 : 0 }}
               transition={{ duration: 0.8, delay: 2 }}
-              className="flex flex-col items-center gap-2 pt-8"
+              className="flex flex-col items-center gap-2 pt-4"
             >
               <span className="text-xs text-neutral-500 uppercase tracking-wider">
                 Explore More

@@ -2,9 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
-  scroll-behavior: smooth;
-}
+/* Import Lenis CSS for smooth scrolling */
+@import 'lenis/dist/lenis.css';
 
 
 @layer base {

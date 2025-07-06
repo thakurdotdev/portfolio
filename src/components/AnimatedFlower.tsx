@@ -49,8 +49,8 @@ export default function AnimatedFlower({
       <style jsx>{`
         .flower {
           position: relative;
-          width: 400px;
-          height: 400px;
+          width: 300px;
+          height: 300px;
           display: flex;
           justify-content: center;
           align-items: center;
@@ -58,6 +58,21 @@ export default function AnimatedFlower({
           transform: scale(0.8);
           transition: opacity 1s ease, transform 1s ease;
           z-index: -1;
+        }
+
+        /* Responsive sizing for smaller devices */
+        @media (max-width: 768px) {
+          .flower {
+            width: 150px;
+            height: 150px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .flower {
+            width: 100px;
+            height: 100px;
+          }
         }
 
         .flower-visible {
@@ -137,109 +152,12 @@ export default function AnimatedFlower({
           background-color: #374151;
         }
 
-        @keyframes changeColor {
-          0% {
-            background: linear-gradient(180deg, #fce7f3, #f472b6);
-          }
-          25% {
-            background: linear-gradient(180deg, #fdf2f8, #ec4899);
-          }
-          50% {
-            background: linear-gradient(180deg, #f3e8ff, #a855f7);
-          }
-          75% {
-            background: linear-gradient(180deg, #fef3c7, #f59e0b);
-          }
-          100% {
-            background: linear-gradient(180deg, #ecfdf5, #10b981);
-          }
-        }
-
-        /* Dark theme color animation */
-        :global(.dark) .petal {
-          animation: changeColorDark 8s infinite reverse;
-        }
-
-        @keyframes changeColorDark {
-          0% {
-            background: linear-gradient(180deg, #1f2937, #6b7280);
-          }
-          25% {
-            background: linear-gradient(180deg, #111827, #4b5563);
-          }
-          50% {
-            background: linear-gradient(180deg, #1e1b4b, #6366f1);
-          }
-          75% {
-            background: linear-gradient(180deg, #1c1917, #78716c);
-          }
-          100% {
-            background: linear-gradient(180deg, #14532d, #059669);
-          }
-        }
-
         @keyframes rotateFlower {
           0% {
             transform: scale(1) rotate(0deg);
           }
           100% {
             transform: scale(1) rotate(360deg);
-          }
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-          .flower {
-            width: 250px;
-            height: 250px;
-          }
-
-          .petal {
-            width: 40px;
-            height: 65px;
-          }
-
-          .petal1,
-          .petal2,
-          .petal3,
-          .petal4,
-          .petal5,
-          .petal6,
-          .petal7,
-          .petal8 {
-            transform: rotate(var(--rotation)) translateY(-40px);
-          }
-
-          .center {
-            width: 15px;
-            height: 15px;
-          }
-        }
-
-        @media (max-width: 480px) {
-          .flower {
-            width: 180px;
-            height: 180px;
-          }
-
-          .flower-visible {
-            opacity: 0.2;
-          }
-
-          .petal {
-            width: 30px;
-            height: 50px;
-          }
-
-          .petal1,
-          .petal2,
-          .petal3,
-          .petal4,
-          .petal5,
-          .petal6,
-          .petal7,
-          .petal8 {
-            transform: rotate(var(--rotation)) translateY(-30px);
           }
         }
       `}</style>

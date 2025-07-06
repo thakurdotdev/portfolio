@@ -1,3 +1,4 @@
+import LenisProvider from "@/components/LenisProvider";
 import Navbar from "@/components/navbar";
 import { ThemeProvider } from "@/components/theme-provider";
 import { cn } from "@/lib/utils";
@@ -63,8 +64,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Navbar />
-          {children}
+          <LenisProvider>
+            <Navbar />
+            {children}
+          </LenisProvider>
         </ThemeProvider>
       </body>
     </html>
