@@ -76,20 +76,6 @@ const Navbar = () => {
       className={`fixed top-0 z-50 w-full backdrop-blur-md transition-all duration-500 ${
         scrolled ? "border-b" : "border-b border-transparent"
       }`}
-      style={{
-        borderColor: scrolled
-          ? isDark
-            ? "rgba(64, 64, 64, 0.2)"
-            : "rgba(229, 229, 229, 0.3)"
-          : "transparent",
-        background: scrolled
-          ? isDark
-            ? "rgba(10, 10, 10, 0.8)"
-            : "rgba(255, 255, 255, 0.8)"
-          : isDark
-          ? "rgba(10, 10, 10, 0.5)"
-          : "rgba(255, 255, 255, 0.5)",
-      }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex h-16 items-center justify-between relative">
         {/* Logo Area with subtle animation */}

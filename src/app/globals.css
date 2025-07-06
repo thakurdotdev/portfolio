@@ -167,3 +167,33 @@
     opacity: 1;
   }
 }
+
+@keyframes border-beam {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.border-beam-container {
+  background: linear-gradient(45deg,
+      transparent,
+      #8b5cf6,
+      #ec4899,
+      #3b82f6,
+      transparent,
+      transparent,
+      #8b5cf6,
+      #ec4899,
+      #3b82f6,
+      transparent);
+  background-size: 400% 400%;
+  animation: border-beam 4s ease-in-out infinite;
+}

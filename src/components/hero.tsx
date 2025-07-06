@@ -1,10 +1,11 @@
 "use client";
 
 import { socialLinks } from "@/constants";
-import { ArrowRight, ExternalLink } from "lucide-react";
+import { ExternalLink, MessageCircle, Sparkles } from "lucide-react";
 import { motion } from "motion/react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import SearchPage from "./ai-chat/page";
 
 const HeroSection = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -36,107 +37,31 @@ const HeroSection = () => {
   return (
     <div
       ref={sectionRef}
-      className="relative min-h-screen w-full overflow-hidden pt-28 md:pt-[200px]"
+      className="relative min-h-screen w-full overflow-hidden pt-28 md:pt-[100px]"
     >
-      <div className="absolute inset-0 grid grid-cols-12 grid-rows-6 pointer-events-none -z-10">
-        <div className="col-span-full row-start-2 h-[1px] w-full bg-neutral-800 dark:bg-neutral-200 opacity-30 hidden md:block"></div>
-
-        <div
-          className="col-span-full row-start-6 h-[1px] w-full bg-neutral-800 dark:bg-neutral-200 opacity-30 hidden md:block
-        "
-        ></div>
-      </div>
-
-      <div className="absolute inset-0 -z-10 overflow-hidden">
-        <motion.div
-          initial={{ opacity: 0, x: -50 }}
-          animate={{ opacity: isVisible ? 0.7 : 0, x: isVisible ? 0 : -50 }}
-          transition={{ duration: 0.7, delay: 0.3 }}
-          className="absolute top-4 left-8 pointer-events-none hidden md:block"
-        >
-          <span
-            className={`text-[8rem] font-thin tracking-tighter select-none
-            text-neutral-200 dark:text-neutral-800`}
-          >
-            01
-          </span>
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0, rotate: 0, scale: 0.8 }}
-          animate={{
-            opacity: isVisible ? 0.05 : 0,
-            rotate: isVisible ? -15 : 0,
-            scale: isVisible ? 1 : 0.8,
-          }}
-          transition={{ duration: 2, ease: "easeOut" }}
-          className="absolute -left-[25vw] top-[20vh] w-[50vw] h-[50vw] border-t-2 border-l-2 opacity-30 border-neutral-300/50 dark:border-neutral-700/50"
-        />
-
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{
-            opacity: isVisible ? 0.1 : 0,
-            scale: isVisible ? 1 : 0.8,
-          }}
-          transition={{ duration: 1.5, delay: 0.2, ease: "easeOut" }}
-          className="absolute right-[10vw] bottom-[10vh] w-[30vw] h-[30vw] rounded-full border border-neutral-400 dark:border-neutral-600 opacity-20"
-        />
-
-        <motion.div
-          initial={{ opacity: 0, rotate: 90, x: 50 }}
-          animate={{ opacity: 0.07, rotate: 90, x: 0 }}
-          transition={{ duration: 0.7, delay: 0.3 }}
-          className="absolute right-[100px] top-0 -translate-y-1/2 select-none pointer-events-none hidden md:block"
-        >
-          <span className="text-[120px] md:text-[180px] font-bold tracking-tight opacity-50 text-neutral-900 dark:text-neutral-100">
-            /H
-          </span>
-        </motion.div>
-      </div>
-
-      <div className="h-full flex flex-col justify-center py-16 md:py-0">
-        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-8 gap-y-16 items-start min-h-[65vh]">
-            <div className="lg:col-span-12 lg:col-start-2 lg:row-start-1 flex flex-col items-start justify-center z-10 order-1 lg:order-2">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 20 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-                className="mb-8 flex items-center overflow-hidden"
-              >
-                <div className="h-px w-16 md:w-24 bg-neutral-400 dark:bg-neutral-600 mr-4"></div>
-                <div className="text-sm uppercase tracking-widest text-neutral-500 dark:text-neutral-400 font-light overflow-hidden">
-                  <motion.span
-                    initial={{ y: 20 }}
-                    animate={{ y: isVisible ? 0 : 20 }}
-                    transition={{ duration: 0.5, delay: 0.4 }}
-                    className="inline-block"
-                  >
-                    Introduction
-                  </motion.span>
-                </div>
-              </motion.div>
-
-              <div
-                className="mb-8 select-none"
-                style={{
-                  perspective: "1000px",
-                }}
-              >
-                <div className="relative text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-extralight tracking-tighter">
-                  <span className="inline-block text-neutral-900 dark:text-neutral-100">
+      {/* Main Content */}
+      <div className="relative z-10 min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl w-full">
+          <div className="text-center space-y-12">
+            {/* Name Animation */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 30 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="space-y-4"
+            >
+              <div className="relative inline-block">
+                <div className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-extralight tracking-tighter">
+                  <span className="text-neutral-900 dark:text-neutral-100">
                     {nameLetters.map((letter, i) => (
                       <motion.span
                         key={i}
-                        initial={{ rotateY: 90, opacity: 0 }}
+                        initial={{ opacity: 0, y: 20 }}
                         animate={{
-                          rotateY: isVisible ? 0 : 90,
                           opacity: isVisible ? 1 : 0,
+                          y: isVisible ? 0 : 20,
                         }}
-                        transition={{
-                          duration: 0.5,
-                          delay: 0.5 + i * 0.05,
-                        }}
+                        transition={{ duration: 0.5, delay: 0.4 + i * 0.03 }}
                         className="inline-block"
                       >
                         {letter === " " ? "\u00A0" : letter}
@@ -144,148 +69,173 @@ const HeroSection = () => {
                     ))}
                   </span>
                 </div>
+
+                {/* Animated underline */}
+                <motion.div
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: isVisible ? 1 : 0 }}
+                  transition={{ duration: 1, delay: 1.2 }}
+                  className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 h-[2px] w-24 bg-gradient-to-r from-transparent via-neutral-600 dark:via-neutral-400 to-transparent origin-center"
+                />
               </div>
 
+              {/* Title with icon */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 20 }}
-                transition={{ duration: 0.7, delay: 0.7 }}
-                className="mb-8 relative overflow-hidden"
+                transition={{ duration: 0.7, delay: 0.8 }}
+                className="flex items-center justify-center gap-3"
               >
-                <div className="relative inline-block">
-                  <span className="text-xl md:text-2xl text-neutral-700 dark:text-neutral-300 font-light tracking-wide">
-                    Software Engineer
-                  </span>
-                  <motion.div
-                    initial={{ scaleX: 0 }}
-                    animate={{ scaleX: isVisible ? 1 : 0 }}
-                    transition={{ duration: 0.7, delay: 1.3, ease: "easeOut" }}
-                    className="absolute -bottom-1 left-0 h-[1px] w-full bg-neutral-500 dark:bg-neutral-400 origin-left"
-                  />
-                </div>
+                <div className="w-8 h-[1px] bg-neutral-400 dark:bg-neutral-600"></div>
+                <span className="text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 font-light tracking-wide">
+                  Software Engineer
+                </span>
+                <div className="w-8 h-[1px] bg-neutral-400 dark:bg-neutral-600"></div>
               </motion.div>
-              <div className="max-w-2xl mb-16 overflow-hidden">
-                {[
-                  "Creating elegant digital experiences with modern web technologies.",
-                  "Specialized in responsive, user-centric applications with attention to detail.",
-                ].map((line, i) => (
-                  <div key={i} className="overflow-hidden">
-                    <motion.p
-                      initial={{ y: 40 }}
-                      animate={{ y: isVisible ? 0 : 40 }}
-                      transition={{ duration: 0.6, delay: 0.8 + i * 0.1 }}
-                      className="text-lg text-neutral-700 dark:text-neutral-300 font-light leading-relaxed my-1"
-                    >
-                      {line}
-                    </motion.p>
+            </motion.div>
+
+            {/* Enhanced Description */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 30 }}
+              transition={{ duration: 0.8, delay: 1 }}
+              className="max-w-3xl mx-auto space-y-6"
+            >
+              <p className="text-lg md:text-xl text-neutral-700 dark:text-neutral-300 font-light leading-relaxed">
+                Crafting exceptional digital experiences through innovative web
+                technologies. I specialize in building scalable, user-centric
+                applications that seamlessly blend
+                <span className="text-neutral-900 dark:text-neutral-100 font-medium">
+                  {" "}
+                  performance
+                </span>
+                ,
+                <span className="text-neutral-900 dark:text-neutral-100 font-medium">
+                  {" "}
+                  accessibility
+                </span>
+                , and
+                <span className="text-neutral-900 dark:text-neutral-100 font-medium">
+                  {" "}
+                  aesthetic excellence
+                </span>
+                .
+              </p>
+
+              <p className="text-base md:text-lg text-neutral-600 dark:text-neutral-400 font-light">
+                From concept to deployment, I transform complex ideas into
+                intuitive digital solutions that drive engagement and deliver
+                measurable results.
+              </p>
+            </motion.div>
+
+            {/* AI Chat Section */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 30 }}
+              transition={{ duration: 0.8, delay: 1.2 }}
+              className="max-w-2xl mx-auto"
+            >
+              <div className="bg-white/5 dark:bg-black/20 backdrop-blur-sm rounded-2xl p-8 border border-neutral-200/20 dark:border-neutral-800/30 shadow-xl">
+                <div className="flex items-center justify-center gap-3 mb-6">
+                  <div className="p-2 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-full">
+                    <MessageCircle className="w-5 h-5 text-purple-600 dark:text-purple-400" />
                   </div>
-                ))}
+                  <h3 className="text-lg font-medium text-neutral-900 dark:text-neutral-100">
+                    Ask me anything
+                  </h3>
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity,
+                      ease: "linear",
+                    }}
+                  >
+                    <Sparkles className="w-4 h-4 text-yellow-500" />
+                  </motion.div>
+                </div>
+
+                <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-6 text-center">
+                  Curious about my experience, projects, or approach to
+                  development? Start a conversation and discover what I can
+                  bring to your next project.
+                </p>
+
+                <SearchPage />
+              </div>
+            </motion.div>
+
+            {/* Contact & Social Links */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 30 }}
+              transition={{ duration: 0.8, delay: 1.4 }}
+              className="flex flex-row items-center justify-center gap-8 md:gap-16"
+            >
+              {/* Email */}
+              <div className="group">
+                <div className="text-xs uppercase tracking-wider text-neutral-500 mb-2 text-center">
+                  Let's Connect
+                </div>
+                <Link
+                  href="mailto:pankaj@thakur.dev"
+                  className="flex items-center gap-2 text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors duration-300"
+                >
+                  <span className="text-lg font-medium relative">
+                    pankaj@thakur.dev
+                    <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-current transition-all duration-300 group-hover:w-full"></span>
+                  </span>
+                  <ExternalLink className="w-4 h-4 opacity-0 group-hover:opacity-70 transition-opacity" />
+                </Link>
               </div>
 
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 30 }}
-                transition={{ duration: 0.6, delay: 1 }}
-                className="w-full grid grid-cols-1 md:grid-cols-12 gap-y-10 gap-x-4"
-              >
-                <div className="md:col-span-5 md:col-start-1">
-                  <Link
-                    href="#projects"
-                    className="group relative flex items-center overflow-hidden"
-                  >
-                    <div className="mr-4 relative h-14 w-14 border border-neutral-300 dark:border-neutral-700 flex items-center justify-center overflow-hidden">
+              {/* Social Links */}
+              <div className="group">
+                <div className="text-xs uppercase tracking-wider text-neutral-500 mb-2 text-center">
+                  Follow
+                </div>
+                <div className="flex items-center gap-4">
+                  {socialLinks.map((link, i) => (
+                    <Link
+                      key={link.name}
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={link.name}
+                      className="group/social"
+                    >
                       <motion.div
-                        initial={{ x: -40 }}
-                        animate={{ x: 0 }}
-                        transition={{ duration: 0.5, delay: 1.1 }}
-                        className="relative z-10"
+                        className="p-2 rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-all duration-300"
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.3, delay: 1.6 + i * 0.1 }}
+                        whileHover={{ scale: 1.1, y: -2 }}
                       >
-                        <ArrowRight
-                          size={18}
-                          className="text-neutral-700 dark:text-neutral-300 transition-transform duration-300 group-hover:translate-x-1"
-                        />
+                        {link.icon}
                       </motion.div>
-                      <motion.div
-                        initial={{ x: "100%" }}
-                        whileHover={{ x: "0%" }}
-                        transition={{ duration: 0.3, ease: "easeInOut" }}
-                        className="absolute inset-0 bg-neutral-900 dark:bg-neutral-200 origin-left"
-                      />
-                    </div>
-                    <div className="relative">
-                      <span
-                        className={`text-neutral-900 dark:text-neutral-100 text-base`}
-                      >
-                        View Work
-                      </span>
-                      <motion.span
-                        className="absolute -bottom-1 left-0 h-[1px] bg-current"
-                        initial={{ width: 0 }}
-                        whileHover={{ width: "100%" }}
-                        transition={{ duration: 0.3 }}
-                      />
-                    </div>
-                  </Link>
+                    </Link>
+                  ))}
                 </div>
-                <div className="md:col-span-3 md:col-start-7">
-                  <Link
-                    href="mailto:pankaj@thakur.dev"
-                    className="group inline-block"
-                  >
-                    <div className="space-y-2">
-                      <div className="text-xs uppercase tracking-wider text-neutral-500">
-                        Email
-                      </div>
-                      <div className="flex items-center">
-                        <span className="text-neutral-700 dark:text-neutral-300 group-hover:text-neutral-900 dark:group-hover:text-neutral-100 transition-colors duration-300 relative inline-block">
-                          pankaj@thakur.dev
-                          <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-current transition-all duration-300 group-hover:w-full"></span>
-                        </span>
-                        <motion.div
-                          initial={{ opacity: 0, x: -10 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ duration: 0.3, delay: 1.5 }}
-                          className="ml-2 opacity-0 group-hover:opacity-70 transition-opacity"
-                        >
-                          <ExternalLink size={14} />
-                        </motion.div>
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-                <div className="md:col-span-3 md:col-start-10">
-                  <div className="space-y-2">
-                    <div className="text-xs uppercase tracking-wider text-neutral-500">
-                      Connect
-                    </div>
-                    <div className="flex items-center gap-5">
-                      {socialLinks.map((link, i) => (
-                        <Link
-                          key={link.name}
-                          href={link.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          aria-label={link.name}
-                        >
-                          <motion.div
-                            className="text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-all duration-300"
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.3, delay: 1.6 + i * 0.1 }}
-                            whileHover={{
-                              y: -2,
-                              transition: { duration: 0.2 },
-                            }}
-                          >
-                            {link.icon}
-                          </motion.div>
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            </div>
+              </div>
+            </motion.div>
+
+            {/* Scroll indicator */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: isVisible ? 1 : 0 }}
+              transition={{ duration: 0.8, delay: 2 }}
+              className="flex flex-col items-center gap-2 pt-8"
+            >
+              <span className="text-xs text-neutral-500 uppercase tracking-wider">
+                Explore More
+              </span>
+              <motion.div
+                animate={{ y: [0, 8, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+                className="w-[1px] h-8 bg-gradient-to-b from-neutral-400 to-transparent"
+              />
+            </motion.div>
           </div>
         </div>
       </div>

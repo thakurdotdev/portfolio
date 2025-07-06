@@ -46,15 +46,14 @@ const techStack: TechCategory[] = [
 export default function TechStack() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
-  const [isInView, setIsInView] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
 
-  // Track when section is in view
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setIsInView(true);
+          setIsVisible(true);
         }
       },
       { threshold: 0.1 },
@@ -71,98 +70,122 @@ export default function TechStack() {
     };
   }, []);
 
+  const titleLetters = "TECH STACK".split("");
+
   return (
     <section
-      className="py-20 md:py-28 relative overflow-hidden"
-      id="tech-stack"
       ref={sectionRef}
+      className="relative min-h-screen w-full overflow-hidden py-16 md:py-24 flex items-center justify-center"
+      id="tech-stack"
     >
-      <div className="absolute inset-0 grid grid-cols-12 grid-rows-6 pointer-events-none -z-10">
-        <div className="col-span-full row-start-3 h-[1px] w-full bg-neutral-800 dark:bg-neutral-200 opacity-30 hidden md:block"></div>
-      </div>
-
-      <div className="absolute inset-0 -z-10 overflow-hidden">
-        <motion.div
-          initial={{ opacity: 0, x: -50 }}
-          animate={{ opacity: isInView ? 0.7 : 0, x: isInView ? 0 : -50 }}
-          transition={{ duration: 0.7, delay: 0.3 }}
-          className="absolute top-20 left-8 pointer-events-none hidden md:block"
-        >
-          <span
-            className={`text-[8rem] font-thin tracking-tighter select-none
-            text-neutral-200 dark:text-neutral-800`}
-          >
-            02
-          </span>
-        </motion.div>
-      </div>
-
+      {/* Background decoration */}
       <motion.div
-        initial={{ opacity: 0, rotate: 90, x: 50 }}
-        animate={{ opacity: 0.07, rotate: 90, x: 0 }}
-        transition={{ duration: 0.7, delay: 0.3 }}
-        className="absolute right-[100px] top-0 -translate-y-1/2 select-none pointer-events-none hidden md:block"
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: isVisible ? 0.03 : 0, scale: isVisible ? 1 : 0.8 }}
+        transition={{ duration: 1.2, delay: 0.2 }}
+        className="absolute inset-0 flex items-center justify-center pointer-events-none"
       >
-        <span className="text-[120px] md:text-[180px] font-bold tracking-tight opacity-50 text-neutral-900 dark:text-neutral-100">
-          /T
-        </span>
+        <div className="text-[150px] md:text-[250px] lg:text-[350px] font-extralight text-neutral-900 dark:text-neutral-100 select-none">
+          &lt;/&gt;
+        </div>
       </motion.div>
 
-      <div className="max-w-7xl mx-auto">
-        {/* Section Header - Deconstructed and asymmetric */}
-        <div className="relative mb-20 md:mb-24 px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 max-w-7xl w-full px-4 sm:px-6 lg:px-8">
+        <div className="text-center space-y-12 md:space-y-16">
+          {/* Title Section */}
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7 }}
-            className="absolute -left-2 md:left-4 top-0 hidden md:block"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 30 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="space-y-6"
           >
-            <div className="flex flex-col items-start space-y-1">
-              <div className="h-[1px] w-8 bg-neutral-400"></div>
-              <div className="h-[1px] w-16 bg-neutral-400"></div>
-              <div className="h-[1px] w-4 bg-neutral-400"></div>
+            <div className="relative inline-block">
+              <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extralight tracking-tighter">
+                <span className="text-neutral-900 dark:text-neutral-100">
+                  {titleLetters.map((letter, i) => (
+                    <motion.span
+                      key={i}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{
+                        opacity: isVisible ? 1 : 0,
+                        y: isVisible ? 0 : 20,
+                      }}
+                      transition={{ duration: 0.5, delay: 0.4 + i * 0.05 }}
+                      className="inline-block"
+                    >
+                      {letter === " " ? "\u00A0" : letter}
+                    </motion.span>
+                  ))}
+                </span>
+              </div>
+
+              {/* Animated underline */}
+              <motion.div
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: isVisible ? 1 : 0 }}
+                transition={{ duration: 1, delay: 1 }}
+                className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 h-[1px] w-16 bg-gradient-to-r from-transparent via-neutral-600 dark:via-neutral-400 to-transparent origin-center"
+              />
             </div>
+
+            {/* Subtitle */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 20 }}
+              transition={{ duration: 0.7, delay: 0.6 }}
+              className="flex items-center justify-center gap-3"
+            >
+              <div className="w-8 h-[1px] bg-neutral-400 dark:bg-neutral-600"></div>
+              <span className="text-base md:text-lg text-neutral-600 dark:text-neutral-400 font-light tracking-wide">
+                Tools & Technologies
+              </span>
+              <div className="w-8 h-[1px] bg-neutral-400 dark:bg-neutral-600"></div>
+            </motion.div>
           </motion.div>
 
+          {/* Description */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1 }}
-            className="ml-0 md:ml-20"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 30 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+            className="max-w-2xl mx-auto"
           >
-            <h2 className="text-5xl md:text-7xl font-light tracking-tighter mb-8">
-              <span className="block">Tech Stack</span>
-            </h2>
-            <p className="text-base text-neutral-600 dark:text-neutral-400">
-              Technologies and tools I use to bring ideas to life.
+            <p className="text-lg md:text-xl text-neutral-700 dark:text-neutral-300 font-light leading-relaxed">
+              A curated collection of technologies I use to build robust,
+              scalable, and innovative digital solutions.
             </p>
           </motion.div>
-        </div>
 
-        {/* Main content container */}
-        <div className="px-4 sm:px-6 lg:px-8">
+          {/* Tech Stack Grid */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: isInView ? 1 : 0, y: isInView ? 0 : 20 }}
-            transition={{ duration: 0.8 }}
-            className={`relative p-6 md:p-12 bg-white/40 dark:bg-neutral-900/40 backdrop-blur-sm`}
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 40 }}
+            transition={{ duration: 0.8, delay: 1 }}
+            className="max-w-4xl mx-auto"
           >
-            {/* Main grid layout for all tech categories */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-16 relative">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
               {techStack.map((category, index) => (
                 <CategoryCard
                   key={category.name}
                   category={category}
                   index={index}
                   isDark={isDark}
-                  isInView={isInView}
+                  isVisible={isVisible}
                 />
               ))}
             </div>
+          </motion.div>
 
-            {/* Decorative corner elements */}
-            <div className="absolute -bottom-3 -left-3 w-12 h-12 md:w-16 md:h-16 border-l-2 border-b-2 border-neutral-400 opacity-20" />
-            <div className="absolute -top-3 -right-3 w-12 h-12 md:w-16 md:h-16 border-r-2 border-t-2 border-neutral-400 opacity-20" />
+          {/* Bottom decoration */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: isVisible ? 1 : 0 }}
+            transition={{ duration: 0.8, delay: 1.8 }}
+            className="flex items-center justify-center gap-2 pt-8"
+          >
+            <div className="w-2 h-2 rounded-full bg-neutral-400 dark:bg-neutral-600 opacity-40"></div>
+            <div className="w-1 h-1 rounded-full bg-neutral-400 dark:bg-neutral-600 opacity-60"></div>
+            <div className="w-2 h-2 rounded-full bg-neutral-400 dark:bg-neutral-600 opacity-40"></div>
           </motion.div>
         </div>
       </div>
@@ -174,80 +197,61 @@ function CategoryCard({
   category,
   index,
   isDark,
-  isInView,
+  isVisible,
 }: {
   category: TechCategory;
   index: number;
   isDark: boolean;
-  isInView: boolean;
+  isVisible: boolean;
 }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: isInView ? 1 : 0, y: isInView ? 0 : 30 }}
-      transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
-      className="relative"
+      animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 30 }}
+      transition={{ duration: 0.6, delay: 1.2 + index * 0.1 }}
+      className="relative group"
     >
-      {/* Category header with number */}
-      <div className="mb-6 flex items-center gap-4">
-        <span
-          className={`text-5xl font-thin text-neutral-800 dark:text-neutral-200`}
-        >
-          {(index + 1).toString().padStart(2, "0")}
-        </span>
-        <div className="flex flex-col">
-          <h3 className="text-2xl font-light tracking-tight">
-            {category.name}
-          </h3>
-          <div className="h-px w-full bg-neutral-400 opacity-20 mt-1"></div>
-        </div>
-      </div>
-
-      {/* Technology list with enhanced hover effects */}
-      <div
-        className={`p-6 ${
-          isDark ? "bg-neutral-900/60" : "bg-white/60"
-        } backdrop-blur-sm relative overflow-hidden`}
-      >
-        <div className="space-y-2 relative z-10">
-          {category.items.map((tech, techIndex) => (
-            <TechItem
-              key={tech.name}
-              tech={tech}
-              index={techIndex}
-              isDark={isDark}
-              isInView={isInView}
-            />
-          ))}
-        </div>
-      </div>
-
-      {/* Side accent line with enhanced animation */}
-      <div className="absolute left-0 top-[70px] bottom-6 w-[2px]">
+      {/* Category Header */}
+      <div className="text-center mb-6">
         <motion.div
-          className="h-full w-full opacity-20"
-          style={{
-            background: `linear-gradient(to bottom, ${
-              isDark ? "#404040" : "#d4d4d4"
-            } 30%, transparent)`,
-          }}
-          animate={{
-            opacity: 0.2,
-          }}
-          transition={{ duration: 0.3 }}
-        />
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: isVisible ? 1 : 0, scale: isVisible ? 1 : 0.8 }}
+          transition={{ duration: 0.5, delay: 1.4 + index * 0.1 }}
+          className="inline-flex items-center gap-3 mb-3"
+        >
+          <span className="text-2xl font-extralight text-neutral-400 dark:text-neutral-600">
+            {(index + 1).toString().padStart(2, "0")}
+          </span>
+          <div className="w-4 h-[1px] bg-neutral-300 dark:bg-neutral-700"></div>
+        </motion.div>
+
+        <h3 className="text-xl md:text-2xl font-light tracking-tight text-neutral-900 dark:text-neutral-100 mb-2">
+          {category.name}
+        </h3>
+
+        <div className="w-12 h-[1px] bg-neutral-300 dark:bg-neutral-700 mx-auto opacity-60"></div>
       </div>
 
-      {/* Extra decorative element */}
+      {/* Technologies List */}
+      <div className="space-y-3">
+        {category.items.map((tech, techIndex) => (
+          <TechItem
+            key={tech.name}
+            tech={tech}
+            index={techIndex}
+            categoryIndex={index}
+            isDark={isDark}
+            isVisible={isVisible}
+          />
+        ))}
+      </div>
+
+      {/* Decorative elements */}
       <motion.div
         initial={{ opacity: 0, scale: 0 }}
-        animate={{
-          scale: isInView ? 1 : 0,
-        }}
-        transition={{ duration: 0.3 }}
-        className={`absolute -bottom-2 -right-2 w-8 h-8 border-r border-b ${
-          isDark ? "border-neutral-700" : "border-neutral-300"
-        }`}
+        animate={{ opacity: isVisible ? 0.1 : 0, scale: isVisible ? 1 : 0 }}
+        transition={{ duration: 0.4, delay: 1.6 + index * 0.1 }}
+        className="absolute -top-2 -right-2 w-4 h-4 border border-neutral-300 dark:border-neutral-700 rounded-full"
       />
     </motion.div>
   );
@@ -256,49 +260,41 @@ function CategoryCard({
 function TechItem({
   tech,
   index,
+  categoryIndex,
   isDark,
-  isInView,
+  isVisible,
 }: {
   tech: TechItem;
   index: number;
+  categoryIndex: number;
   isDark: boolean;
-  isInView: boolean;
+  isVisible: boolean;
 }) {
   return (
     <motion.div
-      initial={{ opacity: 0, x: -10 }}
-      animate={{
-        opacity: isInView ? 1 : 0,
-        x: isInView ? 0 : -10,
-      }}
+      initial={{ opacity: 0, x: -20 }}
+      animate={{ opacity: isVisible ? 1 : 0, x: isVisible ? 0 : -20 }}
       transition={{
-        duration: 0.3,
-        delay: 0.1 + index * 0.05,
-        y: { duration: 0.2 },
+        duration: 0.4,
+        delay: 1.4 + categoryIndex * 0.1 + index * 0.05,
       }}
-      className={`
-        flex items-center justify-between group py-2 px-1 relative
-      `}
+      className="group/tech relative"
     >
-      <div className="flex items-center gap-3 z-10 relative">
-        <motion.span
-          className={`inline-block h-2 w-2 rounded-full bg-neutral-400 opacity-40`}
-          transition={{
-            duration: 0.2,
-            ease: "easeInOut",
-          }}
-        />
-        <span
-          className={`font-light ${
-            isDark ? "text-neutral-300" : "text-neutral-700"
-          }`}
-        >
-          {tech.name}
+      <div className="flex items-center justify-between py-2 px-3 rounded-lg bg-white/5 dark:bg-black/10 backdrop-blur-sm border border-transparent hover:border-neutral-200/20 dark:hover:border-neutral-800/30 transition-all duration-300 hover:bg-white/10 dark:hover:bg-black/20">
+        <div className="flex items-center gap-3">
+          <motion.div
+            className="w-1.5 h-1.5 rounded-full bg-neutral-400 dark:bg-neutral-600 opacity-60"
+            whileHover={{ scale: 1.2, opacity: 1 }}
+            transition={{ duration: 0.2 }}
+          />
+          <span className="font-light text-neutral-700 dark:text-neutral-300 group-hover/tech:text-neutral-900 dark:group-hover/tech:text-neutral-100 transition-colors">
+            {tech.name}
+          </span>
+        </div>
+        <span className="text-xs uppercase tracking-wider text-neutral-500 dark:text-neutral-500 opacity-70">
+          {tech.category}
         </span>
       </div>
-      <span className="text-[10px] uppercase tracking-wider text-neutral-500 z-10 relative">
-        {tech.category}
-      </span>
     </motion.div>
   );
 }

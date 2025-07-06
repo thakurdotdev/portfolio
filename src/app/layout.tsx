@@ -2,10 +2,10 @@ import Navbar from "@/components/navbar";
 import { ThemeProvider } from "@/components/theme-provider";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
-import { Geist_Mono } from "next/font/google";
+import { Geist } from "next/font/google";
 import "./globals.css";
 
-const inter = Geist_Mono({ subsets: ["latin"], preload: true });
+const inter = Geist({ subsets: ["latin"], preload: true });
 
 export const metadata: Metadata = {
   title: "Pankaj Thakur | Portfolio",
