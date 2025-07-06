@@ -7,8 +7,7 @@ An AI-powered personal portfolio website with intelligent chat functionality. Bu
 ---
 
 ## 📸 **Screenshots**
-
-![Screenshot](/preview.png)
+![image](https://github.com/user-attachments/assets/b544b804-7056-491b-b9ad-e08a19dbafbb)
 
 ---
 
