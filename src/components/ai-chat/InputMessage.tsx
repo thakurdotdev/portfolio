@@ -100,15 +100,25 @@ export const SheetInputMessage = memo(
       }
     };
 
+    const adjustTextareaHeight = () => {
+      if (textareaRef.current) {
+        textareaRef.current.style.height = "auto";
+        textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+      }
+    };
+
     return (
       <div className="relative">
         <textarea
           ref={textareaRef}
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={(e) => {
+            setQuery(e.target.value);
+            adjustTextareaHeight();
+          }}
           onKeyDown={handleKeyPress}
           placeholder="Continue the conversation..."
-          className="w-full min-h-[60px] max-h-[120px] resize-none pr-12 py-3 px-3 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:opacity-50"
+          className="w-full min-h-[60px] max-h-[120px] resize-none pr-12 py-3 px-3 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:opacity-50 custom-scrollbar"
           disabled={isAsking}
           rows={2}
         />

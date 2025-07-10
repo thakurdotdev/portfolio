@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 
 const inter = Geist({ subsets: ["latin"], preload: true });
@@ -69,6 +70,11 @@ export default function RootLayout({
             {children}
           </LenisProvider>
         </ThemeProvider>
+        <Script
+          src="https://cloud.umami.is/script.js"
+          data-website-id="ce8f1102-baef-4791-a4c7-d0f1f3f396ed"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );

@@ -6,9 +6,11 @@ import { motion } from "motion/react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import SearchPage from "./ai-chat/page";
+import ContinueChat from "./ai-chat/ContinueChat";
 
 const HeroSection = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [showChatSheet, setShowChatSheet] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -139,7 +141,15 @@ const HeroSection = () => {
                       Curious about my experience, projects, or development
                       approach?
                     </p>
-                    <SearchPage />
+                    <div className="text-center">
+                      <ContinueChat
+                        onContinueChat={() => setShowChatSheet(true)}
+                      />
+                      <SearchPage
+                        isSheetOpen={showChatSheet}
+                        onSheetOpenChange={setShowChatSheet}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>

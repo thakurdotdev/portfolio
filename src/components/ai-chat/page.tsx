@@ -1,14 +1,14 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
-import { Trash2 } from "lucide-react";
-import { useState, useEffect } from "react";
+import { Trash2, X } from "lucide-react";
+import { useEffect, useState } from "react";
 import InputMessage, { SheetInputMessage } from "./InputMessage";
 import MessageList from "./MessageList";
 
@@ -38,14 +38,28 @@ interface StreamChunk {
   fullResponse?: string;
 }
 
-export default function SearchPage() {
+interface SearchPageProps {
+  isSheetOpen?: boolean;
+  onSheetOpenChange?: (open: boolean) => void;
+}
+
+export default function SearchPage({
+  isSheetOpen: externalIsSheetOpen,
+  onSheetOpenChange: externalOnSheetOpenChange,
+}: SearchPageProps = {}) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isAsking, setIsAsking] = useState(false);
-  const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [internalIsSheetOpen, setInternalIsSheetOpen] = useState(false);
   const [sessionId, setSessionId] = useState<string>("");
 
+  // Use external control if provided, otherwise use internal state
+  const isSheetOpen =
+    externalIsSheetOpen !== undefined
+      ? externalIsSheetOpen
+      : internalIsSheetOpen;
+  const setIsSheetOpen = externalOnSheetOpenChange || setInternalIsSheetOpen;
+
   useEffect(() => {
-    // Clean up old sessions first
     cleanupOldSessions();
 
     const existingSessionId = localStorage.getItem("sessionId");
@@ -58,7 +72,6 @@ export default function SearchPage() {
       localStorage.setItem("sessionId", newSessionId);
     }
 
-    // Load persisted messages
     const savedMessages = localStorage.getItem(`messages_${newSessionId}`);
     if (savedMessages) {
       try {
@@ -73,27 +86,24 @@ export default function SearchPage() {
     }
   }, []);
 
-  // Clean up old sessions (keep only last 5 sessions)
   const cleanupOldSessions = () => {
     const allKeys = Object.keys(localStorage);
     const messageKeys = allKeys
       .filter((key) => key.startsWith("messages_"))
       .sort()
-      .reverse(); // Most recent first
+      .reverse();
 
-    // Keep only the last 5 sessions
     if (messageKeys.length > 5) {
       const keysToRemove = messageKeys.slice(5);
       keysToRemove.forEach((key) => localStorage.removeItem(key));
     }
   };
 
-  // Persist messages whenever they change (debounced)
   useEffect(() => {
     if (sessionId && messages.length > 0) {
       const timeoutId = setTimeout(() => {
         localStorage.setItem(`messages_${sessionId}`, JSON.stringify(messages));
-      }, 500); // Debounce by 500ms
+      }, 500);
 
       return () => clearTimeout(timeoutId);
     }
@@ -243,12 +253,11 @@ export default function SearchPage() {
     }
   };
 
-  const MAX_MESSAGES = 50; // Limit to prevent localStorage bloat
+  const MAX_MESSAGES = 50;
 
   const addMessageWithLimit = (newMessage: Message) => {
     setMessages((prev) => {
       const updated = [...prev, newMessage];
-      // Keep only the last MAX_MESSAGES
       return updated.length > MAX_MESSAGES
         ? updated.slice(-MAX_MESSAGES)
         : updated;
@@ -266,34 +275,50 @@ export default function SearchPage() {
 
       <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
         <SheetContent
-          className="w-full lg:max-w-[700px] h-full flex flex-col"
+          className="w-full lg:max-w-[800px] h-full flex flex-col p-0 bg-gradient-to-br from-white via-neutral-50 to-neutral-100 dark:from-neutral-950 dark:via-neutral-900 dark:to-neutral-800"
           side="right"
         >
-          <SheetHeader>
+          {/* Header */}
+          <SheetHeader className="p-3 border-b border-neutral-200 dark:border-neutral-700 bg-white/80 dark:bg-neutral-900/80 backdrop-blur-sm">
             <div className="flex items-center justify-between">
-              <SheetTitle>Ask Anything</SheetTitle>
-              {messages.length > 0 && (
+              <SheetTitle className="text-md font-bold bg-gradient-to-r from-neutral-900 to-neutral-600 dark:from-neutral-100 dark:to-neutral-400 bg-clip-text text-transparent">
+                Ask me anything
+              </SheetTitle>
+
+              <div className="flex items-center gap-2">
+                {messages.length > 0 && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={clearChatHistory}
+                    className="text-neutral-600 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                )}
                 <Button
-                  variant="outline"
+                  variant="ghost"
                   size="sm"
-                  onClick={clearChatHistory}
-                  className="text-muted-foreground hover:text-destructive mr-3"
+                  onClick={() => setIsSheetOpen(false)}
+                  className="text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"
                 >
-                  <Trash2 className="h-4 w-4" />
+                  <X className="h-4 w-4" />
                 </Button>
-              )}
+              </div>
             </div>
           </SheetHeader>
 
-          <div className="flex-1 overflow-hidden mt-4">
-            <div className="h-full overflow-y-auto">
-              <div className="py-4">
+          {/* Messages */}
+          <div className="flex-1 overflow-hidden scroll-indicator">
+            <div className="h-full overflow-y-auto custom-scrollbar smooth-scroll">
+              <div className="p-6">
                 <MessageList messages={messages} />
               </div>
             </div>
           </div>
 
-          <div className="border-t pt-4 mt-4">
+          {/* Input */}
+          <div className="border-t border-neutral-200 dark:border-neutral-700 p-4 bg-white/80 dark:bg-neutral-900/80 backdrop-blur-sm">
             <SheetInputMessage
               handleAskQuestion={handleAskQuestion}
               isAsking={isAsking}
