@@ -1,13 +1,8 @@
-import LenisProvider from "@/components/LenisProvider";
-import Navbar from "@/components/navbar";
-import { ThemeProvider } from "@/components/theme-provider";
-import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
-import Script from "next/script";
+import { Inter } from "next/font/google";
 import "./globals.css";
 
-const inter = Geist({ subsets: ["latin"], preload: true });
+const inter = Inter({ subsets: ["latin"], preload: true });
 
 export const metadata: Metadata = {
   title: "Pankaj Thakur | Portfolio",
@@ -57,24 +52,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={cn("antialiased relative", inter.className)}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <LenisProvider>
-            <Navbar />
-            {children}
-          </LenisProvider>
-        </ThemeProvider>
-        <Script
+    <html lang="en">
+      <body className={inter.className}>
+        {children}
+
+        {/* <Script
           src="https://cloud.umami.is/script.js"
           data-website-id="ce8f1102-baef-4791-a4c7-d0f1f3f396ed"
           strategy="afterInteractive"
-        />
+        /> */}
       </body>
     </html>
   );

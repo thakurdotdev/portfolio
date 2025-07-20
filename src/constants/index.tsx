@@ -21,6 +21,98 @@ export const navbarLinks = [
   },
 ];
 
+export const skills = [
+  {
+    title: "Frontend Development",
+    items: [
+      "React.js",
+      "Next.js",
+      "TypeScript",
+      "JavaScript",
+      "Tailwind CSS",
+      "HTML5",
+      "CSS3",
+    ],
+  },
+  {
+    title: "Backend Development",
+    items: [
+      "Node.js",
+      "Express.js",
+      "PostgreSQL",
+      "MySQL",
+      "Sequelize",
+      "REST APIs",
+      "WebSockets",
+    ],
+  },
+  {
+    title: "Development Tools",
+    items: ["Git", "Vercel", "VS Code", "Cursor AI"],
+  },
+];
+
+interface Experience {
+  title: string;
+  company: string;
+  companyUrl: string;
+  period: string;
+  description: string;
+  achievements: string[];
+  skills: string[];
+  isCurrent: boolean;
+  location?: string; // Optional location field
+}
+
+export const experiences: Experience[] = [
+  {
+    title: "Junior Software Engineer",
+    company: "Netclues India",
+    companyUrl: "https://netclues.com",
+    period: "Sep 2024 - Present",
+    location: "Ahmedabad, India",
+    description:
+      "Created a workflow creation system using React Flow that allows users to build step-by-step workflows with department-specific services, dynamic actions, and role-based agent assignment. Also developed a dynamic admin dashboard with customizable widgets.",
+    achievements: [
+      "Built dynamic workflow builder with React Flow enabling customizable actions and role-based assignment",
+      "Developed customizable admin dashboard with resizable widgets and configurable visualization options",
+    ],
+    skills: [
+      "Node.js",
+      "React",
+      "React Flow",
+      "Dashboard Design",
+      "Sequelize",
+      "MySQL",
+      "Microservices",
+    ],
+    isCurrent: true,
+  },
+  {
+    title: "Software Engineer Intern",
+    company: "Netclues India",
+    companyUrl: "https://netclues.com",
+    period: "Feb 2024 - Sep 2024",
+    location: "Ahmedabad, India",
+    description:
+      "Learned and applied modern web technologies including React.js, Node.js, and WebSockets. Implemented a real-time chat system in microservice architecture for the admin portal with department-based automatic groups.",
+    achievements: [
+      "Implemented real-time chat system with WebSockets, improving internal communication efficiency",
+      "Created department-based automatic chat groups with role-based access control",
+    ],
+    skills: [
+      "React.js",
+      "Node.js",
+      "Express",
+      "WebSockets",
+      "Sequelize",
+      "MySQL",
+      "Microservices",
+    ],
+    isCurrent: false,
+  },
+];
+
 export const projects = [
   {
     title: "SyncVibe",
@@ -76,7 +168,7 @@ export const projects = [
       "Sequelize",
       "React Native Track Player",
     ],
-    link: "https://github.com/thakurdotdev/syncvibe-app",
+    link: "https://github.com/thakurdotdev/syncvibe-app/releases/tag/syncvibe",
     sourceCode: "https://github.com/thakurdotdev/syncvibe-app",
     color: "#10B981", // emerald
   },
