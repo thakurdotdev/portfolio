@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.1.11",
+    "@vercel/analytics": "^1.5.0",
     "critters": "^0.0.25",
     "dotenv": "^17.0.1",
     "lucide-react": "^0.475.0",

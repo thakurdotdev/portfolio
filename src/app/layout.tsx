@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], preload: true });
@@ -55,12 +56,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         {children}
-
-        {/* <Script
-          src="https://cloud.umami.is/script.js"
-          data-website-id="ce8f1102-baef-4791-a4c7-d0f1f3f396ed"
-          strategy="afterInteractive"
-        /> */}
+        <Analytics />
       </body>
     </html>
   );
