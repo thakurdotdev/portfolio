@@ -1,3 +1,98 @@
 @import "tailwindcss";
 
+/* Custom variant for dark mode */
 @custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --background: hsl(0, 0%, 100%);
+  --foreground: hsl(0 0% 11%);
+  --primary: hsl(205, 84%, 47%);
+  --primary-foreground: hsl(0 0% 91%);
+  --secondary: hsl(216, 13%, 92%);
+  --secondary-foreground: hsl(0 0% 2%);
+  --muted: hsl(0 0% 85.1%);
+  --muted-foreground: hsl(0 0% 50%);
+  --accent: hsl(216, 13%, 92%);
+  --accent-foreground: hsl(0 0% 2%);
+  --destructive: hsl(0, 83%, 50%);
+  --destructive-foreground: hsl(0, 0%, 100%);
+  --border: hsl(0 0% 83%);
+  --input: hsl(0 0% 85.1%);
+
+  /* Radius base */
+  --radius: 1rem;
+}
+
+.dark {
+  /* Custom colors - dark mode */
+  --background: hsl(0 0% 4%);
+  --foreground: hsl(0 0% 89%);
+  --primary: hsl(205, 84%, 53%);
+  --primary-foreground: hsl(0 0% 9%);
+  --secondary: hsl(0 0% 14.9%);
+  --secondary-foreground: hsl(0 0% 98%);
+  --muted: hsl(0 0% 14.9%);
+  --muted-foreground: hsl(0 0% 63.9%);
+  --accent: hsl(0 0% 14.9%);
+  --accent-foreground: hsl(0 0% 98%);
+  --destructive: hsl(0 100% 60%);
+  --destructive-foreground: hsl(0 0% 98%);
+  --border: hsl(0 0% 17%);
+  --input: hsl(0 0% 14.9%);
+  --ring: hsl(0 0% 83.1%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@theme inline {
+  /* Typography */
+  --font-sans: var(--font-inter), sans-serif;
+
+  /* Font sizes */
+  --text-base: 0.95rem;
+  --text-base--line-height: calc(1.5 / 0.95);
+  --text-xs: 0.8rem;
+  --text-xs--line-height: calc(1 / 0.8);
+
+  /* Border radius */
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 8px);
+
+  /* Palette mapped to root design tokens */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+}

@@ -1,103 +1,180 @@
 "use client";
 
-import About from "@/components/about";
-import ContactForm from "@/components/contact";
-import Experience from "@/components/experience";
-import Projects from "@/components/projects";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { useState } from "react";
+import { jsonLd, projects, socialLinks } from "@/constants";
 
 const Page = () => {
-  const [activeSection, setActiveSection] = useState("about");
-
-  const getCurrentDate = () => {
-    return new Date().toLocaleDateString("en-US", {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-  };
+  const getCurrentYear = () => new Date().getFullYear();
 
   return (
-    <div className="min-h-screen">
-      <div className="min-h-screen bg-white dark:bg-black transition-colors duration-300">
-        <header className="">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 sm:py-6">
-            <div className="flex flex-row justify-between items-center text-xs uppercase tracking-wide border-b border-gray-300 dark:border-zinc-800 pb-3 mb-6 gap-2">
-              <div className="flex items-center gap-2 sm:gap-4">
-                <span className="font-bold dark:text-white">Est. 2020</span>
-                <span className="dark:text-zinc-600">•</span>
-                <span className="hidden sm:inline dark:text-white">
-                  Thakur Edition
-                </span>
-                <span className="sm:hidden dark:text-white">AHM Edition</span>
-              </div>
-              <div className="flex items-center gap-4">
+    <>
+      {/* JSON-LD structured data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      
+      <div className="min-h-screen bg-background text-foreground">
+        <div className="w-full md:max-w-5xl mx-auto px-4 lg:px-8">
+
+          {/* Header */}
+          <header className="relative py-8 sm:py-12">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <h1 className="text-4xl sm:text-5xl font-bold tracking-tight font-mono">
+                  Pankaj Thakur
+                </h1>
                 <ThemeToggle />
-                <div className="text-center sm:text-right">
-                  <div className="font-bold text-xs sm:text-sm dark:text-white">
-                    {getCurrentDate()}
-                  </div>
-                </div>
               </div>
-            </div>
+              
+              <p className="text-lg text-muted-foreground leading-relaxed md:max-w-2xl">
+                Full-stack developer who turns coffee into code and bugs into features.
+                Currently making things work at <span className="font-medium text-foreground">Netclues India</span>.
+              </p>
 
-            <div className="text-center mb-4">
-              <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-wider mb-2 leading-tight font-serif dark:text-white">
-                PANKAJ THAKUR
-              </h1>
-              <div className="mx-auto max-w-2xl">
-                <p className="text-sm sm:text-base font-bold uppercase tracking-wider dark:text-zinc-400">
-                  Software Engineer • Ahmedabad, India
-                </p>
-              </div>
-            </div>
-          </div>
-        </header>
-
-        <nav className="sticky top-0 z-10 bg-white dark:bg-black py-4 sm:static sm:bg-transparent dark:sm:bg-transparent sm:py-0 sm:shadow-none sm:mb-5">
-          <div className="max-w-6xl mx-auto flex justify-center w-full">
-            <div className="flex flex-wrap justify-center gap-1 text-sm font-bold uppercase tracking-wide bg-gray-100 dark:bg-zinc-900 p-1">
-              {["About", "Experience", "Projects", "Contact"].map((item) => {
-                return (
-                  <button
-                    key={item}
-                    onClick={() => setActiveSection(item.toLowerCase())}
-                    className={`flex items-center justify-center gap-2 py-2 px-4 sm:px-6 transition-all min-w-0 cursor-pointer ${
-                      activeSection === item.toLowerCase()
-                        ? "bg-black dark:bg-white text-white dark:text-black shadow-sm"
-                        : "bg-transparent text-gray-600 dark:text-zinc-400 hover:bg-white dark:hover:bg-zinc-800 hover:text-black dark:hover:text-white"
-                    }`}
+              {/* Social links with proper schema */}
+              <nav className="flex flex-wrap gap-6 pt-2" aria-label="Social media links" role="navigation">
+                {socialLinks.map((link) => (
+                  <a
+                    key={link.name}
+                    href={link.url}
+                    target={link.name !== "Email" ? "_blank" : undefined}
+                    rel={link.name !== "Email" ? "noopener noreferrer" : undefined}
+                    className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-200"
+                    aria-label={`Visit my ${link.name} profile`}
                   >
-                    <span>{item}</span>
-                  </button>
-                );
-              })}
+                    {link.name}
+                  </a>
+                ))}
+              </nav>
             </div>
-          </div>
-        </nav>
+          </header>
 
-        {/* Main Content */}
-        <main className="max-w-6xl mx-auto px-4 sm:px-6 py-3">
-          <div className={activeSection === "about" ? "" : "hidden"}>
-            <About />
-          </div>
+          {/* Main content */}
+          <main className="pb-16 sm:pb-24">
+            <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16">
 
-          <div className={activeSection === "experience" ? "" : "hidden"}>
-            <Experience />
-          </div>
+              {/* About section */}
+              <section className="lg:col-span-3 space-y-6" aria-labelledby="about-heading">
+                <h2 id="about-heading" className="text-2xl font-semibold tracking-tight">
+                  What I Do
+                </h2>
 
-          <div className={activeSection === "projects" ? "" : "hidden"}>
-            <Projects />
-          </div>
+                <div className="space-y-4 text-muted-foreground leading-relaxed">
+                  <p>
+                    I build web applications with <span className="font-semibold text-foreground">React, Node.js, Express, MySQL, and whatever else gets the job done</span>.
+                    One year into professional development at Netclues India, specializing in microservices and making things work (mostly on the third try).
+                  </p>
 
-          <div className={activeSection === "contact" ? "" : "hidden"}>
-            <ContactForm />
-          </div>
-        </main>
+                  <p>
+                    When not wrestling with <span className="font-medium text-foreground">Socket.IO</span> or explaining why staging is "definitely"
+                    the same as production, I'm building music apps that nobody asked for but everybody secretly needs.
+                  </p>
+
+                  <p>
+                    I like keeping things simple — why hide behind flashy animations when the real flex is shipping code that actually works?
+                    Your browser's GPU deserves a break anyway.
+                  </p>
+
+                  {/* Debug workflow */}
+                  <aside className="mt-6 p-4 border-l-2 border-muted bg-muted/20 rounded-r-lg" role="complementary">
+                    <p className="text-xs font-mono leading-relaxed text-muted-foreground">
+                      <span className="text-foreground font-medium">Debug workflow →</span><br />
+                      35% console.log • 25% Google archaeology • 25% AI copilots (ChatGPT, Claude, Cursor) • 15% chai + crying
+                    </p>
+                  </aside>
+                </div>
+              </section>
+
+              {/* Projects section */}
+              <section className="lg:col-span-2 space-y-8" aria-labelledby="projects-heading">
+                <h2 id="projects-heading" className="text-2xl font-semibold tracking-tight">
+                  Things I've Built
+                </h2>
+
+                <div className="space-y-8">
+                  {projects.map((project, index) => (
+                    <article 
+                      key={index} 
+                      className="group space-y-3 pb-6 border-b border-muted/30 last:border-b-0 last:pb-0"
+                      itemScope 
+                      itemType="https://schema.org/CreativeWork"
+                    >
+                      <div className="space-y-2">
+                        <h3 
+                          className="font-semibold text-lg"
+                          itemProp="name"
+                        >
+                          {project.title}
+                        </h3>
+
+                        <p 
+                          className="text-sm text-muted-foreground leading-relaxed"
+                          itemProp="description"
+                        >
+                          {project.desc}
+                        </p>
+
+                        {/* Tech stack */}
+                        <div className="flex flex-wrap gap-1.5" role="list" aria-label="Technologies used">
+                          {project.tech.map((tech, i) => (
+                            <span
+                              key={i}
+                              className="px-2 py-0.5 text-xs font-medium border border-muted text-muted-foreground rounded-md"
+                              role="listitem"
+                              itemProp="keywords"
+                            >
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Project links */}
+                      <nav className="flex gap-4 text-sm font-medium" aria-label={`${project.title} links`}>
+                        {project.live && (
+                          <a
+                            href={project.live}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-muted-foreground hover:text-foreground transition-colors duration-200 inline-flex items-center gap-1"
+                            aria-label={`View live demo of ${project.title}`}
+                            itemProp="url"
+                          >
+                            Live
+                            <span className="inline-block transform rotate-12" aria-hidden="true">↗</span>
+                          </a>
+                        )}
+                        <a
+                          href={project.repo}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-muted-foreground hover:text-foreground transition-colors duration-200 inline-flex items-center gap-1"
+                          aria-label={`View source code of ${project.title} on GitHub`}
+                          itemProp="codeRepository"
+                        >
+                          Code
+                          <span className="inline-block transform rotate-12" aria-hidden="true">↗</span>
+                        </a>
+                      </nav>
+                    </article>
+                  ))}
+                </div>
+              </section>
+            </div>
+          </main>
+
+          {/* Footer */}
+          <footer className="py-8" role="contentinfo">
+            <div className="text-center">
+              <p className="text-xs text-muted-foreground">
+                © {getCurrentYear()} Pankaj Thakur — fueled by chai, sarcasm & Ctrl+Z
+              </p>
+            </div>
+          </footer>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -1,0 +1,14 @@
+# Allow all search engines to crawl the entire site
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://thakur.dev/sitemap.xml
+
+# Optional: Crawl delay (in seconds) - uncomment if needed
+# Crawl-delay: 1
+
+# Allow common assets
+Allow: /favicon.ico
+Allow: /robots.txt
+Allow: /sitemap.xml
