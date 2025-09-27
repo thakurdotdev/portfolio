@@ -9,42 +9,26 @@ const inter = Inter({ subsets: ["latin"], preload: true });
 
 export const metadata: Metadata = {
   title: {
-    default: "Pankaj Thakur | Full-Stack Developer",
+    default: "Pankaj Thakur | thakurdotdev",
     template: "%s | Pankaj Thakur"
   },
   description: "Full-stack developer specializing in React, Node.js, and modern web technologies. Building scalable applications and music platforms with real-time features.",
   keywords: [
-    "Full-Stack Developer",
-    "React Developer", 
-    "Node.js Developer",
-    "JavaScript Developer",
-    "TypeScript Developer",
-    "Next.js Developer",
-    "Socket.IO",
-    "PostgreSQL",
-    "Express.js",
-    "Web Development",
-    "Music Platform Development",
-    "Real-time Applications",
-    "WebRTC",
-    "Microservices",
-    "Netclues India",
-    "Software Engineer",
-    "Frontend Developer",
-    "Backend Developer"
+    "thakurdotdev",
+    "Pankaj Thakur",
   ],
   authors: [{ name: "Pankaj Thakur", url: "https://thakur.dev" }],
-  creator: "Pankaj Thakur",
-  publisher: "Pankaj Thakur",
+  creator: "Pankaj Thakur <thakurdotdev>",
+  publisher: "Pankaj Thakur <thakurdotdev>",
   metadataBase: new URL("https://thakur.dev"),
   alternates: {
     canonical: "https://thakur.dev",
   },
   openGraph: {
-    title: "Pankaj Thakur | Full-Stack Developer",
+    title: "Pankaj Thakur | thakurdotdev",
     description: "Full-stack developer building scalable web applications and music platforms. Specialized in React, Node.js, Socket.IO, and modern web technologies.",
     url: "https://thakur.dev",
-    siteName: "Pankaj Thakur Portfolio",
+    siteName: "Pankaj Thakur | thakurdotdev",
     images: [
       {
         url: "/preview.png", // You'll need to create this 1200x630 image

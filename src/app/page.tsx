@@ -8,7 +8,6 @@ const Page = () => {
 
   return (
     <>
-      {/* JSON-LD structured data */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -28,7 +27,7 @@ const Page = () => {
               </div>
               
               <p className="text-lg text-muted-foreground leading-relaxed md:max-w-2xl">
-                Full-stack developer who turns coffee into code and bugs into features.
+                Full-stack developer who turns chai into code and bugs into features.
                 Currently making things work at <span className="font-medium text-foreground">Netclues India</span>.
               </p>
 
