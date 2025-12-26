@@ -4,38 +4,44 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"], preload: true });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://thakur.dev"),
   title: {
-    default: "Pankaj Thakur | thakurdotdev",
-    template: "%s | Pankaj Thakur"
+    default: "Pankaj Thakur - Full Stack Developer | React, Next.js & Node.js",
+    template: "%s | Pankaj Thakur",
   },
-  description: "Full-stack developer specializing in React, Node.js, and modern web technologies. Building scalable applications and music platforms with real-time features.",
+  description:
+    "Portfolio of Pankaj Thakur (thakurdotdev). Senior Software Engineer specializing in React, Node.js, SaaS architecture, and scalable web applications.",
   keywords: [
-    "thakurdotdev",
     "Pankaj Thakur",
+    "thakurdotdev",
+    "Full Stack Developer India",
+    "React Native Developer",
+    "Next.js Expert",
+    "Software Engineer",
   ],
   authors: [{ name: "Pankaj Thakur", url: "https://thakur.dev" }],
-  creator: "Pankaj Thakur <thakurdotdev>",
-  publisher: "Pankaj Thakur <thakurdotdev>",
-  metadataBase: new URL("https://thakur.dev"),
+  creator: "Pankaj Thakur",
+  publisher: "Pankaj Thakur",
   alternates: {
-    canonical: "https://thakur.dev",
+    canonical: "/",
   },
   openGraph: {
-    title: "Pankaj Thakur | thakurdotdev",
-    description: "Full-stack developer building scalable web applications and music platforms. Specialized in React, Node.js, Socket.IO, and modern web technologies.",
+    title: "Pankaj Thakur - Full Stack Developer",
+    description:
+      "Building scalable web applications with React, Node.js, and modern technologies.",
     url: "https://thakur.dev",
-    siteName: "Pankaj Thakur | thakurdotdev",
+    siteName: "Pankaj Thakur Portfolio",
     images: [
       {
-        url: "/preview.png", // You'll need to create this 1200x630 image
+        url: "/preview.png",
         width: 1200,
         height: 630,
-        alt: "Pankaj Thakur - Full-Stack Developer Portfolio",
-        type: "image/png",
+        alt: "Pankaj Thakur - Software Engineer",
       },
     ],
     locale: "en_US",
@@ -43,31 +49,21 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Pankaj Thakur | Full-Stack Developer",
-    description: "Building scalable web applications with React, Node.js, and modern technologies. Check out my latest projects!",
-    images: ["/preview.png"],
+    title: "Pankaj Thakur | Software Engineer",
     creator: "@thakurdotdev",
     site: "@thakurdotdev",
   },
   robots: {
     index: true,
     follow: true,
-    nocache: true,
     googleBot: {
       index: true,
       follow: true,
-      noimageindex: false,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
   },
-  verification: {
-    // Add these when you set up Google Search Console
-    // google: "your-google-verification-code",
-  },
-  category: "technology",
-  classification: "Portfolio Website",
 };
 
 export default function RootLayout({
@@ -75,19 +71,46 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // 2. JSON-LD SCHEMA: This tells Google "I am THE Pankaj Thakur"
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: "Pankaj Thakur",
+    alternateName: "thakurdotdev",
+    url: "https://thakur.dev",
+    sameAs: [
+      "https://github.com/thakurdotdev",
+      "https://x.com/thakurdotdev",
+      "https://linkedin.com/in/thakurdotdev",
+    ],
+    jobTitle: "Software Engineer",
+    worksFor: {
+      "@type": "Organization",
+      name: "Netclues India",
+    },
+    knowsAbout: [
+      "React",
+      "Next.js",
+      "Node.js",
+      "System Design",
+      "SaaS",
+      "Typescript",
+      "Server",
+    ],
+  };
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* Additional SEO meta tags */}
         <meta name="theme-color" content="#000000" />
-        <meta name="color-scheme" content="dark light" />
-        <meta name="format-detection" content="telephone=no" />
-        <link rel="canonical" href="https://thakur.dev" />
-        
-        {/* Favicon and app icons */}
-        <link rel="icon" href="/favicon.ico" sizes="any" />
       </head>
       <body className={`antialiased ${inter.className}`}>
+        <Script
+          id="json-ld"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
