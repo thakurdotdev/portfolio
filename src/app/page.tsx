@@ -71,7 +71,7 @@ const Page = () => {
                     I build web applications with{" "}
                     <span className="font-semibold text-foreground">
                       React, Node.js, Express, MySQL, and whatever else gets the
-                      job done
+                      job done and love to ssh into servers.
                     </span>
                     . One year into professional development at Netclues India,
                     specializing in microservices and making things work (mostly
