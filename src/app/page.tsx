@@ -1,6 +1,4 @@
-"use client";
-
-import { ThemeToggle } from "@/components/theme-toggle";
+import ThemeIsland from "@/components/theme-island";
 import { projects, socialLinks } from "@/constants";
 
 const Page = () => {
@@ -17,7 +15,7 @@ const Page = () => {
                 <h1 className="text-4xl sm:text-5xl font-bold tracking-tight font-mono">
                   Pankaj Thakur
                 </h1>
-                <ThemeToggle />
+                <ThemeIsland />
               </div>
 
               <p className="text-lg text-muted-foreground leading-relaxed md:max-w-2xl">
