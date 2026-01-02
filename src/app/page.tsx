@@ -86,6 +86,12 @@ const Page = () => {
                     or explaining why staging is "definitely" the same as
                     production, I'm building music apps that nobody asked for
                     but everybody secretly needs.
+                    <br />
+                    <br />I am building my own deployment platform called{" "}
+                    <span className="font-semibold text-foreground">
+                      Thakur Deploy
+                    </span>
+                    .
                   </p>
 
                   <p>
