@@ -11,14 +11,14 @@ import {
 
 export default function Page() {
   return (
-    <div className="min-h-screen bg-bg text-fg dotted-bg">
+    <div className="min-h-screen bg-bg text-fg">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12 lg:py-16">
         {/* Full Grid Layout */}
-        <div className="border border-dashed border-border-dashed rounded-lg overflow-hidden">
+        <div className="border border-dashed border-border rounded-lg overflow-hidden">
           {/* Row 1: Header */}
-          <div className="grid grid-cols-1 lg:grid-cols-4 border-b border-border">
+          <div className="grid grid-cols-1 lg:grid-cols-4 border-b border-dashed border-border">
             {/* Name & Role */}
-            <div className="lg:col-span-2 p-5 sm:p-6 border-b lg:border-b-0 lg:border-r border-border flex justify-between items-center gap-2">
+            <div className="lg:col-span-2 p-5 sm:p-6 border-b lg:border-b-0 lg:border-r border-dashed border-border flex justify-between items-center gap-2">
               <div>
                 <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-1">
                   {personalInfo.name}
@@ -27,7 +27,7 @@ export default function Page() {
               </div>
             </div>
             {/* Status */}
-            <div className="p-5 sm:p-6 border-b lg:border-b-0 lg:border-r border-border">
+            <div className="p-5 sm:p-6 border-b lg:border-b-0 lg:border-r border-dashed border-border">
               <div className="flex items-center gap-2 mb-1">
                 <span className="w-2 h-2 bg-accent rounded-full animate-pulse shrink-0" />
                 <p className="text-sm font-medium">Available for hire</p>
@@ -44,7 +44,7 @@ export default function Page() {
           </div>
 
           {/* Row 2: About */}
-          <div className="p-5 sm:p-6 border-b border-border">
+          <div className="p-5 sm:p-6 border-b border-dashed border-border">
             <p className="text-base sm:text-lg leading-relaxed mb-1">
               {personalInfo.bio}
             </p>
@@ -54,8 +54,8 @@ export default function Page() {
           </div>
 
           {/* Row 3: Projects */}
-          <div className="border-b border-border">
-            <div className="px-5 sm:px-6 py-3 border-b border-border bg-muted/5">
+          <div className="border-b border-dashed border-border">
+            <div className="px-5 sm:px-6 py-3 border-b border-dashed border-border bg-muted/5">
               <span className="text-xs font-mono text-muted uppercase tracking-widest">
                 Projects
               </span>
@@ -72,7 +72,7 @@ export default function Page() {
                     } 
                     ${index === 0 ? "sm:border-r lg:border-r" : ""}
                     ${index === 1 ? "lg:border-r" : ""}
-                    border-border
+                    border-dashed border-border
                   `}
                 >
                   <div className="flex justify-between items-start mb-2">
@@ -126,15 +126,15 @@ export default function Page() {
           </div>
 
           {/* Row 4: Experience */}
-          <div className="border-b border-border">
-            <div className="px-5 sm:px-6 py-3 border-b border-border bg-muted/5">
+          <div className="border-b border-dashed border-border">
+            <div className="px-5 sm:px-6 py-3 border-b border-dashed border-border bg-muted/5">
               <span className="text-xs font-mono text-muted uppercase tracking-widest">
                 Experience
               </span>
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-4">
               {/* Company Info */}
-              <div className="p-5 sm:p-6 border-b lg:border-b-0 lg:border-r border-border">
+              <div className="p-5 sm:p-6 border-b lg:border-b-0 lg:border-r border-dashed border-border">
                 <h3 className="font-semibold">{personalInfo.company}</h3>
                 <p className="text-xs text-muted">Software Engineer</p>
                 <span className="text-xs font-mono text-accent mt-1 inline-block">
@@ -145,7 +145,7 @@ export default function Page() {
               {workHighlights.map((work, i) => (
                 <div
                   key={work.title}
-                  className={`p-5 sm:p-6 border-b lg:border-b-0 border-border ${
+                  className={`p-5 sm:p-6 border-b lg:border-b-0 border-dashed border-border ${
                     i < 2 ? "lg:border-r" : ""
                   }`}
                 >
@@ -159,7 +159,7 @@ export default function Page() {
           {/* Row 5: Stack + Contact */}
           <div className="grid grid-cols-1 lg:grid-cols-2">
             {/* Stack */}
-            <div className="p-5 sm:p-6 border-b lg:border-b-0 lg:border-r border-border">
+            <div className="p-5 sm:p-6 border-b lg:border-b-0 lg:border-r border-dashed border-border">
               <span className="text-xs font-mono text-muted uppercase tracking-widest">
                 Tech Stack
               </span>
@@ -167,7 +167,10 @@ export default function Page() {
                 {[
                   ...new Set([...workTech, ...projects.flatMap((p) => p.tech)]),
                 ].map((t) => (
-                  <span key={t} className="text-xs px-3 py-1 rounded border">
+                  <span
+                    key={t}
+                    className="text-xs px-3 py-1 rounded text-accent border border-dashed border-border hover:border-accent/90 transition-colors"
+                  >
                     {t}
                   </span>
                 ))}
@@ -185,7 +188,7 @@ export default function Page() {
               </div>
               <a
                 href={`mailto:${personalInfo.email}`}
-                className="px-4 py-2 bg-accent text-white text-sm font-medium rounded hover:bg-accent/90 transition-colors shrink-0"
+                className="px-4 py-2 text-accent text-sm font-medium border border-dashed border-border rounded hover:border-accent/90 transition-colors shrink-0"
               >
                 Get in touch →
               </a>
