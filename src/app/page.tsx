@@ -1,233 +1,204 @@
+import { ExpandableText } from "@/components/expandable-text";
+import { SocialIcons } from "@/components/social-icons";
 import ThemeIsland from "@/components/theme-island";
-import { projects, socialLinks } from "@/constants";
+import {
+  personalInfo,
+  projects,
+  socialLinks,
+  workHighlights,
+  workTech,
+} from "@/constants";
 
-const Page = () => {
-  const getCurrentYear = () => new Date().getFullYear();
-
+export default function Page() {
   return (
-    <>
-      <div className="min-h-screen bg-background text-foreground">
-        <div className="w-full md:max-w-5xl mx-auto px-4 lg:px-8">
-          {/* Header */}
-          <header className="relative py-8 sm:py-12">
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <h1 className="text-4xl sm:text-5xl font-bold tracking-tight font-mono">
-                  Pankaj Thakur
+    <div className="min-h-screen bg-bg text-fg dotted-bg">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12 lg:py-16">
+        {/* Full Grid Layout */}
+        <div className="border border-dashed border-border-dashed rounded-lg overflow-hidden">
+          {/* Row 1: Header */}
+          <div className="grid grid-cols-1 lg:grid-cols-4 border-b border-border">
+            {/* Name & Role */}
+            <div className="lg:col-span-2 p-5 sm:p-6 border-b lg:border-b-0 lg:border-r border-border flex justify-between items-center gap-2">
+              <div>
+                <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-1">
+                  {personalInfo.name}
                 </h1>
-                <ThemeIsland />
+                <p className="text-muted">{personalInfo.role}</p>
               </div>
-
-              <p className="text-lg text-muted-foreground leading-relaxed md:max-w-2xl">
-                Full-stack developer who turns chai into code and bugs into
-                features. Currently making things work at{" "}
-                <span className="font-medium text-foreground">
-                  Netclues India
-                </span>
-                .
-              </p>
-
-              {/* Social links with proper schema */}
-              <nav
-                className="flex flex-wrap gap-6 pt-2"
-                aria-label="Social media links"
-                role="navigation"
-              >
-                {socialLinks.map((link) => (
-                  <a
-                    key={link.name}
-                    href={link.url}
-                    target={link.name !== "Email" ? "_blank" : undefined}
-                    rel={
-                      link.name !== "Email" ? "noopener noreferrer" : undefined
-                    }
-                    className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-200"
-                    aria-label={`Visit my ${link.name} profile`}
-                  >
-                    {link.name}
-                  </a>
-                ))}
-              </nav>
             </div>
-          </header>
+            {/* Status */}
+            <div className="p-5 sm:p-6 border-b lg:border-b-0 lg:border-r border-border">
+              <div className="flex items-center gap-2 mb-1">
+                <span className="w-2 h-2 bg-accent rounded-full animate-pulse shrink-0" />
+                <p className="text-sm font-medium">Available for hire</p>
+              </div>
+              <p className="text-xs text-muted">
+                Currently at {personalInfo.company}
+              </p>
+            </div>
+            {/* Links */}
+            <div className="p-5 sm:p-6 flex items-center justify-between gap-4">
+              <SocialIcons links={socialLinks} />
+              <ThemeIsland />
+            </div>
+          </div>
 
-          {/* Main content */}
-          <main className="pb-16 sm:pb-24">
-            <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16">
-              {/* About section */}
-              <section
-                className="lg:col-span-3 space-y-6"
-                aria-labelledby="about-heading"
-              >
-                <h2
-                  id="about-heading"
-                  className="text-2xl font-semibold tracking-tight"
+          {/* Row 2: About */}
+          <div className="p-5 sm:p-6 border-b border-border">
+            <p className="text-base sm:text-lg leading-relaxed mb-1">
+              {personalInfo.bio}
+            </p>
+            <p className="text-sm text-muted">
+              {personalInfo.aboutLong.join(" ")}
+            </p>
+          </div>
+
+          {/* Row 3: Projects */}
+          <div className="border-b border-border">
+            <div className="px-5 sm:px-6 py-3 border-b border-border bg-muted/5">
+              <span className="text-xs font-mono text-muted uppercase tracking-widest">
+                Projects
+              </span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+              {projects.map((project, index) => (
+                <div
+                  key={project.title}
+                  className={`p-5 sm:p-6 
+                    ${
+                      index < projects.length - 1
+                        ? "border-b sm:border-b-0"
+                        : ""
+                    } 
+                    ${index === 0 ? "sm:border-r lg:border-r" : ""}
+                    ${index === 1 ? "lg:border-r" : ""}
+                    border-border
+                  `}
                 >
-                  What I Do
-                </h2>
-
-                <div className="space-y-4 text-muted-foreground leading-relaxed">
-                  <p>
-                    I build web applications with{" "}
-                    <span className="font-semibold text-foreground">
-                      React, Node.js, Express, MySQL, and whatever else gets the
-                      job done and love to ssh into servers.
-                    </span>
-                    . One year into professional development at Netclues India,
-                    specializing in microservices and making things work (mostly
-                    on the third try).
-                  </p>
-
-                  <p>
-                    When not wrestling with{" "}
-                    <span className="font-medium text-foreground">
-                      Socket.IO
-                    </span>{" "}
-                    or explaining why staging is "definitely" the same as
-                    production, I'm building music apps that nobody asked for
-                    but everybody secretly needs.
-                    <br />
-                    <br />I am building my own deployment platform called{" "}
-                    <span className="font-semibold text-foreground">
-                      Thakur Deploy
-                    </span>
-                    .
-                  </p>
-
-                  <p>
-                    I like keeping things simple — why hide behind flashy
-                    animations when the real flex is shipping code that actually
-                    works? Your browser's GPU deserves a break anyway.
-                  </p>
-
-                  {/* Debug workflow */}
-                  <aside
-                    className="mt-6 p-4 border-l-2 border-muted bg-muted/20 rounded-r-lg"
-                    role="complementary"
-                  >
-                    <p className="text-xs font-mono leading-relaxed text-muted-foreground">
-                      <span className="text-foreground font-medium">
-                        Debug workflow →
-                      </span>
-                      <br />
-                      35% console.log • 25% Google archaeology • 25% AI copilots
-                      (ChatGPT, Claude, Cursor) • 15% chai + crying
-                    </p>
-                  </aside>
-                </div>
-              </section>
-
-              {/* Projects section */}
-              <section
-                className="lg:col-span-2 space-y-8"
-                aria-labelledby="projects-heading"
-              >
-                <h2
-                  id="projects-heading"
-                  className="text-2xl font-semibold tracking-tight"
-                >
-                  Things I've Built
-                </h2>
-
-                <div className="space-y-8">
-                  {projects.map((project, index) => (
-                    <article
-                      key={index}
-                      className="group space-y-3 pb-6 border-b border-muted/30 last:border-b-0 last:pb-0"
-                      itemScope
-                      itemType="https://schema.org/CreativeWork"
-                    >
-                      <div className="space-y-2">
-                        <h3 className="font-semibold text-lg" itemProp="name">
-                          {project.title}
-                        </h3>
-
-                        <p
-                          className="text-sm text-muted-foreground leading-relaxed"
-                          itemProp="description"
+                  <div className="flex justify-between items-start mb-2">
+                    <div>
+                      <h3 className="font-semibold">{project.title}</h3>
+                      <p className="text-xs text-muted">{project.subtitle}</p>
+                    </div>
+                    <div className="flex gap-2 text-xs shrink-0">
+                      {project.live && (
+                        <a
+                          href={project.live}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-accent hover:underline"
                         >
-                          {project.desc}
-                        </p>
-
-                        {/* Tech stack */}
-                        <div
-                          className="flex flex-wrap gap-1.5"
-                          role="list"
-                          aria-label="Technologies used"
-                        >
-                          {project.tech.map((tech, i) => (
-                            <span
-                              key={i}
-                              className="px-2 py-0.5 text-xs font-medium border border-muted text-muted-foreground rounded-md"
-                              role="listitem"
-                              itemProp="keywords"
-                            >
-                              {tech}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* Project links */}
-                      <nav
-                        className="flex gap-4 text-sm font-medium"
-                        aria-label={`${project.title} links`}
-                      >
-                        {project.live && (
-                          <a
-                            href={project.live}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-muted-foreground hover:text-foreground transition-colors duration-200 inline-flex items-center gap-1"
-                            aria-label={`View live demo of ${project.title}`}
-                            itemProp="url"
-                          >
-                            Live
-                            <span
-                              className="inline-block transform rotate-12"
-                              aria-hidden="true"
-                            >
-                              ↗
-                            </span>
-                          </a>
-                        )}
+                          Live ↗
+                        </a>
+                      )}
+                      {project.repo ? (
                         <a
                           href={project.repo}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-muted-foreground hover:text-foreground transition-colors duration-200 inline-flex items-center gap-1"
-                          aria-label={`View source code of ${project.title} on GitHub`}
-                          itemProp="codeRepository"
+                          className="text-accent hover:underline"
                         >
-                          Code
-                          <span
-                            className="inline-block transform rotate-12"
-                            aria-hidden="true"
-                          >
-                            ↗
-                          </span>
+                          Code ↗
                         </a>
-                      </nav>
-                    </article>
-                  ))}
+                      ) : (
+                        project.status
+                      )}
+                    </div>
+                  </div>
+                  <div className="mb-3">
+                    <ExpandableText text={project.desc} maxLines={2} />
+                  </div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {project.tech.slice(0, 4).map((t) => (
+                      <span key={t} className="text-xs text-muted/70 font-mono">
+                        {t}
+                      </span>
+                    ))}
+                    {project.tech.length > 4 && (
+                      <span className="text-xs text-muted/50">
+                        +{project.tech.length - 4}
+                      </span>
+                    )}
+                  </div>
                 </div>
-              </section>
+              ))}
             </div>
-          </main>
+          </div>
 
-          {/* Footer */}
-          <footer className="py-8" role="contentinfo">
-            <div className="text-center">
-              <p className="text-xs text-muted-foreground">
-                © {getCurrentYear()} Pankaj Thakur — fueled by chai, sarcasm &
-                Ctrl+Z
-              </p>
+          {/* Row 4: Experience */}
+          <div className="border-b border-border">
+            <div className="px-5 sm:px-6 py-3 border-b border-border bg-muted/5">
+              <span className="text-xs font-mono text-muted uppercase tracking-widest">
+                Experience
+              </span>
             </div>
-          </footer>
+            <div className="grid grid-cols-1 lg:grid-cols-4">
+              {/* Company Info */}
+              <div className="p-5 sm:p-6 border-b lg:border-b-0 lg:border-r border-border">
+                <h3 className="font-semibold">{personalInfo.company}</h3>
+                <p className="text-xs text-muted">Software Engineer</p>
+                <span className="text-xs font-mono text-accent mt-1 inline-block">
+                  Present
+                </span>
+              </div>
+              {/* Work Highlights */}
+              {workHighlights.map((work, i) => (
+                <div
+                  key={work.title}
+                  className={`p-5 sm:p-6 border-b lg:border-b-0 border-border ${
+                    i < 2 ? "lg:border-r" : ""
+                  }`}
+                >
+                  <h4 className="text-sm font-medium mb-1">{work.title}</h4>
+                  <ExpandableText text={work.desc} maxLines={2} />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Row 5: Stack + Contact */}
+          <div className="grid grid-cols-1 lg:grid-cols-2">
+            {/* Stack */}
+            <div className="p-5 sm:p-6 border-b lg:border-b-0 lg:border-r border-border">
+              <span className="text-xs font-mono text-muted uppercase tracking-widest">
+                Tech Stack
+              </span>
+              <div className="flex flex-wrap gap-2 mt-2">
+                {[
+                  ...new Set([...workTech, ...projects.flatMap((p) => p.tech)]),
+                ].map((t) => (
+                  <span key={t} className="text-xs px-3 py-1 rounded border">
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </div>
+            {/* Contact */}
+            <div className="p-5 sm:p-6 flex items-center justify-between gap-4 bg-accent/5">
+              <div>
+                <span className="text-xs font-mono text-muted uppercase tracking-widest">
+                  Contact
+                </span>
+                <p className="text-sm mt-1">
+                  Let&apos;s build something together
+                </p>
+              </div>
+              <a
+                href={`mailto:${personalInfo.email}`}
+                className="px-4 py-2 bg-accent text-white text-sm font-medium rounded hover:bg-accent/90 transition-colors shrink-0"
+              >
+                Get in touch →
+              </a>
+            </div>
+          </div>
         </div>
-      </div>
-    </>
-  );
-};
 
-export default Page;
+        {/* Footer */}
+        <footer className="mt-8 text-center text-sm text-muted">
+          © {new Date().getFullYear()} {personalInfo.name} — Building real
+          systems, not demos.
+        </footer>
+      </div>
+    </div>
+  );
+}

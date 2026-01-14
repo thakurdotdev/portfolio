@@ -2,16 +2,26 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
 
-const inter = Inter({ subsets: ["latin"], preload: true });
+const inter = Inter({
+  subsets: ["latin"],
+  preload: true,
+  variable: "--font-inter",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  preload: true,
+  variable: "--font-jetbrains",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://thakur.dev"),
   title: {
-    default: "Pankaj Thakur - Full Stack Developer | React, Next.js & Node.js",
+    default: "Pankaj Thakur - Software Engineer",
     template: "%s | Pankaj Thakur",
   },
   description:
@@ -19,7 +29,7 @@ export const metadata: Metadata = {
   keywords: [
     "Pankaj Thakur",
     "thakurdotdev",
-    "Full Stack Developer India",
+    "Software Engineer India",
     "React Native Developer",
     "Next.js Expert",
     "Software Engineer",
@@ -31,7 +41,7 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   openGraph: {
-    title: "Pankaj Thakur - Full Stack Developer",
+    title: "Pankaj Thakur - Software Engineer",
     description:
       "Building scalable web applications with React, Node.js, and modern technologies.",
     url: "https://thakur.dev",
@@ -71,7 +81,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // 2. JSON-LD SCHEMA: This tells Google "I am THE Pankaj Thakur"
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Person",
@@ -102,9 +111,11 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <meta name="theme-color" content="#000000" />
+        <meta name="theme-color" content="#0a0a0a" />
       </head>
-      <body className={`antialiased ${inter.className}`}>
+      <body
+        className={`antialiased ${inter.variable} ${jetbrainsMono.variable} font-sans`}
+      >
         <Script
           id="json-ld"
           type="application/ld+json"
