@@ -1,8 +1,9 @@
 export const personalInfo = {
   name: "Pankaj Thakur",
-  role: "Software Engineer",
+  role: "Junior Software Engineer",
   email: "pankaj@thakur.dev",
   company: "Netclues India",
+  careerStartDate: "2024-02-01",
   bio: "I build end-to-end systems — APIs, real-time backends, frontends, and deployment infrastructure.",
   aboutLong: [
     "My work spans real-time communication, workflow orchestration, risk management, payments, and deployment infrastructure.",
@@ -14,6 +15,7 @@ export const projects = [
   {
     title: "SyncVibe",
     subtitle: "Real-time Social Platform",
+    architecture: "Distributed WebSockets & WebRTC Multi-user Architecture",
     desc: "Multi-user system for synchronized music playback, chat, and WebRTC video calls with passkey (WebAuthn) and 2FA authentication.",
     tech: [
       "React",
@@ -21,53 +23,103 @@ export const projects = [
       "WebSockets",
       "WebAuthn",
       "PostgreSQL",
-      "Node",
+      "Node.js",
       "Bun",
     ],
     repo: "https://github.com/thakurdotdev/syncvibe",
     live: "https://syncvibe.thakur.dev",
   },
   {
-    title: "Thakur Deploy",
+    title: "ShipYard",
     subtitle: "Self-hosted PaaS",
-    desc: "Vercel-like deployment platform with build queues, realtime logs, webhook-triggered deploys, Nginx reverse proxy, and dynamic subdomains.",
-    tech: ["Next.js", "Bun", "PostgreSQL", "Drizzle", "Nginx", "CI/CD"],
-    repo: "https://github.com/thakurdotdev/thakur-deploy",
-    // live: "https://thakur-deploy.thakur.dev",
-  },
-  {
-    title: "GasOps",
-    subtitle: "LPG Agency SaaS",
-    desc: "Multi-tenant business platform for LPG agencies with delivery tracking, OTP & photo proof, cash/UPI payments, and agency dashboards.",
+    architecture: "Process-level Supervisor & Reverse-Proxy Deploy Infrastructure",
+    desc: "Built a self-hosted deployment platform supporting automated builds, deployments, and dynamic subdomains. Implemented build workers, deploy engine, webhook-triggered deployments, and real-time build logs using WebSockets. Managed process-level runtimes and reverse proxying with Nginx for deployed applications.",
     tech: [
-      "Node",
+      "Next.js",
+      "TypeScript",
+      "Bun",
+      "Elysia",
       "PostgreSQL",
-      "Drizzle",
-      "React",
-      "React Native",
-      "WebSockets",
+      "Nginx",
+      "Cloudflare",
     ],
-    status: "In Development",
-    // repo: "https://github.com/thakurdotdev/gasops",
+    repo: "https://github.com/thakurdotdev/shipyard",
+    demo: "https://cdn.thakur.dev/shipyard.mp4",
   },
 ];
 
-export const workHighlights = [
+export const engineeringStandards = [
   {
-    title: "eGov Workflow Engine",
-    desc: "Multi-step approval engine with role-based assignment and department routing",
+    title: "Strict Type Safety",
+    desc: "Zero-any TypeScript setups, rigorous DB schemas, and shared type boundaries.",
   },
   {
-    title: "Risk & GRC Platform",
-    desc: "Enterprise governance with scoring, mitigations, heatmaps, and RBAC",
+    title: "Production Resilience",
+    desc: "Process supervisors, zero-downtime webhook pipelines, and secure reverse proxying.",
   },
   {
-    title: "Security Architecture",
-    desc: "Per-request ephemeral keys protected by public-key cryptography",
+    title: "Performance First",
+    desc: "Low-latency API response boundaries, edge bundle budgets, and strict Lighthouse audits.",
   },
 ];
 
-export const workTech = ["React", "Node.js", "PostgreSQL", "TypeScript"];
+export const workExperience = [
+  {
+    organization: "Netclues",
+    roles: [
+      {
+        title: "Junior Software Engineer",
+        startDate: "2024-09-01",
+        endDate: "Present",
+        highlights: [
+          {
+            title: "eGov Workflow Engine",
+            desc: "Designed and built a state-machine driven multi-step workflow engine for a centralized eGov portal. Engineered dynamic department onboarding and metadata-driven service creation (e.g., business licenses, tax certificates, civic registrations, etc.) with parallel approval branching, conditional routing, and SLA tracking.",
+          },
+          {
+            title: "Risk & GRC Platform",
+            desc: "Led end-to-end development of a risk management portal for C&WJ Credit Union. Built control management, inherent/residual risk matrices, RBAC approval workflows, and reporting dashboards.",
+            testimonial: "https://www.linkedin.com/posts/thakurdotdev_clienttestimonial-netclues-fintech-activity-7457841848527622144-h7oe",
+          },
+          {
+            title: "Reliable Webhook Pipeline",
+            desc: "Engineered a resilient event delivery system using Redis + BullMQ with exponential backoff and delivery logs. Secured payloads via HMAC-SHA256 signatures and validation timestamps to mitigate replay attacks.",
+          },
+        ],
+      },
+      {
+        title: "Software Engineer Intern",
+        startDate: "2024-02-01",
+        endDate: "2024-08-31",
+        highlights: [
+          {
+            title: "Socket.IO Chat Microservice",
+            desc: "Built a real-time chat system using Socket.IO, Node.js, and React within a microservice architecture.",
+          },
+          {
+            title: "Advanced Chat Features",
+            desc: "Implemented one-to-one and group chat, file upload (images/PDFs), typing indicators, read receipts, online presence, and message archiving.",
+          },
+        ],
+      },
+    ],
+  },
+];
+
+export const categorizedSkills = [
+  {
+    category: "Languages & Frameworks",
+    items: ["TypeScript", "React", "Next.js", "Node.js", "Elysia"],
+  },
+  {
+    category: "Data, ORMs & Queues",
+    items: ["PostgreSQL", "MySQL", "Prisma", "Sequelize", "Redis", "BullMQ"],
+  },
+  {
+    category: "Real-time & Infrastructure",
+    items: ["WebRTC", "WebSockets", "WebAuthn", "Bun", "Nginx", "Cloudflare"],
+  },
+];
 
 export const socialLinks = [
   { name: "GitHub", url: "https://github.com/thakurdotdev" },

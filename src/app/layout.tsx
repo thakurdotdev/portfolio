@@ -25,14 +25,20 @@ export const metadata: Metadata = {
     template: "%s | Pankaj Thakur",
   },
   description:
-    "Portfolio of Pankaj Thakur (thakurdotdev). Senior Software Engineer specializing in React, Node.js, SaaS architecture, and scalable web applications.",
+    "Portfolio of Pankaj Thakur (thakurdotdev). Software Engineer specializing in scalable APIs, real-time communication systems, eGov portals, and resilient backend architecture.",
   keywords: [
     "Pankaj Thakur",
     "thakurdotdev",
-    "Software Engineer India",
-    "React Native Developer",
-    "Next.js Expert",
     "Software Engineer",
+    "Backend Engineer",
+    "Systems Engineer",
+    "Next.js Developer",
+    "PostgreSQL",
+    "MySQL",
+    "Prisma",
+    "Sequelize",
+    "Redis",
+    "BullMQ",
   ],
   authors: [{ name: "Pankaj Thakur", url: "https://thakur.dev" }],
   creator: "Pankaj Thakur",
@@ -43,7 +49,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Pankaj Thakur - Software Engineer",
     description:
-      "Building scalable web applications with React, Node.js, and modern technologies.",
+      "Building scalable web applications, real-time communication engines, and resilient queue pipelines.",
     url: "https://thakur.dev",
     siteName: "Pankaj Thakur Portfolio",
     images: [
@@ -92,19 +98,25 @@ export default function RootLayout({
       "https://x.com/thakurdotdev",
       "https://linkedin.com/in/thakurdotdev",
     ],
-    jobTitle: "Software Engineer",
+    jobTitle: "Junior Software Engineer",
     worksFor: {
       "@type": "Organization",
       name: "Netclues India",
     },
     knowsAbout: [
+      "TypeScript",
       "React",
       "Next.js",
       "Node.js",
       "System Design",
-      "SaaS",
-      "Typescript",
-      "Server",
+      "SaaS Architecture",
+      "Real-time Systems",
+      "PostgreSQL",
+      "MySQL",
+      "Prisma",
+      "Sequelize",
+      "Redis",
+      "BullMQ",
     ],
   };
 
@@ -124,7 +136,7 @@ export default function RootLayout({
 
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark"
+          defaultTheme="light"
           enableSystem={true}
           disableTransitionOnChange={true}
         >

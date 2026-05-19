@@ -1,194 +1,405 @@
+"use client";
+
+import { useState } from "react";
 import { ExpandableText } from "@/components/expandable-text";
 import { SocialIcons } from "@/components/social-icons";
 import ThemeIsland from "@/components/theme-island";
+import { VideoDialog } from "@/components/video-dialog";
 import {
   personalInfo,
   projects,
   socialLinks,
-  workHighlights,
-  workTech,
+  workExperience,
+  categorizedSkills,
+  engineeringStandards,
 } from "@/constants";
 
+function getExperienceText(startDateStr: string) {
+  const start = new Date(startDateStr);
+  const now = new Date();
+  
+  const startYear = start.getUTCFullYear();
+  const startMonth = start.getUTCMonth();
+  
+  const nowYear = now.getFullYear();
+  const nowMonth = now.getMonth();
+  
+  const totalMonths = (nowYear - startYear) * 12 + (nowMonth - startMonth);
+  
+  const years = Math.floor(totalMonths / 12);
+  const months = totalMonths % 12;
+  
+  const parts = [];
+  if (years > 0) {
+    parts.push(`${years} yr${years > 1 ? "s" : ""}`);
+  }
+  if (months > 0) {
+    parts.push(`${months} mo${months > 1 ? "s" : ""}`);
+  }
+  
+  return parts.length > 0 ? parts.join(" ") : "0 mos";
+}
+
+function getFixedDurationText(startDateStr: string, endDateStr: string) {
+  const start = new Date(startDateStr);
+  const end = new Date(endDateStr);
+  
+  const startYear = start.getUTCFullYear();
+  const startMonth = start.getUTCMonth();
+  
+  const endYear = end.getUTCFullYear();
+  const endMonth = end.getUTCMonth();
+  
+  const totalMonths = (endYear - startYear) * 12 + (endMonth - startMonth) + 1;
+  
+  const years = Math.floor(totalMonths / 12);
+  const months = totalMonths % 12;
+  
+  const parts = [];
+  if (years > 0) {
+    parts.push(`${years} yr${years > 1 ? "s" : ""}`);
+  }
+  if (months > 0) {
+    parts.push(`${months} mo${months > 1 ? "s" : ""}`);
+  }
+  
+  return parts.length > 0 ? parts.join(" ") : "0 mos";
+}
+
+function getStartMonthYearText(startDateStr: string) {
+  const start = new Date(startDateStr);
+  const monthsList = [
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun", 
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+  ];
+  return `${monthsList[start.getUTCMonth()]} ${start.getUTCFullYear()}`;
+}
+
 export default function Page() {
+  const [activeVideo, setActiveVideo] = useState<{ url: string; title: string } | null>(null);
+  const [copiedNpx, setCopiedNpx] = useState(false);
+
+  const start = new Date(personalInfo.careerStartDate);
+  const now = new Date();
+  const totalMonths = (now.getFullYear() - start.getUTCFullYear()) * 12 + (now.getMonth() - start.getUTCMonth());
+  const expYears = (totalMonths / 12).toFixed(1);
+  
+  const totalHighlightsCount = workExperience.reduce(
+    (sum, exp) => sum + exp.roles.reduce((rSum, r) => rSum + r.highlights.length, 0),
+    0
+  );
+
+  const copyNpx = () => {
+    navigator.clipboard.writeText("npx thakurdotdev");
+    setCopiedNpx(true);
+    setTimeout(() => setCopiedNpx(false), 2000);
+  };
+
   return (
-    <div className="min-h-screen bg-bg text-fg">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12 lg:py-16">
-        {/* Full Grid Layout */}
-        <div className="border border-dashed border-border rounded-lg overflow-hidden">
-          {/* Row 1: Header */}
-          <div className="grid grid-cols-1 lg:grid-cols-4 border-b border-dashed border-border">
-            {/* Name & Role */}
-            <div className="lg:col-span-2 p-5 sm:p-6 border-b lg:border-b-0 lg:border-r border-dashed border-border flex justify-between items-center gap-2">
+    <div className="min-h-screen bg-bg text-fg selection:bg-accent-soft transition-colors duration-200 py-12 px-4 sm:px-6">
+      <div className="max-w-4xl mx-auto">
+        <div className="border border-border rounded-lg overflow-hidden bg-card shadow-xs">
+          
+          <div>
+            <div className="p-4 sm:p-6 flex items-start justify-between gap-4 border-b border-border">
               <div>
-                <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-1">
+                <h1 className="text-xl sm:text-2xl font-bold tracking-tight">
                   {personalInfo.name}
                 </h1>
-                <p className="text-muted">{personalInfo.role}</p>
+                <p className="text-xs font-mono text-muted uppercase tracking-wider mt-0.5">{personalInfo.role}</p>
+              </div>
+              <div className="shrink-0 pt-1">
+                <ThemeIsland />
               </div>
             </div>
-            {/* Status */}
-            <div className="p-5 sm:p-6 border-b lg:border-b-0 lg:border-r border-dashed border-border">
-              <div className="flex items-center gap-2 mb-1">
-                <span className="w-2 h-2 bg-accent rounded-full animate-pulse shrink-0" />
-                <p className="text-sm font-medium">Available for hire</p>
+            
+            <div className="p-4 sm:p-6 bg-card-alt/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border">
+              <div>
+                <SocialIcons links={socialLinks} />
               </div>
-              <p className="text-xs text-muted">
-                Currently at {personalInfo.company}
-              </p>
-            </div>
-            {/* Links */}
-            <div className="p-5 sm:p-6 flex items-center justify-between gap-4">
-              <SocialIcons links={socialLinks} />
-              <ThemeIsland />
+              
+              <div className="flex items-center gap-3 text-xs font-mono">
+                <div className="flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
+                  <span className="text-muted uppercase tracking-wider">Available for Roles</span>
+                </div>
+                <span className="text-border">|</span>
+                <a
+                  href="https://cdn.thakur.dev/resume.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-2.5 py-1 rounded bg-accent text-bg hover:bg-fg hover:text-bg transition-colors duration-150 font-bold uppercase tracking-wider text-[10px] inline-flex items-center gap-1 shrink-0"
+                >
+                  <span>Get Resume</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2-2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                  </svg>
+                </a>
+              </div>
             </div>
           </div>
 
-          {/* Row 2: About */}
-          <div className="p-5 sm:p-6 border-b border-dashed border-border">
-            <p className="text-base sm:text-lg leading-relaxed mb-1">
+          <div className="grid grid-cols-2 md:grid-cols-4 border-b border-border bg-card-alt/30 font-mono text-xs">
+            <div className="p-4 border-r border-border text-center md:text-left">
+              <span className="text-muted block uppercase tracking-wider text-[10px]">Experience</span>
+              <span className="font-bold text-sm block mt-0.5">{expYears}+ Years</span>
+            </div>
+            <div className="p-4 border-r border-border text-center md:text-left">
+              <span className="text-muted block uppercase tracking-wider text-[10px]">Shipped</span>
+              <span className="font-bold text-sm block mt-0.5">{projects.length} Platforms</span>
+            </div>
+            <div className="p-4 border-r border-border text-center md:text-left">
+              <span className="text-muted block uppercase tracking-wider text-[10px]">Production</span>
+              <span className="font-bold text-sm block mt-0.5">{totalHighlightsCount} Systems</span>
+            </div>
+            <div className="p-4 text-center md:text-left">
+              <span className="text-muted block uppercase tracking-wider text-[10px]">Location</span>
+              <span className="font-bold text-sm block mt-0.5">India / Remote</span>
+            </div>
+          </div>
+
+          <div className="p-6 border-b border-border bg-card-alt/10">
+            <p className="text-base leading-relaxed font-medium mb-1 text-fg">
               {personalInfo.bio}
             </p>
-            <p className="text-sm text-muted">
+            <p className="text-sm leading-relaxed text-muted">
               {personalInfo.aboutLong.join(" ")}
             </p>
           </div>
 
-          {/* Row 3: Projects */}
-          <div className="border-b border-dashed border-border">
-            <div className="px-5 sm:px-6 py-3 border-b border-dashed border-border bg-muted/5">
-              <span className="text-xs font-mono text-muted uppercase tracking-widest">
-                Projects
+          <div className="border-b border-border">
+            <div className="px-6 py-2.5 border-b border-border bg-card-alt/50">
+              <span className="text-xs font-mono text-muted uppercase tracking-wider">
+                Featured Projects
               </span>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+            
+            <div className="grid grid-cols-1 md:grid-cols-2">
               {projects.map((project, index) => (
                 <div
                   key={project.title}
-                  className={`p-5 sm:p-6 
-                    ${
-                      index < projects.length - 1
-                        ? "border-b sm:border-b-0"
-                        : ""
-                    } 
-                    ${index === 0 ? "sm:border-r lg:border-r" : ""}
-                    ${index === 1 ? "lg:border-r" : ""}
-                    border-dashed border-border
-                  `}
+                  className={`p-6 hover:bg-card-alt transition-colors duration-150 flex flex-col justify-between ${
+                    index === 0 ? "border-b md:border-b-0 md:border-r border-border" : ""
+                  }`}
                 >
-                  <div className="flex justify-between items-start mb-2">
-                    <div>
-                      <h3 className="font-semibold">{project.title}</h3>
-                      <p className="text-xs text-muted">{project.subtitle}</p>
+                  <div>
+                    <div className="flex justify-between items-start gap-4 mb-2">
+                      <div>
+                        <h3 className="font-bold text-base text-fg">{project.title}</h3>
+                        <p className="text-xs font-mono text-muted tracking-wider uppercase mt-0.5">{project.subtitle}</p>
+                      </div>
+                      
+                      <div className="flex gap-2.5 text-[11px] font-mono shrink-0">
+                        {project.live && (
+                          <a
+                            href={project.live}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-fg hover:underline"
+                          >
+                            Live ↗
+                          </a>
+                        )}
+                        {project.demo && (
+                          <a
+                            href={project.demo}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) => {
+                              if (project.demo.endsWith(".mp4")) {
+                                e.preventDefault();
+                                setActiveVideo({ url: project.demo, title: project.title });
+                              }
+                            }}
+                            className="text-fg hover:underline cursor-pointer"
+                          >
+                            Demo ↗
+                          </a>
+                        )}
+                        {project.repo && (
+                          <a
+                            href={project.repo}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-fg hover:underline"
+                          >
+                            Code ↗
+                          </a>
+                        )}
+                      </div>
                     </div>
-                    <div className="flex gap-2 text-xs shrink-0">
-                      {project.live && (
-                        <a
-                          href={project.live}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-accent hover:underline"
-                        >
-                          Live ↗
-                        </a>
-                      )}
-                      {project.repo ? (
-                        <a
-                          href={project.repo}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-accent hover:underline"
-                        >
-                          Code ↗
-                        </a>
-                      ) : (
-                        project.status
-                      )}
+
+                    <div className="mb-3 px-2 py-1 bg-accent-soft/30 border border-border/40 rounded-sm w-fit">
+                      <span className="text-[10px] font-mono text-fg/80 block uppercase tracking-wider">
+                        Engine // {project.architecture}
+                      </span>
+                    </div>
+                    
+                    <div className="mb-4 text-xs text-muted leading-relaxed">
+                      <ExpandableText text={project.desc} maxLines={3} />
                     </div>
                   </div>
-                  <div className="mb-3">
-                    <ExpandableText text={project.desc} maxLines={2} />
-                  </div>
-                  <div className="flex flex-wrap gap-1.5">
-                    {project.tech.slice(0, 4).map((t) => (
-                      <span key={t} className="text-xs text-muted/70 font-mono">
+                  
+                  <div className="flex flex-wrap gap-1.5 pt-3 border-t border-border/50">
+                    {project.tech.map((t) => (
+                      <span key={t} className="text-[10px] px-2 py-0.5 rounded-sm bg-accent-soft border border-border text-fg font-mono">
                         {t}
                       </span>
                     ))}
-                    {project.tech.length > 4 && (
-                      <span className="text-xs text-muted/50">
-                        +{project.tech.length - 4}
-                      </span>
-                    )}
                   </div>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Row 4: Experience */}
-          <div className="border-b border-dashed border-border">
-            <div className="px-5 sm:px-6 py-3 border-b border-dashed border-border bg-muted/5">
-              <span className="text-xs font-mono text-muted uppercase tracking-widest">
-                Experience
+          <div className="border-b border-border">
+            <div className="px-6 py-2.5 border-b border-border bg-card-alt/50">
+              <span className="text-xs font-mono text-muted uppercase tracking-wider">
+                Engineering Standards
               </span>
             </div>
-            <div className="grid grid-cols-1 lg:grid-cols-4">
-              {/* Company Info */}
-              <div className="p-5 sm:p-6 border-b lg:border-b-0 lg:border-r border-dashed border-border">
-                <h3 className="font-semibold">{personalInfo.company}</h3>
-                <p className="text-xs text-muted">Software Engineer</p>
-                <span className="text-xs font-mono text-accent mt-1 inline-block">
-                  Present
-                </span>
-              </div>
-              {/* Work Highlights */}
-              {workHighlights.map((work, i) => (
-                <div
-                  key={work.title}
-                  className={`p-5 sm:p-6 border-b lg:border-b-0 border-dashed border-border ${
-                    i < 2 ? "lg:border-r" : ""
-                  }`}
-                >
-                  <h4 className="text-sm font-medium mb-1">{work.title}</h4>
-                  <ExpandableText text={work.desc} maxLines={2} />
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-border">
+              {engineeringStandards.map((std) => (
+                <div key={std.title} className="p-6 hover:bg-card-alt/30 transition-colors duration-150">
+                  <h3 className="text-xs font-mono font-bold text-fg uppercase tracking-widest border-l-2 border-accent pl-3.5 mb-2">
+                    {std.title}
+                  </h3>
+                  <p className="text-xs text-muted leading-relaxed pl-4">
+                    {std.desc}
+                  </p>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Row 5: Stack + Contact */}
-          <div className="grid grid-cols-1 lg:grid-cols-2">
-            {/* Stack */}
-            <div className="p-5 sm:p-6 border-b lg:border-b-0 lg:border-r border-dashed border-border">
-              <span className="text-xs font-mono text-muted uppercase tracking-widest">
-                Tech Stack
+          <div className="border-b border-border">
+            <div className="px-6 py-2.5 border-b border-border bg-card-alt/50">
+              <span className="text-xs font-mono text-muted uppercase tracking-wider">
+                Work Experience
               </span>
-              <div className="flex flex-wrap gap-2 mt-2">
-                {[
-                  ...new Set([...workTech, ...projects.flatMap((p) => p.tech)]),
-                ].map((t) => (
-                  <span
-                    key={t}
-                    className="text-xs px-3 py-1 rounded text-accent border border-dashed border-border hover:border-accent/90 transition-colors"
-                  >
-                    {t}
-                  </span>
+            </div>
+            
+            <div className="p-6 space-y-8">
+              {workExperience.map((org) => (
+                <div key={org.organization} className="space-y-6">
+                  
+                  <div className="flex items-center gap-3 border-b border-border/60 pb-2">
+                    <h3 className="font-bold text-base text-fg tracking-tight uppercase font-mono">{org.organization}</h3>
+                  </div>
+
+                  <div className="relative border-l border-border/70 ml-3.5 pl-6 sm:pl-8 space-y-10">
+                    {org.roles.map((role) => {
+                      const isCurrent = role.endDate === "Present";
+                      const duration = isCurrent
+                        ? getExperienceText(role.startDate)
+                        : getFixedDurationText(role.startDate, role.endDate);
+                      const timeline = `${getStartMonthYearText(role.startDate)} – ${
+                        isCurrent ? "Present" : getStartMonthYearText(role.endDate)
+                      }`;
+
+                      return (
+                        <div
+                          key={role.title}
+                          className={`relative group transition-opacity duration-150 ${
+                            isCurrent ? "opacity-100" : "opacity-75 hover:opacity-100"
+                          }`}
+                        >
+                          <div className={`absolute -left-[30px] sm:-left-[38px] top-1 w-2.5 h-2.5 rounded-full border bg-bg ring-4 ring-bg transition-colors duration-150 ${
+                            isCurrent ? "bg-accent border-accent" : "bg-muted/40 border-border group-hover:bg-accent group-hover:border-accent"
+                          }`} />
+
+                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+                            <div>
+                              <p className="text-xs font-mono text-fg uppercase tracking-widest font-bold">
+                                {role.title}
+                              </p>
+                            </div>
+                            
+                            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded bg-accent-soft border border-border text-fg text-[10px] font-mono w-fit h-fit shrink-0">
+                              {isCurrent && <span className="w-1.5 h-1.5 bg-fg rounded-full animate-pulse" />}
+                              <span>{timeline} · {duration}</span>
+                            </div>
+                          </div>
+
+                          <div className="space-y-4">
+                            {role.highlights.map((work) => (
+                              <div
+                                key={work.title}
+                                className="group/highlight relative pl-4 border-l border-border/40 hover:border-accent transition-all duration-150 py-0.5"
+                              >
+                                <div className="flex flex-wrap items-center gap-2 mb-1">
+                                  <h4 className="text-xs font-mono font-bold text-fg uppercase tracking-wider group-hover/highlight:text-accent transition-colors duration-150">
+                                    {work.title}
+                                  </h4>
+                                  {work.testimonial && (
+                                    <a
+                                      href={work.testimonial}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="text-[9px] px-1.5 py-0.5 font-mono bg-accent-soft border border-border text-accent hover:underline hover:border-accent/50 tracking-wider uppercase font-bold rounded-sm inline-flex items-center gap-0.5 shrink-0"
+                                    >
+                                      Testimonial ↗
+                                    </a>
+                                  )}
+                                </div>
+                                <p className="text-xs text-muted leading-relaxed max-w-3xl">
+                                  {work.desc}
+                                </p>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2">
+            <div className="p-6 border-b md:border-b-0 md:border-r border-border space-y-4">
+              <span className="text-xs font-mono text-muted uppercase tracking-wider block">
+                Core Stack
+              </span>
+              
+              <div className="space-y-3.5">
+                {categorizedSkills.map((cat) => (
+                  <div key={cat.category}>
+                    <span className="text-[9px] font-mono text-muted uppercase tracking-widest block mb-1.5">
+                      {cat.category}
+                    </span>
+                    <div className="flex flex-wrap gap-1.5">
+                      {cat.items.map((t) => (
+                        <span
+                          key={t}
+                          className="text-[11px] px-2.5 py-0.5 rounded bg-card-alt border border-border text-fg font-mono hover:border-accent transition-colors duration-150 cursor-default"
+                        >
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
                 ))}
               </div>
             </div>
-            {/* Contact */}
-            <div className="p-5 sm:p-6 flex items-center justify-between gap-4 bg-accent/5">
+            
+            <div className="p-6 flex items-center justify-between gap-4 bg-card-alt/10">
               <div>
-                <span className="text-xs font-mono text-muted uppercase tracking-widest">
+                <span className="text-xs font-mono text-muted uppercase tracking-wider block">
                   Contact
                 </span>
-                <p className="text-sm mt-1">
-                  Let&apos;s build something together
+                <p className="text-xs text-muted mt-0.5">
+                  Let&apos;s build something together.
                 </p>
               </div>
               <a
                 href={`mailto:${personalInfo.email}`}
-                className="px-4 py-2 text-accent text-sm font-medium border border-dashed border-border rounded hover:border-accent/90 transition-colors shrink-0"
+                className="px-4 py-2 bg-accent text-bg hover:bg-fg hover:text-bg transition-colors duration-150 text-xs font-mono font-bold rounded shrink-0"
               >
                 Get in touch →
               </a>
@@ -196,12 +407,18 @@ export default function Page() {
           </div>
         </div>
 
-        {/* Footer */}
-        <footer className="mt-8 text-center text-sm text-muted">
-          © {new Date().getFullYear()} {personalInfo.name} — Building real
-          systems, not demos.
+        <footer className="mt-8 text-center text-xs text-muted font-mono flex flex-col sm:flex-row justify-between items-center gap-3">
+          <p>© {new Date().getFullYear()} {personalInfo.name} — Standard of Build.</p>
+          <p className="text-[10px] opacity-75">Obtaining modern scaling and architectural elegance.</p>
         </footer>
       </div>
+
+      <VideoDialog
+        isOpen={activeVideo !== null}
+        onClose={() => setActiveVideo(null)}
+        videoUrl={activeVideo?.url || ""}
+        title={activeVideo?.title || ""}
+      />
     </div>
   );
 }

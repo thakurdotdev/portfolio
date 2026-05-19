@@ -3,33 +3,63 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --bg: #f5f5f4;
-  --fg: #1c1917;
-  --muted: #78716c;
-  --border: #635e5a;
+  --bg: #fafafa;
+  --fg: #09090b;
+  --muted: #52525b;
+  --border: #e4e4e7;
   --card: #ffffff;
-  --card-alt: #fafaf9;
-  --accent: #86776c;
-  --accent-soft: rgba(249, 115, 22, 0.1);
+  --card-alt: #f4f4f5;
+  --accent: #09090b;
+  --accent-soft: #f4f4f5;
 }
 
 .dark {
-  --bg: #0c0a09;
-  --fg: #fafaf9;
-  --muted: #a8a29e;
-  --border: #6d6661;
-  --card: #1c1917;
-  --card-alt: #171412;
-  --accent: #86776c;
-  --accent-soft: rgba(251, 146, 60, 0.1);
+  --bg: #020202;
+  --fg: #fafafa;
+  --muted: #a1a1aa;
+  --border: #1c1c1f;
+  --card: #09090b;
+  --card-alt: #151518;
+  --accent: #ffffff;
+  --accent-soft: #0f0f12;
 }
 
 @layer base {
   body {
-    background: var(--bg);
+    background-color: var(--bg);
     color: var(--fg);
     -webkit-font-smoothing: antialiased;
+    transition: background-color 0.2s ease, color 0.2s ease;
   }
+}
+
+.clean-card {
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.clean-card:hover {
+  background-color: var(--card-alt);
+  border-color: var(--accent);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
 }
 
 @theme inline {
