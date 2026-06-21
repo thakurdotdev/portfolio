@@ -2,14 +2,14 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
 
-const inter = Inter({
+const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   preload: true,
-  variable: "--font-inter",
+  variable: "--font-space-grotesk",
 });
 
 const jetbrainsMono = JetBrains_Mono({
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     template: "%s | Pankaj Thakur",
   },
   description:
-    "Portfolio of Pankaj Thakur (thakurdotdev). Software Engineer specializing in scalable APIs, real-time communication systems, eGov portals, and resilient backend architecture.",
+    "Portfolio of Pankaj Thakur (thakurdotdev). Full-Stack Software Engineer building resilient, end-to-end production systems and developer platforms.",
   keywords: [
     "Pankaj Thakur",
     "thakurdotdev",
@@ -98,12 +98,13 @@ export default function RootLayout({
       "https://x.com/thakurdotdev",
       "https://linkedin.com/in/thakurdotdev",
     ],
-    jobTitle: "Junior Software Engineer",
+    jobTitle: "Full-Stack Software Engineer",
     worksFor: {
       "@type": "Organization",
       name: "Netclues India",
     },
     knowsAbout: [
+      "Docker",
       "TypeScript",
       "React",
       "Next.js",
@@ -126,7 +127,7 @@ export default function RootLayout({
         <meta name="theme-color" content="#0a0a0a" />
       </head>
       <body
-        className={`antialiased ${inter.variable} ${jetbrainsMono.variable} font-sans`}
+        className={`antialiased ${spaceGrotesk.variable} ${jetbrainsMono.variable} font-sans`}
       >
         <Script
           id="json-ld"

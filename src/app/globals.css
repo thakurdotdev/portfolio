@@ -63,7 +63,7 @@
 }
 
 @theme inline {
-  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-sans: var(--font-space-grotesk), system-ui, sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, monospace;
   --color-bg: var(--bg);
   --color-fg: var(--fg);

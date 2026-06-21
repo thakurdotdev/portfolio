@@ -1,22 +1,22 @@
 export const personalInfo = {
   name: "Pankaj Thakur",
-  role: "Junior Software Engineer",
+  role: "Full-Stack Software Engineer",
   email: "pankaj@thakur.dev",
   company: "Netclues India",
   careerStartDate: "2024-02-01",
-  bio: "I build end-to-end systems — APIs, real-time backends, frontends, and deployment infrastructure.",
+  bio: "I design and build production-grade systems end-to-end—from high-performance backends and database architectures to frontend interfaces and deployment platforms.",
   aboutLong: [
-    "My work spans real-time communication, workflow orchestration, risk management, payments, and deployment infrastructure.",
-    "Outside my day job, I build and run my own platforms — a real-time social system, a business SaaS, and a self-hosted PaaS.",
+    "I focus on engineering reliable, event-driven architectures, optimizing database performance, and building developer tools. I am comfortable owning products from system design to final infrastructure deployment, preferring real-world problem solving over tutorials.",
+    "Beyond professional roles, I build and maintain my own platforms—including a real-time social system with passkey authentication and a self-hosted deployment platform.",
   ],
 };
 
 export const projects = [
   {
     title: "SyncVibe",
-    subtitle: "Real-time Social Platform",
+    subtitle: "Real-time Social Music Platform",
     architecture: "Distributed WebSockets & WebRTC Multi-user Architecture",
-    desc: "Multi-user system for synchronized music playback, chat, and WebRTC video calls with passkey (WebAuthn) and 2FA authentication.",
+    desc: "A real-time platform featuring synchronized music playback, multi-user chat, and low-latency WebRTC video calling. Authenticated securely via passkeys (WebAuthn) and 2FA. Engineered with distributed WebSockets to synchronize playback state seamlessly across active clients.",
     tech: [
       "React",
       "WebRTC",
@@ -33,7 +33,7 @@ export const projects = [
     title: "ShipYard",
     subtitle: "Self-hosted PaaS",
     architecture: "Process-level Supervisor & Reverse-Proxy Deploy Infrastructure",
-    desc: "Built a self-hosted deployment platform supporting automated builds, deployments, and dynamic subdomains. Implemented build workers, deploy engine, webhook-triggered deployments, and real-time build logs using WebSockets. Managed process-level runtimes and reverse proxying with Nginx for deployed applications.",
+    desc: "A self-hosted developer platform that automates builds and deployments for frontend and backend applications from Git repositories. Features native GitHub integration, environment variable management, custom domain configuration, and real-time build logs via WebSockets. Manages process isolation and uses Nginx for dynamic reverse proxying.",
     tech: [
       "Next.js",
       "TypeScript",
@@ -48,18 +48,18 @@ export const projects = [
   },
 ];
 
-export const engineeringStandards = [
+export const engineeringWins = [
   {
-    title: "Strict Type Safety",
-    desc: "Zero-any TypeScript setups, rigorous DB schemas, and shared type boundaries.",
+    title: "Multi-Tenant Database Sync",
+    focus: "Database Scaling & Outbox Pattern",
+    metric: "Timeout → 200-300ms",
+    desc: "Designed and implemented a Transactional Outbox Pattern to solve runtime database query timeouts occurring at ~50k records in a multi-tenant setup. Introduced local outbox tables across tenant databases and engineered background workers to sync records asynchronously into a centralized read database. Scaled system past 350k+ records with queries resolving in 200-300ms.",
   },
   {
-    title: "Production Resilience",
-    desc: "Process supervisors, zero-downtime webhook pipelines, and secure reverse proxying.",
-  },
-  {
-    title: "Performance First",
-    desc: "Low-latency API response boundaries, edge bundle budgets, and strict Lighthouse audits.",
+    title: "Hybrid API Encryption Protocol",
+    focus: "Security & Performance Engineering",
+    metric: "RSA-2048 & AES-256-GCM",
+    desc: "Designed and deployed a hybrid cryptographic exchange protocol for securing API payloads. Utilized RSA for asymmetric, secure dynamic session key exchange and AES for symmetric high-performance payload encryption. Optimized execution overhead to balance defense-in-depth security with high throughput requirements.",
   },
 ];
 
@@ -68,13 +68,13 @@ export const workExperience = [
     organization: "Netclues",
     roles: [
       {
-        title: "Junior Software Engineer",
+        title: "Full-Stack Software Engineer",
         startDate: "2024-09-01",
         endDate: "Present",
         highlights: [
           {
             title: "eGov Workflow Engine",
-            desc: "Designed and built a state-machine driven multi-step workflow engine for a centralized eGov portal. Engineered dynamic department onboarding and metadata-driven service creation (e.g., business licenses, tax certificates, civic registrations, etc.) with parallel approval branching, conditional routing, and SLA tracking.",
+            desc: "Designed and built a state-machine driven multi-step workflow engine for a centralized eGov portal. Engineered dynamic department onboarding and metadata-driven service creation with parallel approval branching, conditional routing, and SLA tracking.",
           },
           {
             title: "Risk & GRC Platform",
@@ -109,7 +109,7 @@ export const workExperience = [
 export const categorizedSkills = [
   {
     category: "Languages & Frameworks",
-    items: ["TypeScript", "React", "Next.js", "Node.js", "Elysia"],
+    items: ["TypeScript", "Javascript", "React", "Next.js", "Node.js", "Express.js"],
   },
   {
     category: "Data, ORMs & Queues",
@@ -117,7 +117,7 @@ export const categorizedSkills = [
   },
   {
     category: "Real-time & Infrastructure",
-    items: ["WebRTC", "WebSockets", "WebAuthn", "Bun", "Nginx", "Cloudflare"],
+    items: ["Docker", "WebRTC", "WebSockets", "WebAuthn", "Bun", "Nginx", "Cloudflare"],
   },
 ];
 
@@ -126,3 +126,4 @@ export const socialLinks = [
   { name: "LinkedIn", url: "https://linkedin.com/in/thakurdotdev" },
   { name: "X", url: "https://x.com/thakurdotdev" },
 ];
+
