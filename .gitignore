@@ -25,3 +25,5 @@ dist-ssr
 .env
 node_modules
 .next
+
+out

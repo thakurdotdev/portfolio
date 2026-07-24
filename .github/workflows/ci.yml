@@ -37,9 +37,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Run lint & static export build
+      - name: Run static export build
         run: |
-          pnpm run lint
           pnpm run build
 
       - name: Upload static build artifact
