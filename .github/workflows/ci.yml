@@ -6,6 +6,9 @@ on:
   push:
     branches: [master]
 
+permissions:
+  contents: read
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -63,11 +66,13 @@ jobs:
           path: out/
 
       - name: Deploy build artifact to server
-        uses: easingthemes/ssh-deploy@main
+        uses: appleboy/scp-action@v0.1.7
         with:
-          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
-          REMOTE_HOST: ${{ secrets.SERVER_HOST }}
-          REMOTE_USER: ubuntu
-          TARGET: /opt/portfolio
-          SOURCE: out/
-          ARGS: "-rlgoDzP --delete"
+          host: ${{ secrets.SERVER_HOST }}
+          username: ubuntu
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          port: 22
+          source: "out/*"
+          target: "/opt/portfolio"
+          strip_components: 1
+          rm: true
