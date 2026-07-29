@@ -132,6 +132,11 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+        <Script
+          src="https://analytics.thakur.dev/script.js"
+          data-website-id="e7d66733-e497-4f5a-8df4-cb31e3dee535"
+          strategy="afterInteractive"
+        />
 
         <ThemeProvider
           attribute="class"
