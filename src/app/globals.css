@@ -3,50 +3,61 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --bg: #fafafa;
+  --bg: #ffffff;
   --fg: #09090b;
   --muted: #52525b;
+  --muted-dim: #71717a;
   --border: #e4e4e7;
+  --border-subtle: #f4f4f5;
   --card: #ffffff;
-  --card-alt: #f4f4f5;
+  --card-hover: #f4f4f5;
   --accent: #09090b;
   --accent-soft: #f4f4f5;
+  --ring: rgba(9, 9, 11, 0.15);
+  --success: #059669;
+  --success-bg: rgba(5, 150, 105, 0.08);
+  --success-border: rgba(5, 150, 105, 0.2);
 }
 
 .dark {
-  --bg: #020202;
+  --bg: #09090b;
   --fg: #fafafa;
   --muted: #a1a1aa;
-  --border: #1c1c1f;
+  --muted-dim: #71717a;
+  --border: #27272a;
+  --border-subtle: #18181b;
   --card: #09090b;
-  --card-alt: #151518;
-  --accent: #ffffff;
-  --accent-soft: #0f0f12;
+  --card-hover: #141417;
+  --accent: #fafafa;
+  --accent-soft: #18181b;
+  --ring: rgba(250, 250, 250, 0.15);
+  --success: #34d399;
+  --success-bg: rgba(52, 211, 153, 0.1);
+  --success-border: rgba(52, 211, 153, 0.25);
 }
 
 @layer base {
+  * {
+    border-color: var(--border);
+  }
+
   body {
     background-color: var(--bg);
     color: var(--fg);
     -webkit-font-smoothing: antialiased;
-    transition: background-color 0.2s ease, color 0.2s ease;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.15s ease, color 0.15s ease;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
   }
 }
 
-.clean-card {
-  background-color: var(--card);
-  border: 1px solid var(--border);
-  transition: background-color 0.2s ease, border-color 0.2s ease;
-}
-
-.clean-card:hover {
-  background-color: var(--card-alt);
-  border-color: var(--accent);
-}
-
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
@@ -55,22 +66,28 @@
 
 ::-webkit-scrollbar-thumb {
   background: var(--border);
-  border-radius: 3px;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--muted);
+  background: var(--muted-dim);
 }
 
 @theme inline {
-  --font-sans: var(--font-space-grotesk), system-ui, sans-serif;
-  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+  --font-sans: var(--font-space-grotesk), system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, SFMono-Regular, monospace;
   --color-bg: var(--bg);
   --color-fg: var(--fg);
   --color-muted: var(--muted);
+  --color-muted-dim: var(--muted-dim);
   --color-border: var(--border);
+  --color-border-subtle: var(--border-subtle);
   --color-card: var(--card);
-  --color-card-alt: var(--card-alt);
+  --color-card-hover: var(--card-hover);
   --color-accent: var(--accent);
   --color-accent-soft: var(--accent-soft);
+  --color-ring: var(--ring);
+  --color-success: var(--success);
+  --color-success-bg: var(--success-bg);
+  --color-success-border: var(--success-border);
 }
