@@ -1,94 +1,27 @@
 "use client";
 
+import { Experience } from "@/components/experience-card";
+import { ProjectCard, ProjectGrid } from "@/components/project-card";
 import { SocialIcons } from "@/components/social-icons";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { VideoDialog } from "@/components/video-dialog";
 import {
   categorizedSkills,
-  engineeringWins,
   personalInfo,
   projects,
   socialLinks,
-  workExperience,
+  workExperience
 } from "@/constants";
 import { useState } from "react";
-
-function getExperienceText(startDateStr: string) {
-  const start = new Date(startDateStr);
-  const now = new Date();
-
-  const startYear = start.getUTCFullYear();
-  const startMonth = start.getUTCMonth();
-
-  const nowYear = now.getFullYear();
-  const nowMonth = now.getMonth();
-
-  const totalMonths = (nowYear - startYear) * 12 + (nowMonth - startMonth);
-
-  const years = Math.floor(totalMonths / 12);
-  const months = totalMonths % 12;
-
-  const parts = [];
-  if (years > 0) {
-    parts.push(`${years} yr${years > 1 ? "s" : ""}`);
-  }
-  if (months > 0) {
-    parts.push(`${months} mo${months > 1 ? "s" : ""}`);
-  }
-
-  return parts.length > 0 ? parts.join(" ") : "0 mos";
-}
-
-function getFixedDurationText(startDateStr: string, endDateStr: string) {
-  const start = new Date(startDateStr);
-  const end = new Date(endDateStr);
-
-  const startYear = start.getUTCFullYear();
-  const startMonth = start.getUTCMonth();
-
-  const endYear = end.getUTCFullYear();
-  const endMonth = end.getUTCMonth();
-
-  const totalMonths = (endYear - startYear) * 12 + (endMonth - startMonth) + 1;
-
-  const years = Math.floor(totalMonths / 12);
-  const months = totalMonths % 12;
-
-  const parts = [];
-  if (years > 0) {
-    parts.push(`${years} yr${years > 1 ? "s" : ""}`);
-  }
-  if (months > 0) {
-    parts.push(`${months} mo${months > 1 ? "s" : ""}`);
-  }
-
-  return parts.length > 0 ? parts.join(" ") : "0 mos";
-}
-
-function getStartMonthYearText(startDateStr: string) {
-  const start = new Date(startDateStr);
-  const monthsList = [
-    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
-  ];
-  return `${monthsList[start.getUTCMonth()]} ${start.getUTCFullYear()}`;
-}
 
 export default function Page() {
   const [activeVideo, setActiveVideo] = useState<{ url: string; title: string } | null>(null);
   const [copiedEmail, setCopiedEmail] = useState(false);
-  const [copiedCli, setCopiedCli] = useState(false);
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(personalInfo.email);
     setCopiedEmail(true);
     setTimeout(() => setCopiedEmail(false), 2000);
-  };
-
-  const handleCopyCli = (cmd: string) => {
-    navigator.clipboard.writeText(cmd);
-    setCopiedCli(true);
-    setTimeout(() => setCopiedCli(false), 2000);
   };
 
   return (
@@ -160,125 +93,34 @@ export default function Page() {
             </p>
           </div>
 
-          <div className="space-y-8">
-            {projects.map((project) => (
-              <article key={project.title} className="space-y-2">
-                <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <h3 className="text-base font-bold text-fg tracking-tight">
-                      {project.title}
-                    </h3>
-                    <span className="text-xs text-muted">· {project.subtitle}</span>
-                  </div>
+          <ProjectGrid>
+            {projects.map((project) => {
+              const isVideo = Boolean(project.demo && !project.live);
 
-                  <div className="flex items-center gap-3 text-xs font-medium shrink-0 pt-0.5 sm:pt-0">
-                    {project.live && (
-                      <a
-                        href={project.live}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-fg hover:underline underline-offset-4 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
-                        aria-label={`Visit live website for ${project.title} (opens in new tab)`}
-                      >
-                        Live ↗
-                      </a>
-                    )}
-                    {project.demo && (
-                      <button
-                        type="button"
-                        onClick={() => setActiveVideo({ url: project.demo, title: project.title })}
-                        className="text-fg hover:underline underline-offset-4 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none cursor-pointer"
-                        aria-label={`Watch demo walkthrough for ${project.title}`}
-                      >
-                        Demo ↗
-                      </button>
-                    )}
-                    {project.repo && (
-                      <a
-                        href={project.repo}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-fg hover:underline underline-offset-4 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
-                        aria-label={`View source code for ${project.title} on GitHub (opens in new tab)`}
-                      >
-                        Code ↗
-                      </a>
-                    )}
-                  </div>
-                </div>
-
-                <div className="text-[11px] font-mono text-muted">
-                  <span>Architecture: </span>
-                  <span className="text-fg font-medium">{project.architecture}</span>
-                </div>
-
-                {project.title === "Tunl" && (
-                  <div className="pt-0.5">
-                    <button
-                      type="button"
-                      onClick={() => handleCopyCli("ssh -R 80:localhost:3000 tunl.online")}
-                      className="inline-flex items-center gap-2 px-2 py-0.5 rounded bg-accent-soft text-[11px] font-mono text-muted hover:text-fg transition-colors group/cli cursor-pointer focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
-                      title="Click to copy OpenSSH tunnel command"
-                    >
-                      <span className="text-muted-dim select-none">$</span>
-                      <span className="text-fg font-medium">ssh -R 80:localhost:3000 tunl.online</span>
-                      <span className="text-[10px] text-muted-dim group-hover/cli:text-muted">
-                        {copiedCli ? "✓ copied" : "copy"}
-                      </span>
-                    </button>
-                  </div>
-                )}
-
-                <p className="text-sm text-muted leading-relaxed">
-                  {project.desc}
-                </p>
-
-                <div className="flex flex-wrap gap-1.5 pt-1" aria-label="Technologies used">
-                  {project.tech.map((t) => (
-                    <span
-                      key={t}
-                      className="text-[11px] px-1.5 py-0.5 rounded bg-accent-soft text-muted font-mono"
-                    >
-                      {t}
-                    </span>
-                  ))}
-                </div>
-              </article>
-            ))}
-          </div>
+              return (
+                <ProjectCard
+                  key={project.title}
+                  title={project.title}
+                  description={project.blurb}
+                  href={project.live || project.repo || project.demo || "#"}
+                  image={project.image}
+                  screens={project.screens}
+                  accent={project.accent}
+                  zoom={project.zoom}
+                  tags={project.tech}
+                  isVideo={isVideo}
+                  onClick={
+                    isVideo
+                      ? () => setActiveVideo({ url: project.demo!, title: project.title })
+                      : undefined
+                  }
+                />
+              );
+            })}
+          </ProjectGrid>
         </section>
 
-        {/* Selected Engineering Wins */}
-        <section aria-labelledby="heading-engineering-wins" className="space-y-6">
-          <div>
-            <h2 id="heading-engineering-wins" className="text-lg font-bold tracking-tight text-fg">
-              Engineering deep dives
-            </h2>
-            <p className="text-xs text-muted mt-0.5">
-              Measurable architectural optimizations and protocol designs.
-            </p>
-          </div>
-
-          <div className="space-y-6">
-            {engineeringWins.map((win) => (
-              <article key={win.title} className="space-y-1.5">
-                <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
-                  <div className="flex items-center gap-2">
-                    <h3 className="font-bold text-sm text-fg">{win.title}</h3>
-                    <span className="text-xs text-muted">· {win.focus}</span>
-                  </div>
-                  <span className="text-[11px] font-mono text-success font-semibold">
-                    {win.metric}
-                  </span>
-                </div>
-                <p className="text-sm text-muted leading-relaxed">
-                  {win.desc}
-                </p>
-              </article>
-            ))}
-          </div>
-        </section>
-
+        {/* Work Experience */}
         {/* Work Experience */}
         <section aria-labelledby="heading-experience" className="space-y-6">
           <div>
@@ -290,79 +132,7 @@ export default function Page() {
             </p>
           </div>
 
-          <div className="space-y-8">
-            {workExperience.map((org) => (
-              <div key={org.organization} className="space-y-6">
-                <div className="flex items-baseline justify-between border-b border-border pb-2">
-                  <h3 className="font-bold text-base text-fg tracking-tight">{org.organization}</h3>
-                  <span className="text-xs font-mono text-muted">India · On-site & Hybrid</span>
-                </div>
-
-                <div className="space-y-8">
-                  {org.roles.map((role) => {
-                    const isCurrent = role.endDate === "Present";
-                    const duration = isCurrent
-                      ? getExperienceText(role.startDate)
-                      : getFixedDurationText(role.startDate, role.endDate);
-                    const timeline = `${getStartMonthYearText(role.startDate)} – ${
-                      isCurrent ? "Present" : getStartMonthYearText(role.endDate)
-                    }`;
-
-                    return (
-                      <div key={role.title} className="space-y-3">
-                        <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
-                          <div className="flex items-center gap-2">
-                            <h4 className="text-sm font-bold text-fg">
-                              {role.title}
-                            </h4>
-                            {isCurrent && (
-                              <span className="inline-flex items-center gap-1 text-[11px] font-mono font-medium text-success">
-                                <span className="w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
-                                Current
-                              </span>
-                            )}
-                          </div>
-
-                          <div className="text-xs font-mono text-muted">
-                            <span>{timeline}</span>
-                            <span> · </span>
-                            <span>{duration}</span>
-                          </div>
-                        </div>
-
-                        <div className="space-y-3 pl-3 border-l-2 border-border">
-                          {role.highlights.map((work) => (
-                            <div key={work.title} className="space-y-1">
-                              <div className="flex flex-wrap items-center gap-2">
-                                <h5 className="text-xs font-semibold text-fg">
-                                  {work.title}
-                                </h5>
-                                {work.testimonial && (
-                                  <a
-                                    href={work.testimonial}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-[11px] text-accent hover:underline inline-flex items-center gap-0.5 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
-                                    aria-label={`Read client testimonial for ${work.title} on LinkedIn (opens in new tab)`}
-                                  >
-                                    <span>Read testimonial</span>
-                                    <span>↗</span>
-                                  </a>
-                                )}
-                              </div>
-                              <p className="text-xs sm:text-sm text-muted leading-relaxed">
-                                {work.desc}
-                              </p>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            ))}
-          </div>
+          <Experience data={workExperience} />
         </section>
 
         {/* Core Capabilities */}
