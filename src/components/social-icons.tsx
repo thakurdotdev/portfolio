@@ -16,26 +16,33 @@ const icons: Record<string, React.ReactNode> = {
   ),
 };
 
+export function SocialIcon({ name }: { name: string }) {
+  return <>{icons[name] ?? name}</>;
+}
+
 export function SocialIcons({
   links,
+  className = "",
 }: {
   links: { name: string; url: string }[];
+  className?: string;
 }) {
   return (
-    <div className="flex items-center gap-1.5" role="list">
+    <ul className={`flex items-center gap-2 ${className}`}>
       {links.map((link) => (
-        <a
-          key={link.name}
-          href={link.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center justify-center w-8 h-8 rounded-md border border-transparent hover:border-border hover:bg-card-alt text-muted hover:text-fg active:scale-95 transition-all duration-150 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
-          aria-label={`${link.name} profile (opens in new tab)`}
-          title={link.name}
-        >
-          {icons[link.name] || link.name}
-        </a>
+        <li key={link.name}>
+          <a
+            href={link.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-surface btn-icon"
+            aria-label={`${link.name} profile (opens in new tab)`}
+            title={link.name}
+          >
+            {icons[link.name] || link.name}
+          </a>
+        </li>
       ))}
-    </div>
+    </ul>
   );
 }

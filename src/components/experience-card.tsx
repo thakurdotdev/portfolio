@@ -84,7 +84,7 @@ const cx = (...classes: (string | false | undefined)[]) =>
 
 export function Experience({ data, className }: ExperienceProps) {
   return (
-    <div className={cx("space-y-12", className)}>
+    <div className={cx("space-y-14", className)}>
       {data.map((org) => (
         <OrganizationTimeline key={org.organization} org={org} />
       ))}
@@ -108,17 +108,17 @@ function OrganizationTimeline({ org }: { org: Organization }) {
   const fill = useSpring(scrollYProgress, { stiffness: 120, damping: 28, mass: 0.4 });
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-baseline justify-between gap-4 border-b border-border pb-2">
-        <h3 className="text-base font-bold tracking-tight text-fg">{org.organization}</h3>
-        {org.location && <span className="text-xs font-mono text-muted">{org.location}</span>}
+    <div className="space-y-8">
+      <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-b border-line pb-4">
+        <h3 className="text-xl font-semibold tracking-[-0.02em] text-fg">{org.organization}</h3>
+        {org.location && <span className="text-sm text-muted">{org.location}</span>}
       </div>
 
       {/* --spine is where the vertical line sits: left edge on mobile, between the columns from sm up */}
       <div ref={ref} className="relative [--spine:0.5rem] sm:[--spine:11.5rem]">
         <div
           aria-hidden="true"
-          className="absolute bottom-3 top-3 w-px bg-border"
+          className="absolute bottom-3 top-3 w-px bg-line"
           style={{ left: "calc(var(--spine) - 0.5px)" }}
         />
         <motion.div
@@ -151,11 +151,11 @@ function RoleItem({ role }: { role: Role }) {
   return (
     <li className="grid gap-y-1 sm:grid-cols-[9.5rem_1fr] sm:gap-x-8">
       {/* Dates stay in view while you read a long role */}
-      <div className="whitespace-nowrap pl-8 font-mono text-xs text-muted sm:sticky sm:top-6 sm:self-start sm:pl-0 sm:text-right">
-        <p className="leading-7">
+      <div className="whitespace-nowrap pl-8 text-[13px] tabular-nums text-muted sm:sticky sm:top-28 sm:self-start sm:pl-0 sm:text-right">
+        <p className="leading-7 text-fg/80">
           {formatMonth(role.startDate)} – {isCurrent ? "Present" : formatMonth(role.endDate)}
         </p>
-        <p suppressHydrationWarning>{duration(role.startDate, role.endDate)}</p>
+        <p suppressHydrationWarning className="text-muted-dim">{duration(role.startDate, role.endDate)}</p>
       </div>
 
       <div className="relative pl-8">
@@ -164,31 +164,31 @@ function RoleItem({ role }: { role: Role }) {
           aria-hidden="true"
           className={cx(
             "absolute left-0 top-[9px] h-2.5 w-2.5 -translate-x-1/2 rounded-full",
-            isCurrent ? "bg-success" : "bg-muted",
+            isCurrent ? "bg-success shadow-[0_0_0_4px_color-mix(in_oklab,var(--success)_20%,transparent)]" : "bg-muted-dim",
           )}
         />
 
         <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-          <h4 className="text-sm font-bold leading-7 text-fg">{role.title}</h4>
+          <h4 className="text-base font-semibold leading-7 tracking-[-0.01em] text-fg">{role.title}</h4>
           {isCurrent && (
-            <span className="inline-flex items-center gap-1 text-[11px] font-mono font-medium text-success">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-[color-mix(in_oklab,var(--success)_30%,transparent)] px-2 py-0.5 text-[11px] font-medium text-success">
               <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-success" />
               Current
             </span>
           )}
         </div>
 
-        <ul className="mt-2 divide-y divide-border">
+        <ul className="mt-2 divide-y divide-line">
           {role.highlights.map((work) => (
-            <li key={work.title} className="space-y-1 py-3 first:pt-1 last:pb-0">
+            <li key={work.title} className="space-y-1 py-4 first:pt-2 last:pb-0">
               <div className="flex flex-wrap items-center gap-2">
-                <h5 className="text-sm font-semibold text-fg">{work.title}</h5>
+                <h5 className="text-[15px] font-medium text-fg">{work.title}</h5>
                 {work.testimonial && (
                   <a
                     href={work.testimonial}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-0.5 text-[11px] text-accent hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    className="relative inline-flex items-center gap-0.5 text-xs text-muted underline decoration-line-strong underline-offset-4 transition-colors before:absolute before:-inset-x-1 before:-inset-y-2 hover:text-fg"
                     aria-label={`Read client testimonial for ${work.title} on LinkedIn (opens in new tab)`}
                   >
                     <span>Read testimonial</span>
@@ -196,7 +196,7 @@ function RoleItem({ role }: { role: Role }) {
                   </a>
                 )}
               </div>
-              <p className="max-w-[62ch] text-xs leading-relaxed text-muted sm:text-sm">
+              <p className="max-w-[64ch] text-sm leading-relaxed text-muted sm:text-[15px]">
                 {work.desc}
               </p>
             </li>

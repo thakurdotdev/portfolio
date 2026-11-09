@@ -31,6 +31,8 @@ export interface Project {
   accent: string;
   /** Crops empty margins in the screenshot. 1 = off. */
   zoom?: number;
+  /** Two or three short, verifiable facts shown as chips on the work tile. */
+  facts: string[];
 }
 
 export const projects: Project[] = [
@@ -47,6 +49,7 @@ export const projects: Project[] = [
     image: "/projects/tunl.png",
     // screens: ["/projects/tunl-dashboard.png", "/projects/tunl-inspector.png"],
     accent: "#22c55e",
+    facts: ["No client install", "Live request inspector", "Custom domains"],
     zoom: 1.1,
   },
   {
@@ -60,6 +63,7 @@ export const projects: Project[] = [
     live: "https://pm0.thakur.dev",
     image: "/projects/pm0.png",
     accent: "#ef4444",
+    facts: ["~16 MB idle daemon", "77% less memory than PM2", "Sub-40 ms status"],
     zoom: 1,
   },
   {
@@ -83,6 +87,7 @@ export const projects: Project[] = [
     live: "https://syncvibe.thakur.dev",
     image: "/projects/syncvibe.png",
     accent: "#ec4899",
+    facts: ["Synced playback", "WebRTC video calls", "Passkey sign-in"],
     zoom: 1,
   },
   {
@@ -105,6 +110,7 @@ export const projects: Project[] = [
     demo: "https://cdn.thakur.dev/shipyard.mp4",
     image: "/projects/shipyard.png",
     accent: "#14b8a6",
+    facts: ["Deploys from Git", "Live build logs", "GitHub integration"],
     zoom: 1,
   },
 ];

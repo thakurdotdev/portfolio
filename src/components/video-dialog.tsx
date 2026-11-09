@@ -51,23 +51,24 @@ export function VideoDialog({ isOpen, onClose, videoUrl, title }: VideoDialogPro
       aria-labelledby="video-dialog-title"
     >
       <div
-        className="fixed inset-0 bg-bg/85 backdrop-blur-xs transition-opacity duration-200"
+        className="fixed inset-0 bg-black/70 backdrop-blur-sm"
         onClick={onClose}
         aria-hidden="true"
       />
       <div
         ref={dialogRef}
-        className="relative w-full max-w-3xl bg-card border border-border rounded-lg shadow-2xl overflow-hidden z-10 animate-in fade-in zoom-in-95 duration-150"
+        className="bezel relative z-10 w-full max-w-4xl"
       >
-        <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-card-alt/60">
-          <span id="video-dialog-title" className="text-xs font-mono text-fg uppercase tracking-wider font-bold">
-            {title} — Demo Walkthrough
+        <div className="bezel-inner">
+        <div className="flex items-center justify-between border-b border-line px-5 py-3">
+          <span id="video-dialog-title" className="text-sm font-medium text-fg">
+            {title} demo
           </span>
           <button
             onClick={onClose}
             type="button"
             aria-label="Close demo dialog"
-            className="inline-flex items-center justify-center w-7 h-7 rounded text-xs font-mono text-muted hover:text-fg hover:bg-card-alt active:scale-95 transition-all duration-150 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none cursor-pointer"
+            className="btn btn-surface btn-icon h-8 w-8 cursor-pointer text-xs"
           >
             ✕
           </button>
@@ -77,7 +78,7 @@ export function VideoDialog({ isOpen, onClose, videoUrl, title }: VideoDialogPro
           {isLoading && !hasError && (
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-black/60 z-10 text-white text-xs font-mono">
               <span className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin" />
-              <span>Loading Demo Video...</span>
+              <span>Loading video…</span>
             </div>
           )}
 
@@ -91,7 +92,7 @@ export function VideoDialog({ isOpen, onClose, videoUrl, title }: VideoDialogPro
                 rel="noopener noreferrer"
                 className="inline-block px-3 py-1.5 rounded bg-white text-black font-bold hover:bg-white/90 transition-colors"
               >
-                Open Demo URL ↗
+                Open the video ↗
               </a>
             </div>
           ) : (
@@ -109,6 +110,7 @@ export function VideoDialog({ isOpen, onClose, videoUrl, title }: VideoDialogPro
               }}
             />
           )}
+        </div>
         </div>
       </div>
     </div>

@@ -2,75 +2,45 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* -------------------------------------------------------------------------- */
+/*  Tokens                                                                     */
+/* -------------------------------------------------------------------------- */
+
 :root {
-  --bg: #ffffff;
-  --fg: #09090b;
-  --muted: #52525b;
-  --muted-dim: #71717a;
-  --border: #e4e4e7;
-  --border-subtle: #f4f4f5;
+  --bg: #f6f6f7;
+  --fg: #0b0b0d;
+  --muted: #55555e;
+  --muted-dim: #7a7a84;
   --card: #ffffff;
-  --card-hover: #f4f4f5;
-  --accent: #09090b;
-  --accent-soft: #f4f4f5;
-  --ring: rgba(9, 9, 11, 0.15);
   --success: #059669;
-  --success-bg: rgba(5, 150, 105, 0.08);
-  --success-border: rgba(5, 150, 105, 0.2);
+  --scrim: #000000;
+
+  /* Filled button on a light page: dark sheen, white text. */
+  --btn-top: #3c3c43;
+  --btn-bottom: #0e0e11;
+  --btn-edge: #0e0e11;
+  --btn-shine: rgb(255 255 255 / 0.22);
+  --btn-fg: #ffffff;
+
+  color-scheme: light;
 }
 
 .dark {
-  --bg: #09090b;
-  --fg: #fafafa;
+  --bg: #08080a;
+  --fg: #f4f4f5;
   --muted: #a1a1aa;
-  --muted-dim: #71717a;
-  --border: #27272a;
-  --border-subtle: #18181b;
-  --card: #09090b;
-  --card-hover: #141417;
-  --accent: #fafafa;
-  --accent-soft: #18181b;
-  --ring: rgba(250, 250, 250, 0.15);
+  --muted-dim: #75757e;
+  --card: #111114;
   --success: #34d399;
-  --success-bg: rgba(52, 211, 153, 0.1);
-  --success-border: rgba(52, 211, 153, 0.25);
-}
 
-@layer base {
-  * {
-    border-color: var(--border);
-  }
+  /* Filled button on a dark page: light sheen, dark text. */
+  --btn-top: #ffffff;
+  --btn-bottom: #d4d4d8;
+  --btn-edge: rgb(255 255 255 / 0.75);
+  --btn-shine: #ffffff;
+  --btn-fg: #0b0b0d;
 
-  body {
-    background-color: var(--bg);
-    color: var(--fg);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    transition: background-color 0.15s ease, color 0.15s ease;
-  }
-
-  :focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
-  }
-}
-
-::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--bg);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--border);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--muted-dim);
+  color-scheme: dark;
 }
 
 @theme inline {
@@ -80,14 +50,236 @@
   --color-fg: var(--fg);
   --color-muted: var(--muted);
   --color-muted-dim: var(--muted-dim);
-  --color-border: var(--border);
-  --color-border-subtle: var(--border-subtle);
   --color-card: var(--card);
-  --color-card-hover: var(--card-hover);
-  --color-accent: var(--accent);
-  --color-accent-soft: var(--accent-soft);
-  --color-ring: var(--ring);
   --color-success: var(--success);
-  --color-success-bg: var(--success-bg);
-  --color-success-border: var(--success-border);
+  /* Hairlines: foreground at low alpha, so one value works on every surface. */
+  --color-line: color-mix(in oklab, var(--fg) 9%, transparent);
+  --color-line-strong: color-mix(in oklab, var(--fg) 16%, transparent);
+  --color-soft: color-mix(in oklab, var(--fg) 4%, transparent);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-line);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--fg);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--fg) 14%, transparent);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--fg);
+    outline-offset: 2px;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Surfaces (adapted from the premium-surfaces kit)                            */
+/* -------------------------------------------------------------------------- */
+
+@layer components {
+  /* Double-framed card. Inner radius = outer radius - padding - border. */
+  .bezel {
+    padding: 6px;
+    border-radius: 1.75rem;
+    border: 1px solid color-mix(in oklab, var(--fg) 8%, transparent);
+    background: color-mix(in oklab, var(--fg) 2%, transparent);
+  }
+
+  .bezel-inner,
+  .tile {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    border: 1px solid color-mix(in oklab, var(--fg) 8%, transparent);
+    background: linear-gradient(180deg, var(--card), color-mix(in oklab, var(--card) 55%, var(--bg)));
+    box-shadow:
+      inset 0 1px 0 color-mix(in oklab, var(--fg) 5%, transparent),
+      0 1px 2px color-mix(in oklab, var(--scrim) 8%, transparent),
+      0 16px 40px -24px color-mix(in oklab, var(--scrim) 30%, transparent);
+  }
+
+  .bezel-inner {
+    border-radius: calc(1.75rem - 7px);
+  }
+
+  .tile {
+    border-radius: 1.25rem;
+  }
+
+  /* Plain hairline card for use inside a bezel. */
+  .surface-card {
+    border: 1px solid color-mix(in oklab, var(--fg) 8%, transparent);
+    background: color-mix(in oklab, var(--fg) 2.5%, transparent);
+    box-shadow: inset 0 1px 0 color-mix(in oklab, var(--fg) 4%, transparent);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    height: 2.5rem;
+    padding: 0 1rem;
+    border-radius: 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    white-space: nowrap;
+    transition:
+      filter 150ms ease,
+      transform 150ms ease,
+      border-color 150ms ease,
+      background-image 150ms ease;
+  }
+
+  .btn:active {
+    transform: scale(0.98);
+  }
+
+  .btn-primary {
+    color: var(--btn-fg);
+    border: 1px solid var(--btn-edge);
+    background-image: linear-gradient(180deg, var(--btn-top), var(--btn-bottom));
+    box-shadow:
+      inset 0 1px 0 var(--btn-shine),
+      inset 0 -1px 0 rgb(0 0 0 / 0.12),
+      0 1px 2px rgb(0 0 0 / 0.18),
+      0 6px 16px -8px rgb(0 0 0 / 0.45);
+  }
+
+  .btn-primary:hover {
+    filter: brightness(1.08);
+  }
+
+  .btn-surface {
+    color: var(--fg);
+    border: 1px solid color-mix(in oklab, var(--fg) 10%, transparent);
+    background-image: linear-gradient(
+      180deg,
+      color-mix(in oklab, var(--fg) 7%, transparent),
+      color-mix(in oklab, var(--fg) 2.5%, transparent)
+    );
+    box-shadow:
+      inset 0 1px 0 color-mix(in oklab, var(--fg) 7%, transparent),
+      0 1px 2px rgb(0 0 0 / 0.1);
+  }
+
+  .btn-surface:hover {
+    border-color: color-mix(in oklab, var(--fg) 18%, transparent);
+    background-image: linear-gradient(
+      180deg,
+      color-mix(in oklab, var(--fg) 11%, transparent),
+      color-mix(in oklab, var(--fg) 5%, transparent)
+    );
+  }
+
+  /* Square framed icon button (theme toggle, social links). */
+  .btn-icon {
+    height: 2.5rem;
+    width: 2.5rem;
+    padding: 0;
+    color: var(--muted);
+  }
+
+  .btn-icon:hover {
+    color: var(--fg);
+  }
+
+  .display {
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 1.02;
+  }
+
+  .section-title {
+    font-size: clamp(2rem, 4.6vw, 3.25rem);
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+  }
+
+  /* A divider that glows at its centre. */
+  .hairline-glow {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in oklab, var(--fg) 8%, transparent) 20%,
+      color-mix(in oklab, var(--fg) 30%, transparent) 50%,
+      color-mix(in oklab, var(--fg) 8%, transparent) 80%,
+      transparent
+    );
+  }
+
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: color-mix(in oklab, var(--fg) 14%, transparent);
+  border-radius: 4px;
+}
+
+/* One orchestrated moment: the hero rises in on load. CSS, so it runs before hydration. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+.rise {
+  animation: rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: var(--d, 0ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rise {
+    animation: none;
+  }
+}
+
+/* Landing on a project from the server table: a brief ring, then it settles. */
+@keyframes target-ring {
+  0%,
+  40% {
+    box-shadow:
+      0 0 0 2px color-mix(in oklab, var(--success) 70%, transparent),
+      0 0 0 8px color-mix(in oklab, var(--success) 14%, transparent);
+  }
+}
+
+.tile:target {
+  animation: target-ring 1.8s ease-out 0.4s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tile:target {
+    animation: none;
+    outline: 2px solid var(--success);
+  }
 }
