@@ -1,5 +1,5 @@
 import { ThemeProvider } from "@/components/theme-provider";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
@@ -15,6 +15,13 @@ const jetbrainsMono = JetBrains_Mono({
   preload: true,
   variable: "--font-jetbrains",
 });
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f6f6f7" },
+    { media: "(prefers-color-scheme: dark)", color: "#08080a" },
+  ],
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://thakur.dev"),
@@ -121,9 +128,6 @@ export default function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-        <meta name="theme-color" content="#0a0a0a" />
-      </head>
       <body
         className={`antialiased ${spaceGrotesk.variable} ${jetbrainsMono.variable} font-sans`}
       >
