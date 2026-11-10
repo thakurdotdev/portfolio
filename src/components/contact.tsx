@@ -1,33 +1,40 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { DotField } from "@/components/dot-field";
-import { SocialIcon } from "@/components/social-icons";
 import { personalInfo, socialLinks } from "@/constants";
+import { scrollToY } from "@/lib/smooth-scroll";
 
-const btn = "btn hover:bg-accent-fg hover:text-accent";
+const updatedFmt = new Intl.DateTimeFormat("en", { month: "short", year: "numeric", timeZone: "UTC" });
+// The build date, so "Updated" is always true and server and client agree.
+const built = new Date(process.env.NEXT_PUBLIC_BUILD_DATE ?? Date.now());
 
-/** The time where I am, so you know whether I am awake. */
-function LocalTime() {
-  const [time, setTime] = useState<string | null>(null);
+const timeFmt = new Intl.DateTimeFormat("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: "Asia/Kolkata" });
+const hourFmt = new Intl.DateTimeFormat("en-GB", { hour: "numeric", hour12: false, timeZone: "Asia/Kolkata" });
 
+/** The time where I am, and whether I am likely to be up. */
+function useLocalTime() {
+  const [now, setNow] = useState<Date | null>(null);
   useEffect(() => {
-    const f = new Intl.DateTimeFormat("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: "Asia/Kolkata" });
-    const tick = () => setTime(f.format(new Date()));
+    const tick = () => setNow(new Date());
     tick();
     const id = setInterval(tick, 15_000);
     return () => clearInterval(id);
   }, []);
-
-  return (
-    <p className="flex items-baseline gap-2">
-      <span className="font-mono">{time ?? "--:--"}</span> in India
-    </p>
-  );
+  if (!now) return { time: "--:--", status: "" };
+  const h = Number(hourFmt.format(now)) % 24;
+  return {
+    time: timeFmt.format(now),
+    status: h >= 8 && h < 23 ? "probably awake" : "probably asleep",
+  };
 }
 
+/*
+ * The end of the page. The dots become a dot-matrix clock showing the time in India: the
+ * thing you want to know before you write. Then the address, and a one-line footer.
+ */
 export function Contact() {
   const [copied, setCopied] = useState<"idle" | "done" | "failed">("idle");
+  const { time, status } = useLocalTime();
 
   const copy = async () => {
     try {
@@ -43,62 +50,87 @@ export function Contact() {
     <section
       id="contact"
       aria-labelledby="contact-title"
-      className="relative isolate mt-24 scroll-mt-16 overflow-clip bg-accent px-5 pt-20 pb-8 text-accent-fg sm:mt-36 sm:px-8 sm:pt-32 lg:px-12"
+      data-scene="clock"
+      data-stage="#stage-clock"
+      data-label="Contact"
+      className="page-w scroll-mt-16 px-5 pt-24 pb-8 sm:px-8 sm:pt-36 lg:px-12"
     >
-      <DotField
-        cell={11}
-        className="absolute inset-0 -z-10 h-full w-full [--dot-accent:var(--accent-fg)] [--dot-alpha:0.22] [--dot-ink:var(--accent-fg)]"
-      />
-
-      {/* Same header as every other section, in the inverted colours. */}
-      <div className="border-b border-current/30 pb-4">
-        <h2 id="contact-title" className="flex items-center gap-2.5 text-lg font-semibold tracking-[-0.01em]">
-          <span className="dot bg-accent-fg" aria-hidden="true" />
+      <div data-reveal="" className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-line-strong pb-4">
+        <h2 id="contact-title" className="flex items-baseline gap-3 text-lg font-semibold tracking-[-0.01em]">
+          <span className="font-mono text-[12px] font-normal text-dim">03</span>
           Contact
         </h2>
+        <p className="text-[15px] text-muted">Local time in India</p>
       </div>
-      <p className="lead mt-8 max-w-[46ch]">
-        Open to full-stack engineering roles, architecture conversations and work on developer tools. Email is the
-        fastest way to reach me.
-      </p>
 
-      <a
-        href={`mailto:${personalInfo.email}`}
-        className="display mt-10 -ml-[0.04em] block w-fit text-[clamp(2rem,13vw,19rem)] underline decoration-transparent decoration-[0.045em] underline-offset-[0.12em] transition-[text-decoration-color] duration-300 hover:decoration-current sm:mt-16"
-      >
-        {personalInfo.email}
-      </a>
+      {/* The clock is drawn here. Without WebGL, the time is printed instead. */}
+      <div id="stage-clock" data-drag="" className="stage relative mt-12 aspect-[3/1] w-full sm:mt-16" aria-hidden="true">
+        <p className="clock-fallback display absolute inset-0 grid place-items-center text-[18vw] tabular-nums opacity-0">{time}</p>
+      </div>
+      <div className="mt-5 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 font-mono text-[12px] text-dim">
+        <p aria-live="polite">
+          <span className="text-fg">{time}</span> in India{status && ` · ${status}`}
+        </p>
+        <p className="hint hidden sm:block">drag to turn · click to ripple</p>
+      </div>
 
-      <div className="mt-8 flex flex-wrap items-center gap-3 sm:mt-12">
-        <button type="button" onClick={copy} className={btn}>
-          {copied === "done" ? "Address copied" : copied === "failed" ? "Copy failed" : "Copy address"}
+      <div className="mt-20 grid gap-x-12 gap-y-10 sm:mt-28 lg:grid-cols-12 lg:items-end">
+        <div data-reveal="" className="lg:col-span-5">
+          <p className="display display-xl -ml-[0.05em]">Say hello.</p>
+          <p className="lead mt-6 max-w-[38ch] text-muted">
+            Open to full-stack engineering roles, architecture conversations and work on developer tools. Email is
+            the fastest way to reach me.
+          </p>
+        </div>
+
+        <div data-reveal="" className="lg:col-span-7">
+          <a
+            href={`mailto:${personalInfo.email}`}
+            className="mail display -ml-[0.04em] block w-fit text-[clamp(2.6rem,12vw,6.5rem)] lg:text-[clamp(2.6rem,5.6vw,6.5rem)]"
+          >
+            {personalInfo.email}
+          </a>
+          <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-3 text-[15px]">
+            <li>
+              <button type="button" onClick={copy} className="link cursor-pointer">
+                {copied === "done" ? "Copied" : copied === "failed" ? "Copy failed" : "Copy address"}
+              </button>
+              <span className="sr-only" aria-live="polite">
+                {copied === "done" ? "Email address copied" : ""}
+              </span>
+            </li>
+            {[...socialLinks, { name: "Resume", url: "https://cdn.thakur.dev/resume.pdf" }].map((l) => (
+              <li key={l.name}>
+                <a href={l.url} target="_blank" rel="noopener noreferrer" className="link group">
+                  {l.name}
+                  <span
+                    aria-hidden="true"
+                    className="ml-0.5 inline-block text-dim transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  >
+                    ↗
+                  </span>
+                  <span className="sr-only"> (opens in new tab)</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      <footer className="mt-24 flex items-center justify-between gap-6 border-t border-line pt-5 text-[14px] text-muted sm:mt-32">
+        <p className="flex flex-wrap gap-x-5 gap-y-1">
+          <span>© {built.getUTCFullYear()} {personalInfo.name}</span>
+          <span className="text-dim">Updated {updatedFmt.format(built)}</span>
+        </p>
+        <button
+          type="button"
+          onClick={() => scrollToY(0)}
+          aria-label="Back to the top"
+          title="Back to the top"
+          className="to-top grid h-10 w-10 flex-none cursor-pointer place-items-center rounded-full bg-fg text-bg"
+        >
+          <span aria-hidden="true" className="text-[15px] leading-none">↑</span>
         </button>
-        <a href="https://cdn.thakur.dev/resume.pdf" target="_blank" rel="noopener noreferrer" className={btn} aria-label="Resume PDF (opens in new tab)">
-          Resume
-        </a>
-        <span className="flex gap-3">
-          {socialLinks.map((l) => (
-            <a
-              key={l.name}
-              href={l.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`${btn} btn-icon`}
-              aria-label={`${l.name} profile (opens in new tab)`}
-              title={l.name}
-            >
-              <SocialIcon name={l.name} />
-            </a>
-          ))}
-        </span>
-        <span className="sr-only" aria-live="polite">
-          {copied === "done" ? "Email address copied" : ""}
-        </span>
-      </div>
-
-      <footer className="mt-24 flex flex-wrap items-baseline justify-between gap-x-8 gap-y-2 border-t border-current/25 pt-6 text-[15px] sm:mt-36">
-        <p>© {new Date().getFullYear()} Pankaj Thakur</p>
-        <LocalTime />
       </footer>
     </section>
   );

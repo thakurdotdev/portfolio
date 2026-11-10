@@ -3,8 +3,7 @@ import { projectSlug, serverSnapshot as snap } from "@/constants/server";
 
 /**
  * `pm0 ls` as a row of pips: one per process online on my server. Mine are lit and link to
- * their project; the rest belong to other people and stay dim. It is the intro's subject
- * and then lives in the hero.
+ * their project; the rest belong to other people and stay dim.
  */
 export function ProcessStrip() {
   const others = snap.totalOnline - snap.processes.length;
@@ -43,7 +42,7 @@ export function ProcessStrip() {
           ))}
         </ul>
         <p className="strip-count whitespace-nowrap text-[15px]">
-          {/* The visible number counts up with the pips during the intro. */}
+          {/* The visible number counts up as the pips come online. */}
           <span className="strip-n inline-block min-w-[2ch] font-semibold tabular-nums" aria-hidden="true" />
           <span className="sr-only">{snap.totalOnline}</span> online
         </p>

@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { ProjectScreen } from "@/components/project-screen";
 import { projects, type Project } from "@/constants";
 import { projectSlug, serverSnapshot } from "@/constants/server";
 
@@ -12,15 +11,12 @@ const list = (items: string[]) =>
   items.length < 2 ? items.join("") : `${items.slice(0, -1).join(", ")} and ${items[items.length - 1]}`;
 
 const hostOf = (url?: string) => (url ? new URL(url).host : null);
-
-// Stable references: the screen sets up WebGL once per list of images.
-const screenImages = projects.map((p) => p.image);
-const screenAlts = projects.map((p) => `${p.title} home page`);
+const pad = (n: number) => String(n).padStart(2, "0");
 
 /*
- * Wide screens: the text scrolls on the left while one screen stays on the right and changes
- * to the project in the middle of the viewport. The project in view is full strength; the
- * others step back. Phones: a plain list, each project with its own screenshot.
+ * Wide screens: the text scrolls on the left while the right column holds one stage, where
+ * the dots take each project's shape as it reaches the middle of the viewport. Phones: each
+ * project has its own stage above its text.
  */
 export function ProjectsFlow({ onWatch }: { onWatch: Watch }) {
   const [active, setActive] = useState(0);
@@ -33,7 +29,6 @@ export function ProjectsFlow({ onWatch }: { onWatch: Watch }) {
           if (e.isIntersecting) setActive(Number((e.target as HTMLElement).dataset.index));
         }
       },
-      // A line across the middle of the viewport.
       { rootMargin: "-50% 0px -50% 0px" },
     );
     items.current.forEach((el) => el && io.observe(el));
@@ -60,13 +55,17 @@ export function ProjectsFlow({ onWatch }: { onWatch: Watch }) {
       </div>
 
       <div className="hidden lg:col-span-7 lg:block">
-        <div className="sticky top-0 flex h-[100svh] flex-col justify-center pt-16">
-          <ProjectScreen
-            images={screenImages}
-            alts={screenAlts}
-            active={active}
-          />
-          <div className="mt-5 flex items-center justify-between gap-6 text-[15px]">
+        <div className="sticky top-0 flex h-[100svh] flex-col pt-24 pb-10">
+          <div id="stage-work" data-drag="" className="stage relative min-h-0 flex-1">
+            <p
+              key={current.title}
+              aria-hidden="true"
+              className="swap pointer-events-none absolute top-0 left-0 font-mono text-[11px] text-dim"
+            >
+              {pad(active + 1)} / {pad(projects.length)} · {current.architecture}
+            </p>
+          </div>
+          <div className="mt-6 flex items-center justify-between gap-6 text-[15px]">
             <nav aria-label="Projects" className="flex items-center gap-[7px]">
               {projects.map((p, i) => (
                 <a
@@ -82,9 +81,47 @@ export function ProjectsFlow({ onWatch }: { onWatch: Watch }) {
             </nav>
             <p className="text-muted" aria-live="polite">
               {current.title}, {hostOf(current.live) ?? "self-hosted"}
+              <span className="text-dim"> · drag to turn</span>
             </p>
           </div>
         </div>
+      </div>
+    </div>
+  );
+}
+
+/** A screenshot that leans towards the pointer and takes its colour back while you look at it. */
+function Shot({ project }: { project: Project }) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  const onMove = (e: React.PointerEvent) => {
+    const el = ref.current;
+    if (!el || e.pointerType !== "mouse") return;
+    const r = el.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - 0.5;
+    const y = (e.clientY - r.top) / r.height - 0.5;
+    el.style.setProperty("--rx", `${(-y * 7).toFixed(2)}deg`);
+    el.style.setProperty("--ry", `${(x * 9).toFixed(2)}deg`);
+    el.style.setProperty("--gx", `${((x + 0.5) * 100).toFixed(1)}%`);
+    el.style.setProperty("--gy", `${((y + 0.5) * 100).toFixed(1)}%`);
+  };
+  const onLeave = () => {
+    const el = ref.current;
+    if (!el) return;
+    el.style.setProperty("--rx", "0deg");
+    el.style.setProperty("--ry", "0deg");
+  };
+
+  return (
+    <div className="shot-wrap mt-10">
+      <div ref={ref} onPointerMove={onMove} onPointerLeave={onLeave} className="shot relative aspect-[16/10]">
+        <Image
+          src={project.image}
+          alt={`${project.title} home page`}
+          fill
+          sizes="(min-width: 1024px) 38vw, 100vw"
+          className="object-cover object-top"
+        />
       </div>
     </div>
   );
@@ -113,15 +150,25 @@ function ProjectText({
       id={slug}
       data-index={index}
       data-active={active}
+      data-scene={project.scene}
+      data-stage={`#stage-${slug}, #stage-work`}
+      data-label={project.title}
       aria-labelledby={`${slug}-title`}
-      className="border-b border-line py-14 transition-opacity duration-500 last:border-b-0 sm:py-20 lg:flex lg:min-h-[100svh] lg:flex-col lg:justify-center lg:border-b-0 lg:py-0 lg:pt-16 lg:data-[active=false]:opacity-25"
+      className="border-b border-line py-16 transition-opacity duration-500 last:border-b-0 sm:py-24 lg:flex lg:min-h-[100svh] lg:flex-col lg:justify-center lg:border-b-0 lg:py-[16svh] lg:data-[active=false]:opacity-25"
     >
-      <h3 id={`${slug}-title`} className="project-title display display-l -ml-[0.04em]">
+      <p className="font-mono text-[12px] text-dim">
+        {pad(index + 1)} / {pad(projects.length)}
+        <span className="lg:hidden"> · {project.architecture}</span>
+      </p>
+      <h3 id={`${slug}-title`} className="project-title display display-xl mt-4 -ml-[0.05em]">
         {project.title}
       </h3>
       <p className="lead mt-5 max-w-[34ch]">{project.blurb}</p>
 
-      <p className="mt-5 flex flex-wrap gap-x-6 gap-y-2 text-[15px]">
+      {/* The phone layout's stage. Hidden on wide screens, where the shared one takes over. */}
+      <div id={`stage-${slug}`} data-drag="" className="stage -mx-5 mt-8 aspect-[5/4] sm:-mx-8 lg:hidden" aria-hidden="true" />
+
+      <p className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-[15px]">
         {project.live && (
           <a href={project.live} target="_blank" rel="noopener noreferrer" className="link">
             Visit {host}
@@ -143,19 +190,9 @@ function ProjectText({
         )}
       </p>
 
-      <div className="relative mt-8 aspect-[7/5] overflow-hidden rounded-[14px] bg-surface lg:hidden">
-        <Image
-          src={project.image}
-          alt={`${project.title} home page`}
-          fill
-          sizes="100vw"
-          className="object-cover object-top"
-        />
-      </div>
-
-      <ul className="mt-8 grid gap-x-6 gap-y-2 text-[15px] sm:grid-cols-3 lg:mt-10">
+      <ul className="mt-10 grid gap-x-6 gap-y-2 text-[15px] sm:grid-cols-3">
         {project.facts.map((f) => (
-          <li key={f} className="border-t border-line pt-3 font-medium">
+          <li key={f} className="border-t border-line-strong pt-3 font-medium">
             {f}
           </li>
         ))}
@@ -168,7 +205,10 @@ function ProjectText({
           <p className="text-[15px] text-dim">On my server now</p>
           <ul className="mt-2 font-mono text-[13px]">
             {processes.map((p) => (
-              <li key={p.id} className="flex items-center gap-3 py-1">
+              <li
+                key={p.id}
+                className="flex items-center gap-3 py-1"
+              >
                 <span className="dot" aria-hidden="true" />
                 <span className="min-w-0 flex-1 truncate">{p.app}</span>
                 <span className="hidden text-dim min-[420px]:inline">{p.port.split(" ")[0]}</span>
@@ -179,6 +219,8 @@ function ProjectText({
           </ul>
         </div>
       )}
+
+      <Shot project={project} />
     </article>
   );
 }
