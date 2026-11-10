@@ -18,8 +18,8 @@
   --accent: var(--fg);
   --accent-fg: var(--bg);
 
-  /* When the hero starts its entrance. Zero when the intro is skipped. */
-  --t0: 1.95s;
+  /* When the hero starts its entrance. */
+  --t0: 0.1s;
 
   color-scheme: light;
 }
@@ -32,10 +32,6 @@
   --dim: #7d7d7d;
 
   color-scheme: dark;
-}
-
-html[data-intro="skip"] {
-  --t0: 0s;
 }
 
 @theme inline {
@@ -61,6 +57,20 @@ html[data-intro="skip"] {
   html {
     scroll-behavior: smooth;
     scrollbar-gutter: stable;
+  }
+
+  /* Smooth scrolling (Lenis) drives the scroll itself. */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  .lenis.lenis-stopped {
+    overflow: clip;
   }
 
   body {
@@ -102,7 +112,13 @@ html[data-intro="skip"] {
     line-height: 0.9;
   }
 
-  /* Second step of the scale: project names, the employer, the server count. */
+  /* Chapter openers: project names, the employer, the server count, contact. */
+  .display-xl {
+    font-size: clamp(3.75rem, 8.4vw, 9.5rem);
+    line-height: 0.86;
+  }
+
+  /* Second step of the scale. */
   .display-l {
     font-size: clamp(3.25rem, 6.4vw, 6.75rem);
   }
@@ -188,74 +204,49 @@ html[data-intro="skip"] {
 }
 
 /* -------------------------------------------------------------------------- */
-/*  Intro                                                                      */
-/*  The page is blank except for `pm0 ls`. The processes come online, large,    */
-/*  in the middle of the screen. Then the rest of the page appears around       */
-/*  them and they shrink into their place in the hero: they never go down.      */
-/*  CSS only, so it plays before hydration and still clears without JS.         */
+/*  The canvas every scene is drawn on. White dots, difference-blended, so they */
+/*  read as ink on any background, inverted panels included.                   */
 /* -------------------------------------------------------------------------- */
 
-@property --hole {
-  syntax: "<length>";
-  inherits: false;
-  initial-value: 0px;
-}
-
-/* The cover leaves the way everything on this page changes: it breaks into dots.
-   Holes open in a 22px grid until nothing is left. */
-.intro {
+.world {
   position: fixed;
-  inset: 0;
-  z-index: 90;
-  background: var(--bg);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100lvh;
+  z-index: 30;
   pointer-events: none;
-  -webkit-mask: radial-gradient(circle, transparent var(--hole), #000 calc(var(--hole) + 0.75px)) 0 0 / 22px 22px;
-  mask: radial-gradient(circle, transparent var(--hole), #000 calc(var(--hole) + 0.75px)) 0 0 / 22px 22px;
-  animation: intro-out 0.9s cubic-bezier(0.55, 0, 0.35, 1) 1.8s forwards;
+  mix-blend-mode: difference;
+  opacity: 0;
+  transition: opacity 0.6s ease;
 }
 
-@keyframes intro-out {
-  to {
-    --hole: 16px;
-    visibility: hidden;
-  }
+[data-webgl="on"] .world {
+  opacity: 1;
 }
 
-html[data-intro="play"] {
-  overflow: hidden;
+/* Stages are where the shapes are drawn. They can be turned by dragging; vertical
+   swipes still scroll. */
+.stage {
+  touch-action: pan-y;
 }
 
-/* While the intro plays, the strip sits above the intro layer: the only thing visible.
-   Afterwards it drops back under the nav like everything else. */
-html[data-intro="play"] .strip {
-  z-index: 100;
+[data-webgl="on"] .stage[data-drag] {
+  cursor: grab;
 }
 
-.strip {
-  position: relative;
-  transform-origin: 0 100%;
-  /* From the middle of the screen, scaled up, to its place in the hero. */
-  --strip-from: translateY(calc(-50svh + 3rem)) scale(1);
-  animation: strip-land 1.1s cubic-bezier(0.7, 0, 0.15, 1) 1.75s both;
+[data-dragging] * {
+  cursor: grabbing !important;
+  user-select: none;
 }
 
-@media (min-width: 768px) {
-  .strip {
-    --strip-from: translateY(calc(-50svh + 4.5rem)) scale(1.8);
-  }
+[data-webgl="off"] .hint {
+  display: none;
 }
 
-@media (min-width: 1024px) {
-  .strip {
-    --strip-from: translateY(calc(-50svh + 6.4rem)) scale(3.2);
-  }
-}
-
-@keyframes strip-land {
-  from {
-    transform: var(--strip-from);
-  }
-}
+/* -------------------------------------------------------------------------- */
+/*  pm0 ls in the hero: the command types, then the processes come online.    */
+/* -------------------------------------------------------------------------- */
 
 .strip-type {
   display: inline-block;
@@ -263,7 +254,8 @@ html[data-intro="play"] .strip {
   overflow: hidden;
   white-space: nowrap;
   width: 6ch;
-  animation: type 0.42s steps(6) 0.15s both;
+  animation: type 0.42s steps(6) both;
+  animation-delay: calc(var(--t0) + 0.5s);
 }
 
 @keyframes type {
@@ -275,7 +267,7 @@ html[data-intro="play"] .strip {
 .strip .pip {
   position: relative;
   animation: pip-on 0.3s cubic-bezier(0.2, 1.6, 0.4, 1) both;
-  animation-delay: calc(0.62s + var(--i) * 55ms);
+  animation-delay: calc(var(--t0) + 1s + var(--i) * 55ms);
 }
 
 .strip .pip::after {
@@ -284,7 +276,7 @@ html[data-intro="play"] .strip {
   inset: 0;
   border-radius: 50%;
   animation: pip-ring 0.7s ease-out both;
-  animation-delay: calc(0.62s + var(--i) * 55ms);
+  animation-delay: calc(var(--t0) + 1s + var(--i) * 55ms);
 }
 
 @keyframes pip-ring {
@@ -311,12 +303,14 @@ html[data-intro="play"] .strip {
 }
 
 .strip-count {
-  animation: fade-in 0.3s ease 0.5s both;
+  animation: fade-in 0.3s ease both;
+  animation-delay: calc(var(--t0) + 0.9s);
 }
 
 .strip-n {
   counter-reset: n var(--n);
-  animation: count 0.77s linear 0.62s both;
+  animation: count 0.77s linear both;
+  animation-delay: calc(var(--t0) + 1s);
 }
 
 .strip-n::before {
@@ -336,16 +330,6 @@ html[data-intro="play"] .strip {
   from {
     opacity: 0;
   }
-}
-
-html[data-intro="skip"] .intro {
-  display: none;
-}
-
-html[data-intro="skip"] .strip,
-html[data-intro="skip"] .strip *,
-html[data-intro="skip"] .strip .pip::after {
-  animation: none;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -467,22 +451,100 @@ article:target .project-title {
   animation: arrive 1.6s ease-out 0.3s;
 }
 
-/* WebGL draws the portrait and the project screens. Without it, show the images. */
+/* WebGL draws the portrait. Without it, show the photo. */
 [data-webgl="off"] .portrait-fallback {
   opacity: 1;
 }
 
-[data-webgl="on"] .screen-fallback {
-  visibility: hidden;
+/* Blocks rise into place as they scroll in. Only with JS, so nothing stays hidden without it. */
+html[data-js] [data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html[data-js] [data-reveal][data-in] {
+  opacity: 1;
+  transform: none;
+}
+
+/* Project screenshots: grey until you look at them, leaning towards the pointer. */
+.shot-wrap {
+  perspective: 1100px;
+}
+
+.shot {
+  overflow: hidden;
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: 0 0 0 1px var(--color-line);
+  transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition:
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.3s ease;
+  will-change: transform;
+}
+
+.shot img {
+  filter: grayscale(1) contrast(1.05);
+  transform: scale(1.02);
+  transition:
+    filter 0.5s ease,
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.shot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), rgb(255 255 255 / 0.18), transparent 55%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.shot:hover {
+  transition-duration: 0.15s;
+  box-shadow: 0 0 0 1px var(--color-line-strong);
+}
+
+.shot:hover img {
+  filter: none;
+  transform: scale(1);
+}
+
+.shot:hover::after {
+  opacity: 1;
+}
+
+/* The stage caption changes with the project. */
+.swap {
+  animation: swap 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes swap {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+/* The email: an underline that draws in. */
+.mail {
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 0.05em no-repeat;
+  transition: background-size 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.mail:hover,
+.mail:focus-visible {
+  background-size: 100% 0.05em;
 }
 
 @media (prefers-reduced-motion: reduce) {
   :root {
     --t0: 0s;
-  }
-
-  .intro {
-    display: none;
   }
 
   .strip,
@@ -505,6 +567,15 @@ article:target .project-title {
 
   article:target .project-title {
     animation: none;
+  }
+
+  [data-reveal],
+  .shot,
+  .swap {
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
   }
 }
 

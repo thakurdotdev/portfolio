@@ -1,10 +1,13 @@
+"use client";
+
 import type { CSSProperties } from "react";
 import { projectSlug, serverSnapshot as snap } from "@/constants/server";
+import { highlight } from "@/lib/highlight";
 
 /**
  * `pm0 ls` as a row of pips: one per process online on my server. Mine are lit and link to
- * their project; the rest belong to other people and stay dim. It is the intro's subject
- * and then lives in the hero.
+ * their project; the rest belong to other people and stay dim. Each one is a satellite in
+ * the server scene further down.
  */
 export function ProcessStrip() {
   const others = snap.totalOnline - snap.processes.length;
@@ -25,6 +28,8 @@ export function ProcessStrip() {
                 href={`#${projectSlug(p.project)}`}
                 className="group relative block before:absolute before:-inset-[5px]"
                 aria-label={`${p.app}, part of ${p.project}`}
+                onPointerEnter={() => highlight(i)}
+                onPointerLeave={() => highlight(-1)}
               >
                 <span className="pip" style={{ "--i": i } as CSSProperties} />
                 <span
@@ -43,7 +48,7 @@ export function ProcessStrip() {
           ))}
         </ul>
         <p className="strip-count whitespace-nowrap text-[15px]">
-          {/* The visible number counts up with the pips during the intro. */}
+          {/* The visible number counts up as the pips come online. */}
           <span className="strip-n inline-block min-w-[2ch] font-semibold tabular-nums" aria-hidden="true" />
           <span className="sr-only">{snap.totalOnline}</span> online
         </p>

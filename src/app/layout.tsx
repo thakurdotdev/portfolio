@@ -132,16 +132,8 @@ export default function RootLayout({
       <head>
         {/* The hero portrait is drawn from this; fetch it with the page, not after hydration. */}
         <link rel="preload" as="image" href="/pankaj-cutout.webp" />
-        {/*
-          The intro plays once per tab session, and not when arriving at a section link or with
-          reduced motion. Decided before first paint; the page stays still while it plays.
-        */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html:
-              "try{var d=document.documentElement;if(sessionStorage.getItem('intro')||location.hash||matchMedia('(prefers-reduced-motion: reduce)').matches){d.dataset.intro='skip'}else{sessionStorage.setItem('intro','1');d.dataset.intro='play';setTimeout(function(){d.dataset.intro='done'},2850)}}catch(e){}",
-          }}
-        />
+        {/* Scroll reveals hide content only when JS is there to show it again. */}
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.dataset.js=''" }} />
       </head>
       <body
         className={`antialiased ${bricolage.variable} ${jetbrainsMono.variable} font-sans`}

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { personalInfo } from "@/constants";
+import { scrollToY } from "@/lib/smooth-scroll";
 
 const links = [
   { href: "#work", label: "Projects" },
@@ -34,7 +35,7 @@ export function SiteNav() {
           href="#top"
           onClick={(e) => {
             e.preventDefault();
-            window.scrollTo({ top: 0 });
+            scrollToY(0);
             history.replaceState(null, "", location.pathname);
           }}
           className="flex items-center gap-2.5 py-2.5 text-[15px] font-semibold tracking-[-0.01em]"

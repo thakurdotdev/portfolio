@@ -96,7 +96,7 @@ export function Experience() {
     <div className="grid gap-x-12 gap-y-16 pt-14 sm:pt-20 lg:grid-cols-12">
       <div className="lg:col-span-5">
         <div className="lg:sticky lg:top-28">
-          <h3 className="display display-l -ml-[0.04em]">{org.organization}</h3>
+          <h3 className="display display-xl -ml-[0.05em]">{org.organization}</h3>
           <p className="lead mt-5 max-w-[34ch]">
             Client portals and backends for a central bank and a credit union. {org.location}.
           </p>
@@ -108,7 +108,7 @@ export function Experience() {
         {/* Two results worth their own line. */}
         <div className="space-y-12">
           {engineeringWins.map((w) => (
-            <div key={w.title} className="border-t border-line-strong pt-5">
+            <div key={w.title} data-reveal="" className="border-t border-line-strong pt-5">
               <p className="display display-m">{w.metric}</p>
               <h4 className="mt-4 text-lg font-semibold tracking-[-0.01em]">{w.title}</h4>
               <p className="mt-2 max-w-[62ch] leading-relaxed text-muted">{w.desc}</p>
@@ -117,7 +117,7 @@ export function Experience() {
         </div>
 
         {org.roles.map((role) => (
-          <div key={role.title} className="mt-16 sm:mt-20">
+          <div key={role.title} data-reveal="" className="mt-16 sm:mt-20">
             <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
               <h4 className="text-[clamp(1.375rem,2vw,1.75rem)] font-semibold leading-tight tracking-[-0.02em]">
                 {role.title}
@@ -147,7 +147,7 @@ export function Experience() {
           </div>
         ))}
 
-        <div className="mt-16 sm:mt-20">
+        <div data-reveal="" className="mt-16 sm:mt-20">
           <h4 className="text-[clamp(1.375rem,2vw,1.75rem)] font-semibold leading-tight tracking-[-0.02em]">
             Works with
           </h4>

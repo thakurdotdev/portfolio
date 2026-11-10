@@ -33,6 +33,8 @@ export interface Project {
   zoom?: number;
   /** Two or three short, verifiable facts shown as chips on the work tile. */
   facts: string[];
+  /** The shape the dots take while this project is on screen (see components/world/shaders.ts). */
+  scene: "tunnel" | "lattice" | "wave" | "stack";
 }
 
 export const projects: Project[] = [
@@ -51,6 +53,7 @@ export const projects: Project[] = [
     accent: "#22c55e",
     facts: ["No client install", "Live request inspector", "Custom domains"],
     zoom: 1.1,
+    scene: "tunnel",
   },
   {
     title: "pm0",
@@ -65,6 +68,7 @@ export const projects: Project[] = [
     accent: "#ef4444",
     facts: ["~16 MB idle daemon", "77% less memory than PM2", "Sub-40 ms status"],
     zoom: 1,
+    scene: "lattice",
   },
   {
     title: "SyncVibe",
@@ -89,6 +93,7 @@ export const projects: Project[] = [
     accent: "#ec4899",
     facts: ["Synced playback", "WebRTC video calls", "Passkey sign-in"],
     zoom: 1,
+    scene: "wave",
   },
   {
     title: "ShipYard",
@@ -112,6 +117,7 @@ export const projects: Project[] = [
     accent: "#14b8a6",
     facts: ["Deploys from Git", "Live build logs", "GitHub integration"],
     zoom: 1,
+    scene: "stack",
   },
 ];
 

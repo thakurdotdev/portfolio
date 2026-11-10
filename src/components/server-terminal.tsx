@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { usePrefersReducedMotion } from "@/components/use-reduced-motion";
 import { projectSlug, serverSnapshot as snap } from "@/constants/server";
+import { highlight } from "@/lib/highlight";
 
 /*
  * Two sessions:
@@ -188,8 +189,14 @@ function ProcessTable({
             return (
               <tr
                 key={p.id}
-                onMouseEnter={() => onHover(p.project)}
-                onMouseLeave={() => onHover(null)}
+                onMouseEnter={() => {
+                  onHover(p.project);
+                  highlight(i);
+                }}
+                onMouseLeave={() => {
+                  onHover(null);
+                  highlight(-1);
+                }}
                 className={`transition-[opacity,background-color] duration-200 [&>td]:px-2.5 [&>td]:py-[5px] sm:[&>td]:px-3.5 sm:[&>td]:py-[3px] ${
                   i < rowsVisible ? "opacity-100" : "opacity-0"
                 } ${lit ? "bg-soft" : ""} ${i === 0 ? "[&>td]:pt-2.5" : ""} ${i === snap.processes.length - 1 ? "[&>td]:pb-2.5" : ""}`}
