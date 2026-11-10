@@ -1,7 +1,7 @@
 "use client";
 
-import { useReducedMotion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
+import { usePrefersReducedMotion } from "@/components/use-reduced-motion";
 import { projectSlug, serverSnapshot as snap } from "@/constants/server";
 
 /*
@@ -12,14 +12,14 @@ import { projectSlug, serverSnapshot as snap } from "@/constants/server";
 
 const tunlLines: [string, string][][] = [
   [],
-  [[">_ tunl", "text-zinc-100"], ["  •  ", "text-zinc-600"], ["● Online", "text-emerald-400"]],
-  [["─────────────────────────────────────────────", "text-zinc-700"]],
-  [["Account     ", "text-zinc-500"], ["Anonymous Device", "text-zinc-200"]],
-  [["Forwarding  ", "text-zinc-500"], ["http://localhost:3000", "text-zinc-200"]],
-  [["Public URL  ", "text-zinc-500"], ["https://frosty-pine.tunl.online", "text-sky-300"]],
-  [["Inspector   ", "text-zinc-500"], ["https://tunl.online/inspect/frosty-pine", "text-sky-300"]],
-  [["─────────────────────────────────────────────", "text-zinc-700"]],
-  [["Press Ctrl+C or Ctrl+D to stop the tunnel", "text-zinc-500"]],
+  [[">_ tunl", "text-fg"], ["  •  ", "text-dim"], ["● Online", "text-accent"]],
+  [["─────────────────────────────────────────────", "text-dim"]],
+  [["Account     ", "text-muted"], ["Anonymous Device", "text-fg"]],
+  [["Forwarding  ", "text-muted"], ["http://localhost:3000", "text-fg"]],
+  [["Public URL  ", "text-muted"], ["https://frosty-pine.tunl.online", "text-accent"]],
+  [["Inspector   ", "text-muted"], ["https://tunl.online/inspect/frosty-pine", "text-accent"]],
+  [["─────────────────────────────────────────────", "text-dim"]],
+  [["Press Ctrl+C or Ctrl+D to stop the tunnel", "text-muted"]],
 ];
 
 const sessions = [
@@ -29,7 +29,7 @@ const sessions = [
 
 /** Types `text`, then reveals `steps` items one by one. Runs only while `active`. */
 function usePlayback(text: string, steps: number, active: boolean, key: string) {
-  const reduce = useReducedMotion();
+  const reduce = usePrefersReducedMotion();
   const [chars, setChars] = useState(0);
   const [shown, setShown] = useState(0);
 
@@ -71,15 +71,10 @@ export function ServerTerminal({ active = true }: { active?: boolean }) {
   }, []);
 
   return (
-    <div ref={ref} className="bezel">
-      <div className="overflow-hidden rounded-[calc(1.75rem-7px)] border border-white/10 bg-[#0c0c0f] text-zinc-300 shadow-[inset_0_1px_0_rgb(255_255_255/0.06),0_30px_70px_-30px_rgb(0_0_0/0.65)]">
+    <div ref={ref}>
+      <div className="overflow-hidden rounded-[14px] border border-line bg-surface text-fg">
         {/* Title bar */}
-        <div className="flex items-center gap-3 border-b border-white/[0.07] bg-white/[0.025] px-4 py-2.5">
-          <div className="flex gap-1.5" aria-hidden="true">
-            <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
-            <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
-            <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
-          </div>
+        <div className="flex items-center gap-3 border-b border-line bg-soft px-4 py-2.5">
           <div role="tablist" aria-label="Terminal sessions" className="flex gap-1">
             {sessions.map((t, i) => (
               <button
@@ -91,15 +86,15 @@ export function ServerTerminal({ active = true }: { active?: boolean }) {
                 aria-controls={`term-panel-${t.id}`}
                 onClick={() => setTab(i)}
                 className={`relative cursor-pointer rounded-md px-2.5 py-1 font-mono text-xs transition-colors before:absolute before:-inset-1.5 ${
-                  i === tab ? "bg-white/10 text-white" : "text-zinc-500 hover:text-zinc-300"
+                  i === tab ? "bg-bg text-fg shadow-[0_0_0_1px_var(--color-line)]" : "text-muted hover:text-fg"
                 }`}
               >
                 {t.label}
               </button>
             ))}
           </div>
-          <span className="ml-auto hidden font-mono text-[11px] text-zinc-600 sm:block">
-            {tab === 0 ? `snapshot · ${snap.capturedOn}` : "from the tunl README"}
+          <span className="ml-auto hidden font-mono text-[11px] text-dim sm:block">
+            {tab === 0 ? `captured ${snap.capturedOn}` : "from the tunl README"}
           </span>
         </div>
 
@@ -110,11 +105,11 @@ export function ServerTerminal({ active = true }: { active?: boolean }) {
           className="min-h-[392px] px-3 py-4 font-mono text-[11px] leading-[1.7] sm:min-h-[430px] sm:px-5 sm:text-[12.5px]"
         >
           <p className="truncate whitespace-pre">
-            <span className="font-semibold text-emerald-400">ubuntu@instance</span>
-            <span className="text-zinc-500">:</span>
-            <span className="font-semibold text-sky-300">~</span>
-            <span className="text-zinc-500">$ </span>
-            <span className="text-zinc-100">{s.cmd.slice(0, play.chars)}</span>
+            <span className="font-semibold text-accent">ubuntu@instance</span>
+            <span className="text-muted">:</span>
+            <span className="font-semibold text-accent">~</span>
+            <span className="text-muted">$ </span>
+            <span className="text-fg">{s.cmd.slice(0, play.chars)}</span>
             {play.typing && <Cursor />}
           </p>
 
@@ -135,10 +130,10 @@ export function ServerTerminal({ active = true }: { active?: boolean }) {
 
           {play.done && (
             <p className="mt-2 whitespace-pre">
-              <span className="font-semibold text-emerald-400">ubuntu@instance</span>
-              <span className="text-zinc-500">:</span>
-              <span className="font-semibold text-sky-300">~</span>
-              <span className="text-zinc-500">$ </span>
+              <span className="font-semibold text-accent">ubuntu@instance</span>
+              <span className="text-muted">:</span>
+              <span className="font-semibold text-accent">~</span>
+              <span className="text-muted">$ </span>
               <Cursor />
             </p>
           )}
@@ -148,7 +143,7 @@ export function ServerTerminal({ active = true }: { active?: boolean }) {
   );
 }
 
-const cellBorder = "border-l border-white/[0.08] first:border-l-0";
+const cellBorder = "border-l border-line first:border-l-0";
 
 function ProcessTable({
   shown,
@@ -167,14 +162,14 @@ function ProcessTable({
   const md = "hidden md:table-cell";
 
   return (
-    <div className={`mt-2 overflow-hidden rounded-md border border-white/[0.1] transition-opacity duration-300 ${shown > 0 ? "opacity-100" : "opacity-0"}`}>
+    <div className={`mt-2 overflow-hidden rounded-md border border-line transition-opacity duration-300 ${shown > 0 ? "opacity-100" : "opacity-0"}`}>
       <div className="overflow-x-auto">
       <table className="w-full border-collapse whitespace-nowrap text-left tabular-nums">
         <caption className="sr-only">
           Processes on my server, captured {snap.capturedOn}. Each app links to its project.
         </caption>
         <thead>
-          <tr className="border-b border-white/[0.1] text-zinc-300 [&>th]:px-2.5 [&>th]:py-2 [&>th]:font-semibold sm:[&>th]:px-3.5">
+          <tr className="border-b border-line text-fg [&>th]:px-2.5 [&>th]:py-2 [&>th]:font-semibold sm:[&>th]:px-3.5">
             <th scope="col" className={`${cellBorder} ${sm}`}>id</th>
             <th scope="col" className={cellBorder}>app</th>
             <th scope="col" className={`${cellBorder} ${md}`}>mode</th>
@@ -197,32 +192,32 @@ function ProcessTable({
                 onMouseLeave={() => onHover(null)}
                 className={`transition-[opacity,background-color] duration-200 [&>td]:px-2.5 [&>td]:py-[5px] sm:[&>td]:px-3.5 sm:[&>td]:py-[3px] ${
                   i < rowsVisible ? "opacity-100" : "opacity-0"
-                } ${lit ? "bg-white/[0.05]" : ""} ${i === 0 ? "[&>td]:pt-2.5" : ""} ${i === snap.processes.length - 1 ? "[&>td]:pb-2.5" : ""}`}
+                } ${lit ? "bg-soft" : ""} ${i === 0 ? "[&>td]:pt-2.5" : ""} ${i === snap.processes.length - 1 ? "[&>td]:pb-2.5" : ""}`}
               >
-                <td className={`${cellBorder} ${sm} text-zinc-300`}>{p.id}</td>
+                <td className={`${cellBorder} ${sm} text-fg`}>{p.id}</td>
                 <td className={cellBorder}>
                   <a
                     href={`#${projectSlug(p.project)}`}
-                    className="relative text-zinc-100 underline decoration-transparent before:absolute before:-inset-y-1.5 before:-inset-x-1 sm:before:-inset-y-1 underline-offset-4 transition-colors hover:decoration-zinc-500"
+                    className="relative text-fg underline decoration-transparent before:absolute before:-inset-y-1.5 before:-inset-x-1 sm:before:-inset-y-1 underline-offset-4 transition-colors hover:decoration-line-strong"
                     aria-label={`${p.app}, part of ${p.project}. Jump to project`}
                   >
                     {p.app}
                   </a>
                   <span
                     aria-hidden="true"
-                    className={`ml-2 hidden text-zinc-500 transition-opacity duration-200 lg:inline ${lit ? "opacity-100" : "opacity-0"}`}
+                    className={`ml-2 hidden text-muted transition-opacity duration-200 lg:inline ${lit ? "opacity-100" : "opacity-0"}`}
                   >
                     → {p.project}
                   </span>
                 </td>
-                <td className={`${cellBorder} ${md} text-zinc-600`}>{p.mode}</td>
-                <td className={`${cellBorder} whitespace-nowrap font-semibold text-emerald-400`}>● online</td>
-                <td className={`${cellBorder} ${sm} whitespace-nowrap text-cyan-300`}>{p.port}</td>
-                <td className={`${cellBorder} ${md} text-right text-zinc-300`}>{p.pid}</td>
-                <td className={`${cellBorder} text-zinc-300`}>{p.uptime}</td>
-                <td className={`${cellBorder} ${md} ${p.restarts ? "font-semibold text-amber-300" : "text-zinc-600"}`}>{p.restarts}</td>
-                <td className={`${cellBorder} ${md} text-right text-zinc-300`}>{p.cpu}</td>
-                <td className={`${cellBorder} hidden text-right text-zinc-300 min-[420px]:table-cell`}>{p.mem}</td>
+                <td className={`${cellBorder} ${md} text-dim`}>{p.mode}</td>
+                <td className={`${cellBorder} whitespace-nowrap font-semibold text-accent`}>● online</td>
+                <td className={`${cellBorder} ${sm} whitespace-nowrap text-muted`}>{p.port}</td>
+                <td className={`${cellBorder} ${md} text-right text-fg`}>{p.pid}</td>
+                <td className={`${cellBorder} text-fg`}>{p.uptime}</td>
+                <td className={`${cellBorder} ${md} ${p.restarts ? "font-semibold text-fg" : "text-dim"}`}>{p.restarts}</td>
+                <td className={`${cellBorder} ${md} text-right text-fg`}>{p.cpu}</td>
+                <td className={`${cellBorder} hidden text-right text-fg min-[420px]:table-cell`}>{p.mem}</td>
               </tr>
             );
           })}
@@ -231,25 +226,25 @@ function ProcessTable({
       </div>
 
       <div
-        className={`grid gap-x-6 gap-y-0.5 border-t border-white/[0.1] px-2.5 py-2.5 text-zinc-500 transition-opacity duration-300 sm:grid-cols-2 sm:px-3.5 ${
+        className={`grid gap-x-6 gap-y-0.5 border-t border-line px-2.5 py-2.5 text-muted transition-opacity duration-300 sm:grid-cols-2 sm:px-3.5 ${
           footerVisible ? "opacity-100" : "opacity-0"
         }`}
       >
         <p>
-          processes: <span className="font-semibold text-emerald-400">{snap.totalOnline} online</span>{" "}
-          <span className="text-zinc-600">({snap.hidden} not mine to show)</span>
+          processes: <span className="font-semibold text-accent">{snap.totalOnline} online</span>{" "}
+          <span className="text-dim">({snap.hidden} not mine to show)</span>
         </p>
         <p className="sm:text-right">
-          host cpu: <span className="text-zinc-300">{snap.host_cpu.split(" (")[0]}</span>
-          <span className="hidden text-zinc-600 md:inline"> ({snap.host_cpu.split(" (")[1]}</span>
+          host cpu: <span className="text-fg">{snap.host_cpu.split(" (")[0]}</span>
+          <span className="hidden text-dim md:inline"> ({snap.host_cpu.split(" (")[1]}</span>
         </p>
         <p>
-          app usage: <span className="text-zinc-300">{snap.appUsage.cpu} cpu</span>,{" "}
-          <span className="font-semibold text-amber-200">{snap.appUsage.mem} mem</span>
+          app usage: <span className="text-fg">{snap.appUsage.cpu} cpu</span>,{" "}
+          <span className="font-semibold text-fg">{snap.appUsage.mem} mem</span>
         </p>
         <p className="sm:text-right">
           host mem: <MemBar pct={snap.host_mem.pct} />{" "}
-          <span className="text-zinc-300">{snap.host_mem.label}</span>
+          <span className="text-fg">{snap.host_mem.label}</span>
         </p>
       </div>
     </div>
@@ -260,14 +255,14 @@ function MemBar({ pct }: { pct: number }) {
   const filled = Math.round(pct / 10);
   return (
     <span aria-hidden="true" className="hidden whitespace-pre min-[420px]:inline">
-      <span className="text-zinc-600">[</span>
-      <span className="text-emerald-400">{"■".repeat(filled)}</span>
-      <span className="text-zinc-700">{"□".repeat(10 - filled)}</span>
-      <span className="text-zinc-600">]</span>
+      <span className="text-dim">[</span>
+      <span className="text-accent">{"■".repeat(filled)}</span>
+      <span className="text-dim">{"□".repeat(10 - filled)}</span>
+      <span className="text-dim">]</span>
     </span>
   );
 }
 
 function Cursor() {
-  return <span aria-hidden="true" className="ml-px inline-block h-[1.1em] w-[0.55em] translate-y-[0.2em] bg-zinc-300 motion-safe:animate-pulse" />;
+  return <span aria-hidden="true" className="ml-px inline-block h-[1.1em] w-[0.55em] translate-y-[0.2em] bg-fg motion-safe:animate-pulse" />;
 }
