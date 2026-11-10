@@ -33,6 +33,8 @@ export interface Project {
   zoom?: number;
   /** Two or three short, verifiable facts shown as chips on the work tile. */
   facts: string[];
+  /** The shape the dots take while this project is on screen (see components/world/shaders.ts). */
+  scene: "tunnel" | "supervisor" | "wave" | "pipeline";
 }
 
 export const projects: Project[] = [
@@ -51,6 +53,7 @@ export const projects: Project[] = [
     accent: "#22c55e",
     facts: ["No client install", "Live request inspector", "Custom domains"],
     zoom: 1.1,
+    scene: "tunnel",
   },
   {
     title: "pm0",
@@ -65,6 +68,7 @@ export const projects: Project[] = [
     accent: "#ef4444",
     facts: ["~16 MB idle daemon", "77% less memory than PM2", "Sub-40 ms status"],
     zoom: 1,
+    scene: "supervisor",
   },
   {
     title: "SyncVibe",
@@ -89,6 +93,7 @@ export const projects: Project[] = [
     accent: "#ec4899",
     facts: ["Synced playback", "WebRTC video calls", "Passkey sign-in"],
     zoom: 1,
+    scene: "wave",
   },
   {
     title: "ShipYard",
@@ -112,6 +117,7 @@ export const projects: Project[] = [
     accent: "#14b8a6",
     facts: ["Deploys from Git", "Live build logs", "GitHub integration"],
     zoom: 1,
+    scene: "pipeline",
   },
 ];
 
@@ -184,6 +190,74 @@ export const workExperience = [
         ],
       },
     ],
+  },
+];
+
+/*
+ * The experience section, as short chapters. Each one is drawn as a dot simulation of the
+ * work itself (see components/world/shaders.ts). The full notes stay in workExperience.
+ */
+export interface ExperienceChapter {
+  id: string;
+  scene: "workflow" | "outbox" | "encrypt" | "screen" | "chat";
+  /** Name in the scene rail. */
+  label: string;
+  role: string;
+  context: string;
+  headline: string;
+  body: string;
+  link?: { href: string; text: string };
+}
+
+export const experienceChapters: ExperienceChapter[] = [
+  {
+    id: "workflows",
+    scene: "workflow",
+    label: "Workflows",
+    role: "Engineer",
+    context: "ECCB complaint portal",
+    headline: "Cases that route themselves",
+    body: "I led the architecture of the customer and admin portals for the Eastern Caribbean Central Bank's Office of Financial Conduct. Complaints are assigned and escalated automatically, by channel and by how each case is going.",
+  },
+  {
+    id: "outbox",
+    scene: "outbox",
+    label: "Outbox",
+    role: "Engineer",
+    context: "Multi-tenant database sync",
+    headline: "Timeouts to 200–300 ms",
+    body: "Queries across tenant databases timed out at 50,000 records. Now each tenant writes its changes to an outbox and workers copy them into one read database. At 350,000 records, the same queries return in 200 to 300 ms.",
+  },
+  {
+    id: "encryption",
+    scene: "encrypt",
+    label: "Encryption",
+    role: "Engineer",
+    context: "API security",
+    headline: "Encrypted end to end",
+    body: "RSA-2048 hands every session a fresh key, then AES-256-GCM encrypts each payload with it. Strong encryption that stays cheap per request.",
+  },
+  {
+    id: "risk",
+    scene: "screen",
+    label: "KYC / AML",
+    role: "Engineer",
+    context: "Risk platform for CWJCU",
+    headline: "Risk checks for a credit union",
+    body: "A client-facing risk management platform, with backend gateways for KYC/AML checks and third-party services.",
+    link: {
+      href: "https://www.linkedin.com/posts/thakurdotdev_clienttestimonial-netclues-fintech-activity-7457841848527622144-h7oe",
+      text: "Read the client's note on LinkedIn",
+    },
+  },
+  {
+    id: "chat",
+    scene: "chat",
+    label: "Chat",
+    role: "Intern",
+    context: "Socket.IO chat service",
+    headline: "Where it started",
+    body: "A real-time chat microservice on Socket.IO, built as an intern: one-to-one and group chats, file sharing, typing indicators, read receipts and presence.",
   },
 ];
 

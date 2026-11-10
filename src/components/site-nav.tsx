@@ -3,11 +3,11 @@
 import { useEffect, useState } from "react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { personalInfo } from "@/constants";
+import { scrollToY } from "@/lib/smooth-scroll";
 
 const links = [
   { href: "#work", label: "Projects" },
   { href: "#experience", label: "Experience" },
-  { href: "#server", label: "Server" },
   { href: "#contact", label: "Contact" },
 ];
 
@@ -29,12 +29,12 @@ export function SiteNav() {
           : "border-transparent"
       }`}
     >
-      <nav aria-label="Main" className="flex h-16 items-center justify-between gap-4 px-5 sm:px-8 lg:px-12">
+      <nav aria-label="Main" className="page-w flex h-16 items-center justify-between gap-4 px-5 sm:px-8 lg:px-12">
         <a
           href="#top"
           onClick={(e) => {
             e.preventDefault();
-            window.scrollTo({ top: 0 });
+            scrollToY(0);
             history.replaceState(null, "", location.pathname);
           }}
           className="flex items-center gap-2.5 py-2.5 text-[15px] font-semibold tracking-[-0.01em]"
