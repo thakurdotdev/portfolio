@@ -117,16 +117,16 @@ export const projects: Project[] = [
 
 export const engineeringWins = [
   {
-    title: "Multi-Tenant Database Sync",
+    title: "Multi-tenant database sync",
     focus: "Database Scaling & Outbox Pattern",
-    metric: "Timeout → 200-300ms",
-    desc: "Designed and implemented a Transactional Outbox Pattern to solve runtime database query timeouts occurring at ~50k records in a multi-tenant setup. Introduced local outbox tables across tenant databases and engineered background workers to sync records asynchronously into a centralized read database. Scaled system past 350k+ records with queries resolving in 200-300ms.",
+    metric: "Timeout to 200–300 ms",
+    desc: "Queries across tenant databases began timing out at around 50,000 records. I added an outbox table to each tenant database and background workers that copy changes into one central read database. The same queries now return in 200 to 300 ms at more than 350,000 records.",
   },
   {
-    title: "Hybrid API Encryption Protocol",
+    title: "Hybrid API encryption",
     focus: "Security & Performance Engineering",
-    metric: "RSA-2048 & AES-256-GCM",
-    desc: "Designed and deployed a hybrid cryptographic exchange protocol for securing API payloads. Utilized RSA for asymmetric, secure dynamic session key exchange and AES for symmetric high-performance payload encryption. Optimized execution overhead to balance defense-in-depth security with high throughput requirements.",
+    metric: "RSA-2048 + AES-256-GCM",
+    desc: "API payloads are encrypted end to end. RSA exchanges a fresh session key for each session, and AES-GCM encrypts the payloads with it, which keeps the per-request overhead low.",
   },
 ];
 

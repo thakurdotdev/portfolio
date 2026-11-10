@@ -51,15 +51,15 @@ export function VideoDialog({ isOpen, onClose, videoUrl, title }: VideoDialogPro
       aria-labelledby="video-dialog-title"
     >
       <div
-        className="fixed inset-0 bg-black/70 backdrop-blur-sm"
+        className="fixed inset-0 bg-bg/80 backdrop-blur-sm"
         onClick={onClose}
         aria-hidden="true"
       />
       <div
         ref={dialogRef}
-        className="bezel relative z-10 w-full max-w-4xl"
+        className="relative z-10 w-full max-w-4xl"
       >
-        <div className="bezel-inner">
+        <div className="overflow-hidden rounded-[14px] bg-surface">
         <div className="flex items-center justify-between border-b border-line px-5 py-3">
           <span id="video-dialog-title" className="text-sm font-medium text-fg">
             {title} demo
@@ -68,31 +68,25 @@ export function VideoDialog({ isOpen, onClose, videoUrl, title }: VideoDialogPro
             onClick={onClose}
             type="button"
             aria-label="Close demo dialog"
-            className="btn btn-surface btn-icon h-8 w-8 cursor-pointer text-xs"
+            className="grid h-8 w-8 cursor-pointer place-items-center rounded-full text-xs text-muted transition-colors hover:text-fg"
           >
             ✕
           </button>
         </div>
 
-        <div className="relative aspect-video bg-black flex items-center justify-center">
+        <div className={`relative flex aspect-video items-center justify-center ${hasError ? "bg-surface" : "bg-black"}`}>
           {isLoading && !hasError && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-black/60 z-10 text-white text-xs font-mono">
-              <span className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin" />
-              <span>Loading video…</span>
+            <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/60 text-sm text-white">
+              Loading the video
             </div>
           )}
 
           {hasError ? (
-            <div className="p-8 text-center text-white/80 font-mono text-xs space-y-3">
-              <p className="text-rose-400 font-bold">Unable to load video stream</p>
-              <p className="text-[11px] text-white/60">Check connection or open the demo directly in a new tab.</p>
-              <a
-                href={videoUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block px-3 py-1.5 rounded bg-white text-black font-bold hover:bg-white/90 transition-colors"
-              >
-                Open the video ↗
+            <div className="p-8 text-center">
+              <p className="font-medium">The video didn&rsquo;t load.</p>
+              <p className="mt-1 text-sm text-muted">Check your connection, or open it in a new tab.</p>
+              <a href={videoUrl} target="_blank" rel="noopener noreferrer" className="link mt-4 inline-block text-sm">
+                Open the video
               </a>
             </div>
           ) : (

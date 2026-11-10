@@ -1,25 +1,26 @@
 import { ThemeProvider } from "@/components/theme-provider";
 import type { Metadata, Viewport } from "next";
-import { Space_Grotesk, JetBrains_Mono } from "next/font/google";
+import { Bricolage_Grotesque, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
 
-const spaceGrotesk = Space_Grotesk({
+const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
-  preload: true,
-  variable: "--font-space-grotesk",
+  axes: ["opsz", "wdth"],
+  variable: "--font-bricolage",
 });
+
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
-  preload: true,
+  preload: false,
   variable: "--font-jetbrains",
 });
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f6f6f7" },
-    { media: "(prefers-color-scheme: dark)", color: "#08080a" },
+    { media: "(prefers-color-scheme: light)", color: "#f2f2f2" },
+    { media: "(prefers-color-scheme: dark)", color: "#050505" },
   ],
 };
 
@@ -128,8 +129,22 @@ export default function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* The hero portrait is drawn from this; fetch it with the page, not after hydration. */}
+        <link rel="preload" as="image" href="/pankaj-cutout.webp" />
+        {/*
+          The intro plays once per tab session, and not when arriving at a section link or with
+          reduced motion. Decided before first paint; the page stays still while it plays.
+        */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{var d=document.documentElement;if(sessionStorage.getItem('intro')||location.hash||matchMedia('(prefers-reduced-motion: reduce)').matches){d.dataset.intro='skip'}else{sessionStorage.setItem('intro','1');d.dataset.intro='play';setTimeout(function(){d.dataset.intro='done'},2850)}}catch(e){}",
+          }}
+        />
+      </head>
       <body
-        className={`antialiased ${spaceGrotesk.variable} ${jetbrainsMono.variable} font-sans`}
+        className={`antialiased ${bricolage.variable} ${jetbrainsMono.variable} font-sans`}
       >
         <Script
           id="json-ld"
