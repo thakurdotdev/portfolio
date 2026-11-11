@@ -103,7 +103,7 @@ vec3 form(int k, float t, out float s, out float a) {
       return vec3(0.0, -0.3, 0.0);
     }
     float cellPx = (gRadius * 2.0 / uGrid) / uWpp;
-    s = (0.2 + 0.95 * sqrt(pt.w)) * cellPx / uSize;
+    s = (0.22 + 0.95 * sqrt(pt.w)) * cellPx / uSize;
     vec3 p = pt.xyz;
     p.z += sin(t * 1.1 + p.y * 3.0 + p.x * 2.0) * 0.012;
     return p;
