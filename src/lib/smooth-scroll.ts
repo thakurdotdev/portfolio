@@ -4,21 +4,38 @@ import { addTick } from "@/lib/ticker";
 let lenis: Lenis | null = null;
 
 /*
- * Stepped sections. Inside a run of registered elements (the projects), one wheel or
- * trackpad gesture glides to the next or previous element instead of scrolling freely.
- * The rest of that gesture, a trackpad's momentum tail included, is swallowed, so one
- * flick moves one step. Desktop with a fine pointer only; touch, keys and the scrollbar
- * are left alone.
+ * Stepped sections. Inside a run of registered elements (the projects, the experience
+ * chapters), one wheel or trackpad gesture glides to the next or previous element instead
+ * of scrolling freely. The rest of that gesture, a trackpad's momentum tail included, is
+ * swallowed, so one flick moves one step. Desktop with a fine pointer only; touch, keys
+ * and the scrollbar are left alone.
  */
-let steps: HTMLElement[] = [];
+const runs = new Set<HTMLElement[]>();
 const step = { locked: false, animating: false, lastWheel: 0, lastAbs: 0 };
 /* A pause this long ends a gesture. So does a sudden rise in speed (a new swipe while
    the last one's momentum is still fading): momentum only ever decays. */
 const GESTURE_GAP = 450;
 const easeInOutCubic = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 
+/* The top to glide to from scroll position y in direction dir, or undefined to scroll freely. */
+function stepTarget(run: HTMLElement[], y: number, dir: number) {
+  const tops = run.map((el) => Math.round(el.getBoundingClientRect().top + window.scrollY));
+  const first = tops[0];
+  const last = tops[tops.length - 1];
+  const vh = window.innerHeight;
+  const eps = 4;
+  if (dir > 0) {
+    if (y < first - eps) return first - y < vh * 0.75 ? first : undefined;
+    if (y < last - eps) return tops.find((t) => t > y + eps);
+    return undefined;
+  }
+  if (y > last + eps) return y - last < vh ? last : undefined;
+  if (y > first + eps) return [...tops].reverse().find((t) => t < y - eps);
+  return undefined;
+}
+
 function onWheel({ deltaY, event }: VirtualScrollData): boolean {
-  if (!lenis || !steps.length || event.type !== "wheel" || event.ctrlKey) return true;
+  if (!lenis || !runs.size || event.type !== "wheel" || event.ctrlKey) return true;
   if (!matchMedia("(min-width: 1024px) and (pointer: fine)").matches) return true;
 
   const now = performance.now();
@@ -39,23 +56,10 @@ function onWheel({ deltaY, event }: VirtualScrollData): boolean {
   if (!dir) return true;
   // Where the page is heading, so a flick that is still easing counts where it will land.
   const y = lenis.targetScroll;
-  const tops = steps.map((el) => Math.round(el.getBoundingClientRect().top + window.scrollY));
-  const first = tops[0];
-  const last = tops[tops.length - 1];
-  const vh = window.innerHeight;
-  const eps = 4;
-
   let target: number | undefined;
-  if (dir > 0) {
-    if (y < first - eps) {
-      if (first - y < vh * 0.75) target = first;
-    } else if (y < last - eps) {
-      target = tops.find((t) => t > y + eps);
-    }
-  } else if (y > last + eps) {
-    if (y - last < vh) target = last;
-  } else if (y > first + eps) {
-    target = [...tops].reverse().find((t) => t < y - eps);
+  for (const run of runs) {
+    target = stepTarget(run, y, dir);
+    if (target !== undefined) break;
   }
   if (target === undefined) return true;
 
@@ -78,9 +82,9 @@ function onWheel({ deltaY, event }: VirtualScrollData): boolean {
 
 /** Makes the given elements a stepped run. Returns a function that removes it. */
 export function registerSteps(els: HTMLElement[]) {
-  steps = els;
+  if (els.length) runs.add(els);
   return () => {
-    if (steps === els) steps = [];
+    runs.delete(els);
   };
 }
 

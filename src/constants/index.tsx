@@ -204,8 +204,12 @@ export interface ExperienceChapter {
   label: string;
   role: string;
   context: string;
+  /** Plain words: what it is. */
   headline: string;
+  /** One or two sentences: what I did. */
   body: string;
+  /** Three short, concrete pieces or results, shown on hairlines like the project facts. */
+  facts: string[];
   link?: { href: string; text: string };
 }
 
@@ -216,8 +220,9 @@ export const experienceChapters: ExperienceChapter[] = [
     label: "Workflows",
     role: "Engineer",
     context: "ECCB complaint portal",
-    headline: "Cases that route themselves",
-    body: "I led the architecture of the customer and admin portals for the Eastern Caribbean Central Bank's Office of Financial Conduct. Complaints are assigned and escalated automatically, by channel and by how each case is going.",
+    headline: "Complaint portal for a central bank",
+    body: "I led the architecture and built both the customer and admin portals for the Eastern Caribbean Central Bank's Office of Financial Conduct.",
+    facts: ["Complaint intake and case management", "Auto-assignment by channel and progress", "Escalation workflows"],
   },
   {
     id: "outbox",
@@ -226,7 +231,8 @@ export const experienceChapters: ExperienceChapter[] = [
     role: "Engineer",
     context: "Multi-tenant database sync",
     headline: "Timeouts to 200–300 ms",
-    body: "Queries across tenant databases timed out at 50,000 records. Now each tenant writes its changes to an outbox and workers copy them into one read database. At 350,000 records, the same queries return in 200 to 300 ms.",
+    body: "Queries across tenant databases were timing out at around 50,000 records. I added an outbox to each tenant database and workers that copy its changes into one central read database.",
+    facts: ["Transactional outbox", "Central read database", "200–300 ms at 350K records"],
   },
   {
     id: "encryption",
@@ -234,8 +240,9 @@ export const experienceChapters: ExperienceChapter[] = [
     label: "Encryption",
     role: "Engineer",
     context: "API security",
-    headline: "Encrypted end to end",
-    body: "RSA-2048 hands every session a fresh key, then AES-256-GCM encrypts each payload with it. Strong encryption that stays cheap per request.",
+    headline: "Encrypted API traffic",
+    body: "I secured API requests and responses with hybrid encryption: RSA exchanges a fresh key for each session, and AES-GCM encrypts the payloads with it.",
+    facts: ["RSA-2048 key exchange", "AES-256-GCM payloads", "A fresh key per session"],
   },
   {
     id: "risk",
@@ -243,8 +250,9 @@ export const experienceChapters: ExperienceChapter[] = [
     label: "KYC / AML",
     role: "Engineer",
     context: "Risk platform for CWJCU",
-    headline: "Risk checks for a credit union",
-    body: "A client-facing risk management platform, with backend gateways for KYC/AML checks and third-party services.",
+    headline: "Risk platform for a credit union",
+    body: "I delivered a client-facing risk management platform for CWJCU, and built the backend gateways for KYC/AML checks and other third-party services.",
+    facts: ["Risk management workflows", "KYC/AML gateways", "Third-party integrations"],
     link: {
       href: "https://www.linkedin.com/posts/thakurdotdev_clienttestimonial-netclues-fintech-activity-7457841848527622144-h7oe",
       text: "Read the client's note on LinkedIn",
@@ -256,8 +264,9 @@ export const experienceChapters: ExperienceChapter[] = [
     label: "Chat",
     role: "Intern",
     context: "Socket.IO chat service",
-    headline: "Where it started",
-    body: "A real-time chat microservice on Socket.IO, built as an intern: one-to-one and group chats, file sharing, typing indicators, read receipts and presence.",
+    headline: "Real-time chat, as an intern",
+    body: "My first project at Netclues: a chat microservice built with Socket.IO, Node.js and React.",
+    facts: ["One-to-one and group chats", "Image and PDF sharing", "Typing, read receipts, presence"],
   },
 ];
 
