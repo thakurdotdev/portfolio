@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { registerSteps } from "@/lib/smooth-scroll";
 import { categorizedSkills, experienceChapters, workExperience, type ExperienceChapter } from "@/constants";
 
 const monthFmt = new Intl.DateTimeFormat("en", { month: "short", year: "numeric", timeZone: "UTC" });
@@ -98,6 +99,7 @@ export function Experience() {
   const org = workExperience[0];
   const [active, setActive] = useState(0);
   const items = useRef<(HTMLElement | null)[]>([]);
+  const intro = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const io = new IntersectionObserver(
@@ -109,14 +111,22 @@ export function Experience() {
       { rootMargin: "-50% 0px -50% 0px" },
     );
     items.current.forEach((el) => el && io.observe(el));
-    return () => io.disconnect();
+    // On desktop, one scroll gesture moves one whole chapter. The section's top (heading,
+    // employer, months) is the first step, so momentum never carries past it.
+    const section = intro.current?.closest("section");
+    const chapters = items.current.filter((el): el is HTMLElement => !!el);
+    const unstep = registerSteps(section ? [section, ...chapters] : chapters);
+    return () => {
+      io.disconnect();
+      unstep();
+    };
   }, []);
 
   const current = experienceChapters[active];
 
   return (
     <>
-      <div className="grid gap-x-12 gap-y-10 pt-14 sm:pt-20 lg:grid-cols-12 lg:items-end">
+      <div ref={intro} className="grid gap-x-12 gap-y-10 pt-14 sm:pt-20 lg:grid-cols-12 lg:items-end">
         <div data-reveal="" className="lg:col-span-5">
           <h3 className="display display-xl -ml-[0.05em]">{org.organization}</h3>
           <p className="lead mt-5 max-w-[34ch]">
@@ -229,7 +239,7 @@ function Chapter({
       data-stage={`#stage-exp-${c.id}, #stage-exp`}
       data-label={c.label}
       aria-labelledby={`exp-${c.id}-title`}
-      className="scroll-mt-16 border-b border-line py-14 transition-opacity duration-500 last:border-b-0 sm:py-20 lg:flex lg:min-h-[85svh] lg:flex-col lg:justify-center lg:border-b-0 lg:py-[12svh] lg:data-[active=false]:opacity-25"
+      className="scroll-mt-16 border-b border-line py-14 transition-opacity duration-500 last:border-b-0 sm:py-20 lg:flex lg:h-[100svh] lg:flex-col lg:justify-center lg:border-b-0 lg:pt-20 lg:pb-8 lg:data-[active=false]:opacity-25"
     >
       <p className="font-mono text-[12px] text-dim">
         {pad(index + 1)} / {pad(experienceChapters.length)} · {c.role}
@@ -239,7 +249,14 @@ function Chapter({
         {c.headline}
       </h3>
       <div id={`stage-exp-${c.id}`} data-drag="" className="stage -mx-5 mt-8 aspect-[5/4] sm:-mx-8 lg:hidden" aria-hidden="true" />
-      <p className="lead mt-6 max-w-[38ch] text-muted">{c.body}</p>
+      <p className="lead mt-6 max-w-[38ch]">{c.body}</p>
+      <ul className="mt-8 grid gap-x-6 gap-y-2 text-[15px] sm:grid-cols-3">
+        {c.facts.map((f) => (
+          <li key={f} className="border-t border-line-strong pt-3 font-medium">
+            {f}
+          </li>
+        ))}
+      </ul>
       {c.link && (
         <p className="mt-5 text-[15px]">
           <a href={c.link.href} target="_blank" rel="noopener noreferrer" className="link">
