@@ -29,8 +29,8 @@ function useLocalTime() {
 }
 
 /*
- * The end of the page. The dots become a dot-matrix clock showing the time in India: the
- * thing you want to know before you write. Then the address, and a one-line footer.
+ * The end of the page: the address first, so a jump to #contact lands on it, with a small
+ * dot-matrix clock beside it showing the time in India. Then a one-line footer.
  */
 export function Contact() {
   const [copied, setCopied] = useState<"idle" | "done" | "failed">("idle");
@@ -60,33 +60,18 @@ export function Contact() {
           <span className="font-mono text-[12px] font-normal text-dim">03</span>
           Contact
         </h2>
-        <p className="text-[15px] text-muted">Local time in India</p>
       </div>
 
-      {/* The clock is drawn here. Without WebGL, the time is printed instead. */}
-      <div id="stage-clock" data-drag="" className="stage relative mt-12 aspect-[3/1] w-full sm:mt-16" aria-hidden="true">
-        <p className="clock-fallback display absolute inset-0 grid place-items-center text-[18vw] tabular-nums opacity-0">{time}</p>
-      </div>
-      <div className="mt-5 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 font-mono text-[12px] text-dim">
-        <p aria-live="polite">
-          <span className="text-fg">{time}</span> in India{status && ` · ${status}`}
-        </p>
-        <p className="hint hidden sm:block">drag to turn · click to ripple</p>
-      </div>
-
-      <div className="mt-20 grid gap-x-12 gap-y-10 sm:mt-28 lg:grid-cols-12 lg:items-end">
-        <div data-reveal="" className="lg:col-span-5">
+      <div className="mt-12 grid gap-x-12 gap-y-14 sm:mt-16 lg:grid-cols-12 lg:items-end">
+        <div data-reveal="" className="lg:col-span-7">
           <p className="display display-xl -ml-[0.05em]">Say hello.</p>
-          <p className="lead mt-6 max-w-[38ch] text-muted">
+          <p className="lead mt-5 max-w-[40ch] text-muted">
             Open to full-stack engineering roles, architecture conversations and work on developer tools. Email is
             the fastest way to reach me.
           </p>
-        </div>
-
-        <div data-reveal="" className="lg:col-span-7">
           <a
             href={`mailto:${personalInfo.email}`}
-            className="mail display -ml-[0.04em] block w-fit text-[clamp(2.6rem,12vw,6.5rem)] lg:text-[clamp(2.6rem,5.6vw,6.5rem)]"
+            className="mail display mt-10 -ml-[0.04em] block w-fit text-[clamp(2.4rem,11vw,5.25rem)] lg:text-[clamp(2.4rem,4.6vw,5.25rem)]"
           >
             {personalInfo.email}
           </a>
@@ -115,9 +100,25 @@ export function Contact() {
             ))}
           </ul>
         </div>
+
+        {/* A small clock beside the address: is it a good time to write? Without WebGL, the
+            time is printed instead. */}
+        <div className="lg:col-span-5">
+          <div id="stage-clock" data-drag="" className="stage relative aspect-[3/1] w-full" aria-hidden="true">
+            <p className="clock-fallback display absolute inset-0 grid place-items-center text-[clamp(2.5rem,9vw,5rem)] tabular-nums opacity-0">
+              {time}
+            </p>
+          </div>
+          <div className="mt-4 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 font-mono text-[12px] text-dim">
+            <p aria-live="polite">
+              <span className="text-fg">{time}</span> in India{status && ` · ${status}`}
+            </p>
+            <p className="hint hidden sm:block">drag to turn</p>
+          </div>
+        </div>
       </div>
 
-      <footer className="mt-24 flex items-center justify-between gap-6 border-t border-line pt-5 text-[14px] text-muted sm:mt-32">
+      <footer className="mt-20 flex items-center justify-between gap-6 border-t border-line pt-5 text-[14px] text-muted sm:mt-28">
         <p className="flex flex-wrap gap-x-5 gap-y-1">
           <span>© {built.getUTCFullYear()} {personalInfo.name}</span>
           <span className="text-dim">Updated {updatedFmt.format(built)}</span>
