@@ -1,3 +1,9 @@
+import type { StaticImageData } from "next/image";
+import pm0Shot from "@/assets/projects/pm0.png";
+import shipyardShot from "@/assets/projects/shipyard.png";
+import syncvibeShot from "@/assets/projects/syncvibe.png";
+import tunlShot from "@/assets/projects/tunl.png";
+
 export const personalInfo = {
   name: "Pankaj Thakur",
   role: "Full-Stack Software Engineer",
@@ -24,7 +30,11 @@ export interface Project {
   repo?: string;
   live?: string;
   demo?: string;
-  image: string;
+  /**
+   * Imported, not linked by path: the build gives each file a content-hashed URL, so an
+   * updated screenshot is never stuck behind the site's year-long image cache.
+   */
+  image: StaticImageData;
   /** Up to two extra screens, shown on the sheets behind the main screenshot. */
   screens?: string[];
   /** Brand color for the card stage and glow. */
@@ -48,8 +58,7 @@ export const projects: Project[] = [
     tech: ["Golang", "OpenSSH", "Next.js", "TypeScript", "PostgreSQL", "Bun"],
     repo: "https://github.com/thakurdotdev/tunl",
     live: "https://tunl.online",
-    image: "/projects/tunl.png",
-    // screens: ["/projects/tunl-dashboard.png", "/projects/tunl-inspector.png"],
+    image: tunlShot,
     accent: "#22c55e",
     facts: ["No client install", "Live request inspector", "Custom domains"],
     zoom: 1.1,
@@ -64,7 +73,7 @@ export const projects: Project[] = [
     tech: ["Go", "Linux Kernel", "cgroups v2", "Unix Sockets", "IPC", "CLI"],
     repo: "https://github.com/thakurdotdev/pm0",
     live: "https://pm0.thakur.dev",
-    image: "/projects/pm0.png",
+    image: pm0Shot,
     accent: "#ef4444",
     facts: ["~16 MB idle daemon", "77% less memory than PM2", "Sub-40 ms status"],
     zoom: 1,
@@ -89,7 +98,7 @@ export const projects: Project[] = [
     ],
     repo: "https://github.com/thakurdotdev/syncvibe",
     live: "https://syncvibe.thakur.dev",
-    image: "/projects/syncvibe.png",
+    image: syncvibeShot,
     accent: "#ec4899",
     facts: ["Synced playback", "WebRTC video calls", "Passkey sign-in"],
     zoom: 1,
@@ -113,7 +122,7 @@ export const projects: Project[] = [
     ],
     repo: "https://github.com/thakurdotdev/shipyard",
     demo: "https://cdn.thakur.dev/shipyard.mp4",
-    image: "/projects/shipyard.png",
+    image: shipyardShot,
     accent: "#14b8a6",
     facts: ["Deploys from Git", "Live build logs", "GitHub integration"],
     zoom: 1,
