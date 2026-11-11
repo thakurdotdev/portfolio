@@ -37,30 +37,28 @@ export function samplePortrait(data: ImageData, out: Float32Array, slots: Int32A
     out[i * 4 + 3] = -1;
   }
   const { width: W, height: H, data: px } = data;
+  const lumAt = new Float32Array(W * H);
+  for (let i = 0; i < W * H; i++) lumAt[i] = (0.299 * px[i * 4] + 0.587 * px[i * 4 + 1] + 0.114 * px[i * 4 + 2]) / 255;
   const at = (u: number, v: number) => {
     const x = Math.min(W - 1, Math.max(0, Math.floor(u * W)));
     const y = Math.min(H - 1, Math.max(0, Math.floor(v * H)));
-    const i = (y * W + x) * 4;
-    return {
-      a: px[i + 3] / 255,
-      lum: (0.299 * px[i] + 0.587 * px[i + 1] + 0.114 * px[i + 2]) / 255,
-    };
+    return { a: px[(y * W + x) * 4 + 3] / 255, lum: lumAt[y * W + x] };
   };
   // The bust dissolves at the bottom rather than stopping at a hard edge.
   const fadeAt = (v: number) => 1 - smooth(0.55, 0.97, v);
 
-  // Levels: stretch the photo's own range so the face has contrast.
+  // Levels: use the photo's own range, gently, so the face is neither flat nor harsh.
   const lums: number[] = [];
   let inside = 0;
   for (let i = 0; i < W * H; i++) {
     if (px[i * 4 + 3] > 100 && fadeAt(Math.floor(i / W) / H) > 0.15) {
       inside++;
-      if (i % 3 === 0) lums.push((0.299 * px[i * 4] + 0.587 * px[i * 4 + 1] + 0.114 * px[i * 4 + 2]) / 255);
+      if (i % 3 === 0) lums.push(lumAt[i]);
     }
   }
   lums.sort((a, b) => a - b);
-  const lo = lums[Math.floor(lums.length * 0.03)] ?? 0;
-  const hi = lums[Math.floor(lums.length * 0.97)] ?? 1;
+  const lo = lums[Math.floor(lums.length * 0.02)] ?? 0;
+  const hi = lums[Math.floor(lums.length * 0.985)] ?? 1;
 
   // Pick the grid so the silhouette uses most of the dots. Rows are offset (hexagonal).
   const coverage = inside / (W * H);
@@ -79,13 +77,15 @@ export function samplePortrait(data: ImageData, out: Float32Array, slots: Int32A
       const keep = ((Math.sin(r * 127.1 + c * 311.7) * 43758.5453) % 1 + 1) % 1;
       if (a < 0.4 || fade < 0.02 || keep > fade * 1.15) continue;
       const l = Math.min(1, Math.max(0, (lum - lo) / (hi - lo)));
-      const tone = Math.pow(inkIsDark ? 1 - l : l, 1.1) * fade;
+      // A slightly lifted floor: shadows keep visible dots instead of emptying out.
+      const tone = (0.03 + 0.97 * Math.pow(inkIsDark ? 1 - l : l, 1.05)) * fade;
       const x = (u - 0.5) * 2;
       const y = -(v - 0.5) * 2;
-      // Relief: a rounded head and shoulders, and the light pushes forward.
+      // Relief: a gentle head-and-shoulders curve, enough to turn in 3D. Kept shallow and
+      // independent of brightness, or perspective pulls the features out of shape.
       const head = Math.max(0, 1 - (x * x) / 0.18 - ((y - 0.28) * (y - 0.28)) / 0.4);
       const body = Math.max(0, 1 - (x * x) / 0.95);
-      const z = Math.sqrt(head) * 0.3 + Math.sqrt(body) * 0.1 + l * 0.1;
+      const z = Math.sqrt(head) * 0.12 + Math.sqrt(body) * 0.05;
       const o = slots[n] * 4;
       out[o] = x;
       out[o + 1] = y;
