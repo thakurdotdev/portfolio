@@ -411,7 +411,13 @@ export function startWorld(canvas: HTMLCanvasElement, opts: { portrait: string; 
   const TYPE_AT = 0.45;
   const PER_CHAR = 0.07;
   const HOLD = 0.9;
-  let bootAt = 0;
+  // Seconds of boot shown so far. It advances by real frame time, so a slow device does not
+  // stretch the sequence, but at most 0.1s a frame, so a stall (the GPU finishing its shader
+  // compiles, a few frames in) pauses the typing instead of skipping it.
+  let bootT = 0;
+  // Nothing counts as on screen until frames come back to back.
+  let drawn = 0;
+  let lastDraw = 0;
   let bootLayout: BootLayout | null = null;
   const bootStage = (): [number, number, number] => [0, 0, vh * 0.5 * wpp];
 
@@ -430,7 +436,6 @@ export function startWorld(canvas: HTMLCanvasElement, opts: { portrait: string; 
       tText.needsUpdate = true;
       shared.uChars.value = bootLayout.chars;
       current = previous = BOOT;
-      bootAt = time;
       // Every dot starts where the loading caret was, in the middle of the screen.
       burst([0, 0, 0.0001]);
     } else {
@@ -438,7 +443,6 @@ export function startWorld(canvas: HTMLCanvasElement, opts: { portrait: string; 
       if (root.dataset.intro === "play") root.dataset.intro = "done";
       if (!reduce) burst(stageOf(state.scenes[current]));
     }
-    root.dataset.webgl = "on";
     opts.onReady?.();
   };
 
@@ -467,11 +471,13 @@ export function startWorld(canvas: HTMLCanvasElement, opts: { portrait: string; 
 
     if (current === BOOT && bootLayout) {
       // Type the command, hold a beat, then hand over to the page.
-      const bt = time - bootAt;
+      if (root.dataset.webgl) bootT += Math.min((performance.now() - lastDraw) / 1000, 0.1);
+      const bt = bootT;
       const typed = Math.max(0, Math.min(bootLayout.chars, Math.floor((bt - TYPE_AT) / PER_CHAR)));
       shared.uTyped.value = typed;
       shared.uCursor.value = bootLayout.cursors[typed];
-      if (bt > TYPE_AT + bootLayout.chars * PER_CHAR + HOLD) {
+      // Also hand over if the page's own watchdog already ended the intro.
+      if (bt > TYPE_AT + bootLayout.chars * PER_CHAR + HOLD || root.dataset.intro !== "play") {
         previous = BOOT;
         current = s.active;
         shared.uSwitch.value = time;
@@ -531,6 +537,12 @@ export function startWorld(canvas: HTMLCanvasElement, opts: { portrait: string; 
     drawU.tPos.value = gpu.getCurrentRenderTarget(posVar).texture;
     drawU.tVel.value = gpu.getCurrentRenderTarget(velVar).texture;
     renderer.render(scene, camera);
+    // Only once frames flow is something on screen: the loading caret gives way, and the boot
+    // clock starts.
+    const at = performance.now();
+    if (at - lastDraw < 100) drawn++;
+    lastDraw = at;
+    if (drawn >= 3 && !root.dataset.webgl) root.dataset.webgl = "on";
   }, 2);
 
   return () => {
