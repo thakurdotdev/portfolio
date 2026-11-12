@@ -8,6 +8,11 @@ import { useEffect, useRef } from "react";
  * background: dark on the light theme, light on the dark theme and on inverted panels.
  * three.js loads after the page is up, so it never holds back the first paint.
  */
+// On a first visit the page is waiting on WebGL, so fetch the engine as soon as this module
+// runs instead of after hydration.
+const early =
+  typeof document !== "undefined" && document.documentElement.dataset.intro === "play" ? import("./engine") : null;
+
 export function World() {
   const ref = useRef<HTMLCanvasElement>(null);
 
@@ -18,7 +23,7 @@ export function World() {
     let cancelled = false;
 
     const start = () =>
-      import("./engine")
+      (early ?? import("./engine"))
         .then(({ startWorld }) => {
           if (!cancelled) stop = startWorld(canvas, { portrait: "/pankaj-cutout.webp" });
         })

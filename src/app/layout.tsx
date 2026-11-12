@@ -135,12 +135,14 @@ export default function RootLayout({
         {/*
           Scroll reveals hide content only when JS is there to show it again. The boot sequence
           (pm0 start portfolio) plays once per tab, and not for section links or reduced motion.
-          WebGL ends it; the timeout only makes sure the page never stays covered.
+          WebGL ends it. The watchdog only makes sure the page never stays covered: it counts
+          visible time only, gives WebGL 5s to draw its first frame and 9s in all, and marks the
+          boot as seen once it has ended, so a reload mid-boot plays it again.
         */}
         <script
           dangerouslySetInnerHTML={{
             __html:
-              "var d=document.documentElement;d.dataset.js='';try{if(sessionStorage.getItem('boot')||location.hash||matchMedia('(prefers-reduced-motion: reduce)').matches){d.dataset.intro='skip'}else{sessionStorage.setItem('boot','1');d.dataset.intro='play';setTimeout(function(){if(d.dataset.intro==='play')d.dataset.intro='done'},6000)}}catch(e){d.dataset.intro='skip'}",
+              "var d=document.documentElement;d.dataset.js='';try{if(sessionStorage.getItem('boot')||location.hash||matchMedia('(prefers-reduced-motion: reduce)').matches){d.dataset.intro='skip'}else{d.dataset.intro='play';var w=0,i=setInterval(function(){if(d.dataset.intro!=='play'){sessionStorage.setItem('boot','1');clearInterval(i)}else if(!document.hidden&&(w+=200)>=(d.dataset.webgl?9000:5000)){d.dataset.intro='done'}},200)}}catch(e){d.dataset.intro='skip'}",
           }}
         />
       </head>
