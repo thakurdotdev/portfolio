@@ -204,6 +204,8 @@ function ProjectText({
         ))}
       </ul>
 
+      <p className="mt-8 max-w-[64ch] text-[15px] leading-relaxed text-muted lg:mt-6 lg:text-[14px] lg:leading-snug">{project.desc}</p>
+
       {/* On desktop the details and the screenshot share a row, so a project fits one screen. */}
       <div className="lg:mt-7 lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:items-start lg:gap-6">
         <div>

@@ -6,7 +6,7 @@ import { personalInfo } from "@/constants";
 
 const d = (ms: number) => ({ "--d": `${ms}ms` }) as CSSProperties;
 
-const tagline = ["I", "build", "software", "and", "keep", "it", "running."];
+const tagline = personalInfo.headline.split(" ");
 
 /*
  * The letters of the name swell towards the pointer: wider and lighter where it is, back to
@@ -116,7 +116,7 @@ export function Hero() {
       </h1>
 
       <p className="relative mt-3 text-[clamp(1.25rem,2.2vw,1.875rem)] leading-snug tracking-[-0.02em]">
-        <span className="sr-only">I build software and keep it running.</span>
+        <span className="sr-only">{personalInfo.headline}</span>
         <span aria-hidden="true">
           {tagline.map((w, i) => (
             <span key={i}>
@@ -132,10 +132,8 @@ export function Hero() {
       <div className="relative mt-8 flex flex-wrap items-end justify-between gap-x-10 gap-y-5 pt-5 sm:mt-10">
         <span aria-hidden="true" className="draw absolute inset-x-0 top-0 h-px bg-line-strong" style={d(300)} />
         <ProcessStrip />
-        <p className="settle text-[15px] leading-snug text-muted sm:text-right" style={d(900)}>
-          {personalInfo.role}
-          <br />
-          at {personalInfo.company}
+        <p className="settle max-w-[46ch] text-[15px] leading-snug text-balance text-muted sm:text-right" style={d(900)}>
+          {personalInfo.availability}
         </p>
       </div>
     </section>
