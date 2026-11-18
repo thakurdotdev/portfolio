@@ -27,11 +27,11 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://thakur.dev"),
   title: {
-    default: "Pankaj Thakur - Software Engineer",
+    default: "Pankaj Thakur — Full-Stack Engineer (Node.js, TypeScript)",
     template: "%s | Pankaj Thakur",
   },
   description:
-    "Portfolio of Pankaj Thakur (thakurdotdev). Full-Stack Software Engineer building resilient, end-to-end production systems and developer platforms.",
+    "Full-stack engineer building fintech platforms and developer tooling. Open to roles from Jan 2027 — Remote, Bengaluru, Gurugram, Noida, Pune.",
   keywords: [
     "Pankaj Thakur",
     "thakurdotdev",
@@ -53,9 +53,9 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   openGraph: {
-    title: "Pankaj Thakur - Software Engineer",
+    title: "Pankaj Thakur — Full-Stack Engineer (Node.js, TypeScript)",
     description:
-      "Building scalable web applications, real-time communication engines, and resilient queue pipelines.",
+      "Full-stack engineer building fintech platforms and developer tooling. Open to roles from Jan 2027 — Remote, Bengaluru, Gurugram, Noida, Pune.",
     url: "https://thakur.dev",
     siteName: "Pankaj Thakur Portfolio",
     images: [
@@ -63,7 +63,7 @@ export const metadata: Metadata = {
         url: "/preview.png",
         width: 1200,
         height: 630,
-        alt: "Pankaj Thakur - Software Engineer",
+        alt: "Pankaj Thakur — Full-Stack Engineer (Node.js, TypeScript)",
       },
     ],
     locale: "en_US",
@@ -71,7 +71,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Pankaj Thakur | Software Engineer",
+    title: "Pankaj Thakur — Full-Stack Engineer (Node.js, TypeScript)",
+    description:
+      "Full-stack engineer building fintech platforms and developer tooling. Open to roles from Jan 2027 — Remote, Bengaluru, Gurugram, Noida, Pune.",
     creator: "@thakurdotdev",
     site: "@thakurdotdev",
   },
