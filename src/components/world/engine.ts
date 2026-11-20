@@ -4,7 +4,9 @@ import {
   DataTexture,
   FloatType,
   HalfFloatType,
+  Mesh,
   NearestFilter,
+  PlaneGeometry,
   PerspectiveCamera,
   Points,
   RGBAFormat,
@@ -17,14 +19,14 @@ import { onScenes, stageRect, type Rect, type SceneInfo, type SceneState } from 
 import { addTick } from "@/lib/ticker";
 import { layoutBoot, type BootLayout } from "./boot-text";
 import { loadPortrait, samplePortrait } from "./portrait";
-import { FRAG, POSITION, VELOCITY, VERT } from "./shaders";
+import { BOOT_POSITION, BOOT_VELOCITY, FRAG, POSITION, VELOCITY, VERT } from "./shaders";
 
 const KINDS: Record<string, number> = {
   scatter: 0,
   portrait: 1,
   tunnel: 2,
   supervisor: 3,
-  wave: 4,
+  room: 4,
   pipeline: 5,
   workflow: 6,
   clock: 7,
@@ -236,6 +238,7 @@ export function startWorld(canvas: HTMLCanvasElement, opts: { portrait: string; 
     uAlphaA: { value: 1 },
     uAlphaB: { value: 1 },
     uSwitch: { value: -10 },
+    uRoomStart: { value: 0 },
     uDt: { value: 1 / 60 },
     uSnap: { value: reduce ? 1 : 0 },
     tSeed: { value: tSeed },
@@ -258,6 +261,36 @@ export function startWorld(canvas: HTMLCanvasElement, opts: { portrait: string; 
   if (gpu.init() !== null) {
     renderer.dispose();
     return fail();
+  }
+
+  // The full passes compile in the background (KHR_parallel_shader_compile), so the page never
+  // freezes on them. Until they are ready the boot runs on a cut that only knows its own shape.
+  // Compiled against a simulation target, so the first real pass reuses the program as is.
+  // Without the extension compiling blocks the GPU, so a boot starts it only once the command
+  // is typed: the wait falls on the hold, with the command on screen.
+  const fullPos = posVar.material;
+  const fullVel = velVar.material;
+  const bootPass = (src: string, full: ShaderMaterial) =>
+    gpu.createShaderMaterial("\nuniform sampler2D tPos;\nuniform sampler2D tVel;\n" + src, { ...full.uniforms });
+  const bootPos = bootPass(BOOT_POSITION, fullPos);
+  const bootVel = bootPass(BOOT_VELOCITY, fullVel);
+  let compiled = false;
+  let compiling: Promise<void> | null = null;
+  // Like the simulation's own quad, no normals: they would make it a different program.
+  const warmQuad = new PlaneGeometry(2, 2).deleteAttribute("normal");
+  const compileFull = () => {
+    if (compiling) return compiling;
+    const warm = new Scene().add(new Mesh(warmQuad, fullPos), new Mesh(warmQuad, fullVel));
+    renderer.setRenderTarget(posVar.renderTargets[0]);
+    compiling = renderer.compileAsync(warm, camera).then(() => {
+      compiled = true;
+      warmQuad.dispose();
+    });
+    renderer.setRenderTarget(null);
+    return compiling;
+  };
+  if (renderer.extensions.has("KHR_parallel_shader_compile") || root.dataset.intro !== "play" || reduce) {
+    compileFull();
   }
 
   // What is drawn: one point per texel.
@@ -398,6 +431,8 @@ export function startWorld(canvas: HTMLCanvasElement, opts: { portrait: string; 
   let started = false;
   let current = 0;
   let previous = 0;
+  // The scene the SyncVibe room's story was last started for.
+  let roomFor = -2;
   let lastA: [number, number, number] | null = null;
   let lastB: [number, number, number] | null = null;
   let state: SceneState | null = null;
@@ -436,6 +471,10 @@ export function startWorld(canvas: HTMLCanvasElement, opts: { portrait: string; 
       tText.needsUpdate = true;
       shared.uChars.value = bootLayout.chars;
       current = previous = BOOT;
+      if (!compiled) {
+        posVar.material = bootPos;
+        velVar.material = bootVel;
+      }
       // Every dot starts where the loading caret was, in the middle of the screen.
       burst([0, 0, 0.0001]);
     } else {
@@ -454,7 +493,7 @@ export function startWorld(canvas: HTMLCanvasElement, opts: { portrait: string; 
     })
     .catch(() => {});
   if (root.dataset.intro === "play") start();
-  else Promise.race([photoReady, new Promise((r) => setTimeout(r, 1500))]).then(start);
+  else Promise.all([compileFull(), Promise.race([photoReady, new Promise((r) => setTimeout(r, 1500))])]).then(start);
 
   const stopTick = addTick((_now, dtMs) => {
     if (!visible || !state || !started) return;
@@ -470,14 +509,16 @@ export function startWorld(canvas: HTMLCanvasElement, opts: { portrait: string; 
     drawU.uView.value = [viewH * camera.aspect, viewH];
 
     if (current === BOOT && bootLayout) {
-      // Type the command, hold a beat, then hand over to the page.
+      // Type the command, hold a beat, then hand over to the page: once the full passes are
+      // ready, with the cursor blinking until then.
       if (root.dataset.webgl) bootT += Math.min((performance.now() - lastDraw) / 1000, 0.1);
       const bt = bootT;
+      if (bt > TYPE_AT + bootLayout.chars * PER_CHAR) compileFull();
       const typed = Math.max(0, Math.min(bootLayout.chars, Math.floor((bt - TYPE_AT) / PER_CHAR)));
       shared.uTyped.value = typed;
       shared.uCursor.value = bootLayout.cursors[typed];
       // Also hand over if the page's own watchdog already ended the intro.
-      if (bt > TYPE_AT + bootLayout.chars * PER_CHAR + HOLD || root.dataset.intro !== "play") {
+      if ((compiled && bt > TYPE_AT + bootLayout.chars * PER_CHAR + HOLD) || root.dataset.intro !== "play") {
         previous = BOOT;
         current = s.active;
         shared.uSwitch.value = time;
@@ -490,6 +531,11 @@ export function startWorld(canvas: HTMLCanvasElement, opts: { portrait: string; 
       current = s.active;
       shared.uSwitch.value = time;
       lastA = lastB;
+    }
+    if (current !== roomFor) {
+      // The room tells a ten-second story: start it from the top each time it comes on.
+      roomFor = current;
+      if (current !== BOOT && s.scenes[current]?.kind === "room") shared.uRoomStart.value = time;
     }
     const spec = (i: number) =>
       i === BOOT
@@ -533,6 +579,11 @@ export function startWorld(canvas: HTMLCanvasElement, opts: { portrait: string; 
       ? [0, 0]
       : [damp(ry, pointer.nx * 0.35 * tilt + spin.yaw, 5, dt), damp(rx, pointer.ny * 0.2 * tilt + spin.pitch, 5, dt)];
 
+    if (posVar.material === bootPos && (compiled || current !== BOOT)) {
+      // The full passes are ready (or the boot was cut short, and the page cannot wait).
+      posVar.material = fullPos;
+      velVar.material = fullVel;
+    }
     gpu.compute();
     drawU.tPos.value = gpu.getCurrentRenderTarget(posVar).texture;
     drawU.tVel.value = gpu.getCurrentRenderTarget(velVar).texture;
@@ -556,6 +607,9 @@ export function startWorld(canvas: HTMLCanvasElement, opts: { portrait: string; 
     root.removeEventListener("pointerleave", onLeave);
     document.removeEventListener("visibilitychange", onVis);
     gpu.dispose();
+    bootPos.dispose();
+    bootVel.dispose();
+    warmQuad.dispose();
     geo.dispose();
     material.dispose();
     tSeed.dispose();

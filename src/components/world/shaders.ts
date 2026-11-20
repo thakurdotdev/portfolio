@@ -7,7 +7,7 @@
  *
  * Each scene's shape is a function from a dot's random seed (and the time) to a point in a
  * unit-sized space. Kinds (keep in sync with KINDS in engine.ts):
- *   0 scatter    1 portrait   2 tunnel     3 supervisor   4 wave   5 pipeline
+ *   0 scatter    1 portrait   2 tunnel     3 supervisor   4 room   5 pipeline
  *   6 workflow   7 clock      9 outbox    10 encrypt  11 screen   12 chat
  *  13 boot (the typed command)
  */
@@ -28,6 +28,7 @@ uniform vec3 uStageB;
 uniform float uAlphaA;
 uniform float uAlphaB;
 uniform float uSwitch;  // when the current scene started
+uniform float uRoomStart; // when the SyncVibe room last came on, so its story starts at the top
 uniform sampler2D tSeed;
 uniform sampler2D tExtra;
 uniform sampler2D tPortrait;
@@ -89,6 +90,41 @@ vec3 cubeEdge(float u, float pick) {
   float kk = mod(e, 4.0);
   vec2 c = vec2(mod(kk, 2.0), floor(kk / 2.0)) - 0.5;
   return ax < 0.5 ? vec3(u - 0.5, c) : ax < 1.5 ? vec3(c.x, u - 0.5, c.y) : vec3(c, u - 0.5);
+}
+
+/* SyncVibe's room: a ring on a plane tipped back, centred above the listeners. */
+const vec3 SV_C = vec3(0.0, 0.34, 0.0);
+const float SV_R = 0.27;
+vec3 svRing(vec2 q, float lift) {
+  // rotX(-0.85) of (q, lift), written out
+  return SV_C + vec3(q.x, 0.66 * q.y + 0.7513 * lift, -0.7513 * q.y + 0.66 * lift);
+}
+
+/* The listeners: 0 a laptop on the left, 1 a phone on the right, 2 a phone below, each
+   the same distance from the ring so the beats travel alike. c is the screen's centre, size
+   its width and height; the phone below sits forward, level with the ring's near edge. */
+const float SV_LINK = 0.34;
+void svDevice(float g, out vec2 c, out vec2 size) {
+  float x = SV_R + 0.05 + SV_LINK + 0.05;
+  c = g < 0.5 ? vec2(-x - 0.19, SV_C.y) : g < 1.5 ? vec2(x + 0.1, SV_C.y)
+    : vec2(0.0, SV_C.y - 0.66 * (SV_R + 0.05) - SV_LINK - 0.04 - 0.18);
+  size = g < 0.5 ? vec2(0.38, 0.24) : vec2(0.2, 0.36);
+}
+float svDepth(float g) {
+  return g > 1.5 ? 0.7513 * (SV_R + 0.05) : 0.0;
+}
+
+/* The link from the ring to device g, straight and SV_LINK long: start, midpoint, end. */
+void svLink(float g, out vec3 a, out vec3 b, out vec3 e) {
+  vec3 dir = g < 0.5 ? vec3(-1.0, 0.0, 0.0) : g < 1.5 ? vec3(1.0, 0.0, 0.0) : vec3(0.0, -1.0, 0.0);
+  a = g < 1.5 ? SV_C + dir * (SV_R + 0.05) : svRing(vec2(0.0, -(SV_R + 0.05)), 0.0);
+  e = a + dir * SV_LINK;
+  b = (a + e) * 0.5;
+}
+
+/* Seconds of the song played by time T of the ten-second story (paused 5.7 to 8.3). */
+float svPlayed(float T) {
+  return T < 5.7 ? T : T < 8.3 ? 5.7 : T - 2.6;
 }
 
 /* A point in the unit space of shape k at time t, with a size and opacity multiplier. */
@@ -257,18 +293,172 @@ vec3 form(int k, float t, out float s, out float a) {
   }
 
   if (k == 4) {
-    // SyncVibe: two sources playing in sync, their ripples crossing on a membrane.
-    float rr = sqrt((aId + 0.5) / uN) * 1.1;
-    float th = aId * 2.39996323;
-    vec2 q = vec2(cos(th), sin(th)) * rr;
-    float d1 = length(q - vec2(-0.36, 0.0));
-    float d2 = length(q - vec2(0.36, 0.0));
-    float h = (sin(d1 * 15.0 - t * 3.0) + sin(d2 * 15.0 - t * 3.0)) * 0.5;
-    float fall = 1.0 - smoothstep(0.55, 1.1, rr);
-    vec3 p = vec3(q.x, h * 0.12 * (0.35 + fall), q.y);
-    s = 0.6 + max(h, 0.0) * 0.75;
-    a = (0.3 + max(h, 0.0) * 0.7) * (0.3 + fall * 0.7);
-    return rotX(-0.95) * rotY(t * 0.05) * p;
+    // SyncVibe: a listening room. The room is a ring whose edge is the song's waveform, with
+    // a dot going round it as the song plays. Every 1.5 s of song a sync leaves the ring with
+    // a ripple, glides down three equal links and lands on all three devices on the same
+    // frame: their equalizers kick together.
+    // A heart sent from the laptop shows on every screen. The phone on the right taps pause:
+    // the signal goes into the room and back out, everyone stops on the same frame and the
+    // ring falls still. Then the phone below presses play.
+    float lt = max(t - uRoomStart, 0.0);
+    float L = floor(lt / 10.0);
+    float T = lt - L * 10.0;
+    float played = L * 7.4 + svPlayed(T);
+    float live = 1.0 - smoothstep(5.7, 5.85, T) + smoothstep(8.3, 8.45, T);
+    float beat = fract(played / 1.5);
+    float pop = exp(-beat * 6.0) * live;
+    // The sync glides from the ring into each device over 80% of the cycle, eased, and
+    // crosses the device's edge (SV_LINK of SV_LINK + 0.12 along its path) at 53% of it.
+    float land = beat >= 0.532 ? exp(-(beat - 0.532) * 9.0) * live : 0.0;
+    float prog = fract(played / 48.0);
+    // Pause from the phone on the right at 5.0, play from the phone below at 7.6.
+    bool second = T >= 6.65;
+    float at = second ? 7.6 : 5.0;
+    float from = second ? 2.0 : 1.0;
+    float eu = (T - at) / 0.7;
+    bool sending = eu >= 0.0 && eu < 1.0;
+    float flash = exp(-pow((T - 5.35) / 0.09, 2.0)) + exp(-pow((T - 7.95) / 0.09, 2.0));
+    vec3 p;
+
+    if (sd.z < 0.27) {
+      // the ring: three thin layers, the waveform running round them
+      float layer = floor(sd.x * 3.0);
+      float th = sd.y * TAU;
+      float w = sin(14.0 * th + played * 2.6) * 0.45 + sin(23.0 * th - played * 3.4 + layer) * 0.3
+        + sin(6.0 * th + played * 1.2) * 0.25;
+      float kk = layer < 0.5 ? 1.0 : layer < 1.5 ? 0.6 : 0.45;
+      float amp = (0.016 + 0.03 * pop) * live * kk;
+      float r = (SV_R + (layer < 0.5 ? 0.0 : layer < 1.5 ? -0.035 : 0.035) + w * amp) * (1.0 - 0.05 * flash);
+      r += (sd.w - 0.5) * 0.004;
+      p = svRing(vec2(cos(th), sin(th)) * r, w * amp * 0.3);
+      s = (layer < 0.5 ? 0.8 : 0.6) + pop * 0.15;
+      a = (layer < 0.5 ? 0.9 : layer < 1.5 ? 0.45 : 0.3) * (0.75 + 0.25 * abs(w)) + flash * 0.5;
+    } else if (sd.z < 0.32) {
+      // each beat leaves the ring as a ripple, far enough that its dots wrap back unseen
+      float th = sd.y * TAU;
+      p = svRing(vec2(cos(th), sin(th)) * (SV_R + 0.04 + beat * 0.42), 0.0);
+      s = 0.6;
+      a = pow(1.0 - beat, 2.0) * smoothstep(0.0, 0.04, beat) * 0.5 * live;
+    } else if (sd.z < 0.34) {
+      // the song's progress, going round the ring
+      float th = 1.5708 - prog * TAU;
+      p = svRing(vec2(cos(th), sin(th)) * SV_R, 0.012) + sphereDir(sd.x, sd.w) * 0.018 * sqrt(sd.y);
+      s = 1.05;
+      a = 1.0;
+    } else if (sd.z < 0.66) {
+      // the devices
+      float g = min(floor((sd.z - 0.34) / 0.32 * 3.0), 2.0);
+      bool lap = g < 0.5;
+      vec2 c, size;
+      svDevice(g, c, size);
+      float eqBase = c.y + (lap ? -0.065 : -0.03);
+      float eqMax = lap ? 0.085 : 0.12;
+      float progY = c.y + (lap ? -0.09 : -0.1);
+      float hw = lap ? 0.13 : 0.07;
+      if (sd.w < 0.34) {
+        // the outline; the one that taps lights up
+        float glow = sending && abs(from - g) < 0.5 ? max(0.0, 1.0 - (T - at) / 0.5) : land * 0.35;
+        if (lap && sd.y > 0.68) {
+          vec2 e = rectEdge(sd.x, vec2(0.0), vec2(0.46, 0.24));
+          p = vec3(c.x + e.x, c.y - size.y * 0.5 - 0.02, e.y + 0.14);
+          a = 0.6;
+        } else {
+          p = vec3(rectEdge(sd.x, c, size), 0.0);
+          a = 0.7;
+        }
+        s = 0.6 + glow * 0.4;
+        a = min(1.0, a + glow * 0.4);
+      } else if (sd.w < 0.62) {
+        // the equalizer: the same five bars on every device, kicking as each sync lands
+        float bar = floor(sd.x * 5.0);
+        float b = 0.3 + 0.7 * abs(sin(played * 3.1 + bar * 1.7)) * (0.6 + 0.4 * sin(played * 1.3 + bar));
+        float h = eqMax * mix(0.06, clamp(0.15 + 0.5 * b + 0.45 * land * (1.0 - bar * 0.12), 0.06, 1.0), live);
+        p = vec3(c.x + (bar - 2.0) * (lap ? 0.036 : 0.031) + (fract(sd.x * 5.0) - 0.5) * 0.014, eqBase + sd.y * h, 0.0);
+        s = 0.7;
+        a = 0.9;
+      } else if (sd.w < 0.7) {
+        // the progress bar
+        p = vec3(c.x - hw + sd.x * hw * 2.0, progY, 0.0);
+        s = 0.5;
+        a = sd.x < prog ? 0.85 : 0.22;
+      } else if (sd.w < 0.74) {
+        p = vec3(c.x - hw + prog * hw * 2.0, progY, 0.0) + sphereDir(sd.x, sd.y) * 0.012 * sqrt(fract(sd.x * 7.3));
+        s = 0.95;
+        a = 1.0;
+      } else if (sd.w < 0.84) {
+        // the pause sign, while paused
+        float side = sd.x < 0.5 ? -1.0 : 1.0;
+        vec2 gc = vec2(c.x, c.y + (lap ? 0.04 : 0.055));
+        p = vec3(gc.x + side * 0.024 + (fract(sd.x * 2.0) - 0.5) * 0.014, gc.y + (sd.y - 0.5) * 0.085, 0.01);
+        s = 0.75;
+        a = 1.0 - live;
+      } else {
+        // a heart: from the laptop first, then on the others
+        float u = (T - (lap ? 2.0 : 2.35)) / 1.3;
+        float th = sd.x * TAU;
+        float sn = sin(th);
+        vec2 hp = vec2(16.0 * sn * sn * sn, 13.0 * cos(th) - 5.0 * cos(2.0 * th) - 2.0 * cos(3.0 * th) - cos(4.0 * th));
+        p = vec3(c.x + hp.x * 0.0023, c.y + (lap ? 0.055 : 0.07) + hp.y * 0.0023 + clamp(u, 0.0, 1.0) * (lap ? 0.03 : 0.09), 0.02);
+        s = 0.7;
+        a = u >= 0.0 && u <= 1.0 ? smoothstep(0.0, 0.1, u) * (1.0 - u) : 0.0;
+      }
+      p.z += svDepth(g);
+    } else if (sd.z < 0.72) {
+      // the links, faint
+      vec3 la, lb, le;
+      svLink(min(floor(sd.x * 3.0), 2.0), la, lb, le);
+      p = bez(la, lb, le, sd.y);
+      s = 0.45;
+      a = 0.16;
+    } else if (sd.z < 0.85) {
+      // the sync on its way: the same small packet on every link, eased, entering the
+      // device and fading as it lands; then it waits there, unseen, and jumps back
+      vec3 la, lb, le;
+      vec3 dir;
+      float g = min(floor(sd.x * 3.0), 2.0);
+      svLink(g, la, lb, le);
+      dir = normalize(le - la);
+      float lag = sd.y * 0.025;
+      float u = smoothstep(0.0, 0.8, beat - lag);
+      float k = SV_LINK / (SV_LINK + 0.12);
+      vec3 j = (vec3(fract(sd.x * 3.0), sd.w, fract(sd.w * 7.1)) - 0.5) * 0.026;
+      p = la + dir * u * (SV_LINK + 0.12) + j;
+      s = 0.95 - sd.y * 0.25;
+      a = smoothstep(0.0, 0.05, beat - lag) * (1.0 - smoothstep(k, 1.0, u)) * (1.0 - sd.y * 0.5)
+        * live * (sending ? 0.15 : 1.0);
+    } else if (sd.z < 0.95) {
+      // a tap: from the device into the room, then out to everyone at once
+      float g = min(floor(sd.x * 3.0), 2.0);
+      vec3 fa, fb, fe, ga, gb, ge;
+      svLink(from, fa, fb, fe);
+      svLink(g, ga, gb, ge);
+      vec3 j = (vec3(fract(sd.x * 3.0), sd.y, sd.w) - 0.5) * 0.04;
+      if (!sending) {
+        // wait, unseen, where the next tap starts
+        svLink(T >= 8.3 || T < 5.0 ? 1.0 : 2.0, fa, fb, fe);
+        p = fe;
+        a = 0.0;
+      } else {
+        p = eu < 0.36 ? bez(fe, fb, fa, eu / 0.36)
+          : eu < 0.5 ? mix(fa, SV_C, (eu - 0.36) / 0.14)
+          : eu < 0.64 ? mix(SV_C, ga, (eu - 0.5) / 0.14)
+          : bez(ga, gb, ge, (eu - 0.64) / 0.36);
+        a = smoothstep(0.0, 0.05, eu) * (1.0 - smoothstep(0.95, 1.0, eu));
+      }
+      p += j;
+      s = 1.2;
+    } else {
+      // the tap itself: a ring spreading from the device that tapped
+      bool first = sd.x < 0.5;
+      vec2 c, size;
+      svDevice(first ? 1.0 : 2.0, c, size);
+      float u = (T - (first ? 5.0 : 7.6)) / 0.6;
+      float th = sd.y * TAU;
+      p = vec3(c + vec2(cos(th), sin(th)) * (0.05 + 0.24 * clamp(u, 0.0, 1.0)), svDepth(first ? 1.0 : 2.0));
+      s = 0.6;
+      a = u >= 0.0 && u <= 1.0 ? (1.0 - u) * 0.8 : 0.0;
+    }
+    return rotY(0.1 * sin(t * 0.17)) * rotX(-0.16) * (p + vec3(0.1, 0.0, 0.0)) * 0.85;
   }
 
   if (k == 5) {
@@ -759,3 +949,14 @@ void main() {
   gl_FragColor = vec4(vec3(a), a);
 }
 `;
+
+/*
+ * The two passes with only the boot's shape left in form(). Every scene is one big function,
+ * and the GPU compiles all of it before the first frame. That took seconds on some machines,
+ * with only the loading caret on screen. This cut is a fraction of the code, so the command
+ * is typed at once while the full passes compile behind it.
+ */
+const onlyBoot = (src: string) =>
+  src.replace(/\n {2}if \(k == (\d+)\) \{\n[\s\S]*?\n {2}\}\n/g, (block, k: string) => (k === "13" ? block : "\n"));
+export const BOOT_VELOCITY = onlyBoot(VELOCITY);
+export const BOOT_POSITION = onlyBoot(POSITION);

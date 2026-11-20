@@ -47,7 +47,7 @@ export interface Project {
   /** Two or three short, verifiable facts shown as chips on the work tile. */
   facts: string[];
   /** The shape the dots take while this project is on screen (see components/world/shaders.ts). */
-  scene: "tunnel" | "supervisor" | "wave" | "pipeline";
+  scene: "tunnel" | "supervisor" | "room" | "pipeline";
 }
 
 export const projects: Project[] = [
@@ -128,7 +128,7 @@ export const projects: Project[] = [
     accent: "#ec4899",
     facts: ["Synced playback", "WebRTC video calls", "Passkey sign-in"],
     zoom: 1,
-    scene: "wave",
+    scene: "room",
   },
 ];
 
