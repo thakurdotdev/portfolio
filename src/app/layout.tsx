@@ -1,15 +1,16 @@
+import { ThemeColor } from "@/components/theme-color";
 import { ThemeProvider } from "@/components/theme-provider";
 import type { Metadata, Viewport } from "next";
 import { Bricolage_Grotesque, JetBrains_Mono } from "next/font/google";
-import "./globals.css";
 import Script from "next/script";
+import { preload } from "react-dom";
+import "./globals.css";
 
 const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
   axes: ["opsz", "wdth"],
   variable: "--font-bricolage",
 });
-
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
@@ -129,14 +130,16 @@ export default function RootLayout({
     ],
   };
 
+  // The hero portrait is drawn from this; fetch it with the page, not after hydration.
+  preload("/pankaj-cutout.webp", { as: "image" });
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* The hero portrait is drawn from this; fetch it with the page, not after hydration. */}
-        <link rel="preload" as="image" href="/pankaj-cutout.webp" />
         {/*
           Scroll reveals hide content only when JS is there to show it again. The boot sequence
-          (pm0 start portfolio) plays once per tab, and not for section links or reduced motion.
+          (pm0 start portfolio) plays once per tab on the home page, and not for section links or
+          reduced motion.
           WebGL ends it, and any scroll, key or tap skips it. The watchdog only makes sure the
           page never stays covered: it counts visible time only, gives WebGL 2.5s to draw its
           first frame and 5s in all, and marks the boot as seen once it has ended, so a reload
@@ -148,17 +151,17 @@ export default function RootLayout({
           data-cfasync="false"
           dangerouslySetInnerHTML={{
             __html:
-              "var d=document.documentElement;d.dataset.js='';try{if(sessionStorage.getItem('boot')||location.hash||matchMedia('(prefers-reduced-motion: reduce)').matches){d.dataset.intro='skip'}else{d.dataset.intro='play';var k=function(){if(d.dataset.intro==='play')d.dataset.intro='done'};['wheel','keydown','pointerdown','touchstart'].forEach(function(e){addEventListener(e,k,{once:true,passive:true})});var w=0,i=setInterval(function(){if(d.dataset.intro!=='play'){sessionStorage.setItem('boot','1');clearInterval(i)}else if(!document.hidden&&(w+=200)>=(d.dataset.webgl?5000:2500)){k()}},200)}}catch(e){d.dataset.intro='skip'}",
+              "var d=document.documentElement;d.dataset.js='';try{if(sessionStorage.getItem('boot')||location.hash||!/\\/(index\\.html)?$/.test(location.pathname)||matchMedia('(prefers-reduced-motion: reduce)').matches){d.dataset.intro='skip'}else{d.dataset.intro='play';var k=function(){if(d.dataset.intro==='play')d.dataset.intro='done'};['wheel','keydown','pointerdown','touchstart'].forEach(function(e){addEventListener(e,k,{once:true,passive:true})});var w=0,i=setInterval(function(){if(d.dataset.intro!=='play'){sessionStorage.setItem('boot','1');clearInterval(i)}else if(!document.hidden&&(w+=200)>=(d.dataset.webgl?5000:2500)){k()}},200)}}catch(e){d.dataset.intro='skip'}",
           }}
         />
       </head>
       <body
         className={`antialiased ${bricolage.variable} ${jetbrainsMono.variable} font-sans`}
       >
-        <Script
-          id="json-ld"
+        {/* In the HTML itself, so crawlers that do not run JavaScript still read it. */}
+        <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
         />
         <Script
           src="https://analytics.thakur.dev/script.js"
@@ -166,14 +169,22 @@ export default function RootLayout({
           strategy="afterInteractive"
         />
 
+        <a
+          href="#main"
+          className="fixed top-3 left-3 z-50 -translate-y-20 rounded-full bg-fg px-4 py-2 text-[15px] text-bg focus-visible:translate-y-0"
+        >
+          Skip to content
+        </a>
         <ThemeProvider
           attribute="class"
-          defaultTheme="light"
+          // Follow the visitor's system setting until they pick one with the toggle.
+          defaultTheme="system"
           enableSystem={true}
           disableTransitionOnChange={true}
           // Same as the boot script: run before paint, or dark-theme visitors see a light flash.
           scriptProps={{ "data-cfasync": "false" }}
         >
+          <ThemeColor />
           {children}
         </ThemeProvider>
       </body>

@@ -161,7 +161,7 @@ export function startWorld(canvas: HTMLCanvasElement, opts: { portrait: string; 
     return fail();
   }
   renderer.setClearColor(0x000000, 0);
-  const dpr = Math.min(window.devicePixelRatio || 1, coarse ? 2 : 1.75);
+  let dpr = Math.min(window.devicePixelRatio || 1, coarse ? 2 : 1.75);
   renderer.setPixelRatio(dpr);
 
   const camera = new PerspectiveCamera(FOV, 1, 0.1, 100);
@@ -437,7 +437,39 @@ export function startWorld(canvas: HTMLCanvasElement, opts: { portrait: string; 
   let lastB: [number, number, number] | null = null;
   let state: SceneState | null = null;
   let visible = !document.hidden;
-  const onVis = () => (visible = !document.hidden);
+  // Adaptive resolution. Most of a frame's cost is fill (dots × pixels), so if frames run
+  // long for a while, draw at a lower pixel ratio, a step at a time, never below 1. The
+  // dots keep their size on screen; they are only drawn with fewer pixels.
+  let frameMs = 16.7;
+  let slowFor = 0;
+  let settleUntil = 0;
+  const adapt = (dtMs: number) => {
+    if (time < settleUntil) return;
+    frameMs += (dtMs - frameMs) * 0.05;
+    if (dpr <= 1) {
+      // Already at the lowest resolution and still under ~20 fps (a software renderer, or a
+      // GPU that cannot keep up): stop, and let the page show its still fallbacks. A page
+      // that scrolls smoothly beats dots that stutter.
+      slowFor = frameMs > 50 ? slowFor + dtMs : 0;
+      if (slowFor > 4000) giveUp();
+      return;
+    }
+    slowFor = frameMs > 24 ? slowFor + dtMs : 0;
+    if (slowFor < 1500) return;
+    dpr = Math.max(1, dpr - 0.25);
+    renderer.setPixelRatio(dpr);
+    renderer.setSize(vw, vh, false);
+    drawU.uDpr.value = dpr;
+    // Give the new size a moment to show what it costs before judging again.
+    slowFor = 0;
+    frameMs = 16.7;
+    settleUntil = time + 1.5;
+  };
+  const onVis = () => {
+    visible = !document.hidden;
+    // The first frames back from a hidden tab are not a fair measure.
+    settleUntil = time + 1;
+  };
   document.addEventListener("visibilitychange", onVis);
   const stopScenes = onScenes((s) => (state = s));
 
@@ -595,9 +627,14 @@ export function startWorld(canvas: HTMLCanvasElement, opts: { portrait: string; 
     if (at - lastDraw < 100) drawn++;
     lastDraw = at;
     if (drawn >= 3 && !root.dataset.webgl) root.dataset.webgl = "on";
+    // Not during the boot, or the first seconds while shaders finish compiling.
+    if (current !== BOOT && time > 3) adapt(dtMs);
   }, 2);
 
-  return () => {
+  let disposed = false;
+  const dispose = () => {
+    if (disposed) return;
+    disposed = true;
     stopTick();
     stopScenes();
     themeWatch.disconnect();
@@ -620,4 +657,14 @@ export function startWorld(canvas: HTMLCanvasElement, opts: { portrait: string; 
     tText.dispose();
     renderer.dispose();
   };
+
+  // The canvas fades out (CSS, on data-webgl), then everything is released.
+  function giveUp() {
+    if (disposed) return;
+    root.dataset.webgl = "off";
+    stopTick();
+    window.setTimeout(dispose, 400);
+  }
+
+  return dispose;
 }

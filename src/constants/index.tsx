@@ -1,8 +1,8 @@
 import type { StaticImageData } from "next/image";
-import pm0Shot from "@/assets/projects/pm0.png";
-import shipyardShot from "@/assets/projects/shipyard.png";
-import syncvibeShot from "@/assets/projects/syncvibe.png";
-import tunlShot from "@/assets/projects/tunl.png";
+import pm0Shot from "@/assets/projects/pm0.webp";
+import shipyardShot from "@/assets/projects/shipyard.webp";
+import syncvibeShot from "@/assets/projects/syncvibe.webp";
+import tunlShot from "@/assets/projects/tunl.webp";
 
 export const personalInfo = {
   name: "Pankaj Thakur",
@@ -11,23 +11,17 @@ export const personalInfo = {
   headline: "Full-Stack Software Engineer — Node.js, TypeScript, Bun, React",
   email: "pankaj@thakur.dev",
   company: "Netclues India",
-  careerStartDate: "2024-09-01",
-  bio: "I design and build production-grade systems end-to-end—from high-performance backends and database architectures to frontend interfaces and developer infrastructure.",
-  aboutLong: [
-    "Specialized in event-driven systems, database synchronization, real-time protocols, and process management. Experienced owning production features from system architecture through deployment and telemetry.",
-    "Currently engineering state-machine driven workflow engines, credit union risk portals, and resilient webhook pipelines at Netclues India.",
-  ],
 };
 
 export interface Project {
   title: string;
   subtitle: string;
   architecture: string;
-  /** Full description (use it in detail views or modals). */
+  /** The full paragraph under the facts. */
   desc: string;
-  /** Card copy: one or two lines, ~90 characters, outcome first. */
+  /** The lead line: one or two lines, ~90 characters, outcome first. */
   blurb: string;
-  /** Most important technologies first. The card shows the first three. */
+  /** Most important technologies first. */
   tech: string[];
   repo?: string;
   live?: string;
@@ -37,13 +31,7 @@ export interface Project {
    * updated screenshot is never stuck behind the site's year-long image cache.
    */
   image: StaticImageData;
-  /** Up to two extra screens, shown on the sheets behind the main screenshot. */
-  screens?: string[];
-  /** Brand color for the card stage and glow. */
-  accent: string;
-  /** Crops empty margins in the screenshot. 1 = off. */
-  zoom?: number;
-  /** Two or three short, verifiable facts shown as chips on the work tile. */
+  /** Short, verifiable facts, each on its own hairline. */
   facts: string[];
   /** The shape the dots take while this project is on screen (see components/world/shaders.ts). */
   scene: "tunnel" | "supervisor" | "room" | "pipeline";
@@ -60,7 +48,6 @@ export const projects: Project[] = [
     repo: "https://github.com/thakurdotdev/shipyard",
     demo: "https://cdn.thakur.dev/shipyard.mp4",
     image: shipyardShot,
-    accent: "#14b8a6",
     facts: [
       "One-click deploy",
       "Auto-deploy on push",
@@ -70,7 +57,6 @@ export const projects: Project[] = [
       "Uptime monitoring",
       "Password protection",
     ],
-    zoom: 1,
     scene: "pipeline",
   },
   {
@@ -83,9 +69,7 @@ export const projects: Project[] = [
     repo: "https://github.com/thakurdotdev/pm0",
     live: "https://pm0.thakur.dev",
     image: pm0Shot,
-    accent: "#ef4444",
     facts: ["~16 MB idle daemon", "77% less memory than PM2", "Sub-40 ms status"],
-    zoom: 1,
     scene: "supervisor",
   },
   {
@@ -99,9 +83,7 @@ export const projects: Project[] = [
     repo: "https://github.com/thakurdotdev/tunl",
     live: "https://tunl.online",
     image: tunlShot,
-    accent: "#22c55e",
     facts: ["No client install", "Live request inspector", "Custom domains"],
-    zoom: 1.1,
     scene: "tunnel",
   },
   {
@@ -124,25 +106,8 @@ export const projects: Project[] = [
     repo: "https://github.com/thakurdotdev/syncvibe",
     live: "https://syncvibe.thakur.dev",
     image: syncvibeShot,
-    accent: "#ec4899",
     facts: ["Synced playback", "WebRTC video calls", "Passkey sign-in"],
-    zoom: 1,
     scene: "room",
-  },
-];
-
-export const engineeringWins = [
-  {
-    title: "Multi-tenant database sync",
-    focus: "Database Scaling & Outbox Pattern",
-    metric: "Timeout to 200–300 ms",
-    desc: "Queries across tenant databases began timing out at around 50,000 records. I added an outbox table to each tenant database and background workers that copy changes into one central read database. The same queries now return in 200 to 300 ms at more than 350,000 records.",
-  },
-  {
-    title: "Hybrid API encryption",
-    focus: "Security & Performance Engineering",
-    metric: "RSA-2048 + AES-256-GCM",
-    desc: "API payloads are encrypted end to end. RSA exchanges a fresh session key for each session, and AES-GCM encrypts the payloads with it, which keeps the per-request overhead low.",
   },
 ];
 
@@ -240,7 +205,7 @@ export const experienceChapters: ExperienceChapter[] = [
     label: "Outbox",
     role: "Engineer",
     context: "Multi-tenant database sync",
-    headline: "Timeouts to 200–300 ms",
+    headline: "Timeouts to 200\u2060–\u2060300\u00a0ms",
     body: "I architected a centralized read-database sync pipeline using the Transactional Outbox Pattern, cutting query latency to 200–300 ms across 350K+ records (previously timing out at ~50K).",
     facts: ["Transactional Outbox Pattern", "Central read database", "200–300 ms at 350K+ records"],
   },

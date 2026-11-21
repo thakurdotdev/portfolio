@@ -161,6 +161,8 @@ html[data-intro="done"] .boot-cover {
     font-stretch: 76%;
     letter-spacing: -0.015em;
     line-height: 0.9;
+    /* Big type breaks into even lines, not one long line and a stray word. */
+    text-wrap: balance;
   }
 
   /* Chapter openers: project names, the employer, the server count, contact. */
@@ -184,6 +186,7 @@ html[data-intro="done"] .boot-cover {
     font-size: clamp(1.125rem, 1.5vw, 1.375rem);
     line-height: 1.35;
     letter-spacing: -0.01em;
+    text-wrap: pretty;
   }
 
   .link {
@@ -298,8 +301,30 @@ html[data-intro="done"] .boot-cover {
   user-select: none;
 }
 
-[data-webgl="off"] .hint {
+[data-webgl="off"] .hint,
+[data-webgl="off"] .stage-hint {
   display: none;
+}
+
+/* Without WebGL (none, or too slow to keep up) the stages hold still content instead. */
+.stage-fallback {
+  display: none;
+}
+
+[data-webgl="off"] .stage-fallback {
+  display: grid;
+}
+
+/* The phone layout's empty stages would only leave gaps. */
+[data-webgl="off"] .stage:empty {
+  display: none;
+}
+
+/* The stage shows the chapter's facts in large type, so the column need not repeat them. */
+@media (min-width: 1024px) {
+  [data-webgl="off"] .chapter-facts {
+    display: none;
+  }
 }
 
 /* Back to the top: the site's dot, grown into a button. */
@@ -744,9 +769,50 @@ html[data-js] [data-reveal][data-in] {
   background-size: 100% 0.05em;
 }
 
+/* The demo video. A native modal dialog, so it sits in the top layer above the dots. */
+.video-dialog::backdrop {
+  background: color-mix(in oklab, var(--bg, #000) 84%, transparent);
+  backdrop-filter: blur(6px);
+}
+
+.video-dialog[open] {
+  animation: dialog-in 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.video-dialog[open]::backdrop {
+  animation: fade-in 0.3s ease;
+}
+
+@keyframes dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.98);
+  }
+}
+
+/* While the video loads: the site's dot, beating. */
+.video-loading {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: boot-beat 1.1s ease-in-out infinite;
+}
+
+/* Hidden until a keyboard reaches it. */
+a[href="#main"] {
+  transition: transform 0.2s ease;
+}
+
 @media (prefers-reduced-motion: reduce) {
   :root {
     --t0: 0s;
+  }
+
+  .video-dialog[open],
+  .video-dialog[open]::backdrop,
+  .video-loading {
+    animation: none;
   }
 
   .strip,
@@ -798,4 +864,14 @@ html[data-js] [data-reveal][data-in] {
 ::-webkit-scrollbar-thumb {
   background: var(--color-line-strong);
   border-radius: 4px;
+}
+
+/* The fallback screenshot keeps the page's rule: grey until you look at it. */
+.stage-fallback img {
+  filter: grayscale(1) contrast(1.05);
+  transition: filter 0.5s ease;
+}
+
+.stage-fallback img:hover {
+  filter: none;
 }

@@ -35,7 +35,8 @@ function stepTarget(run: HTMLElement[], y: number, dir: number) {
 }
 
 function onWheel({ deltaY, event }: VirtualScrollData): boolean {
-  if (!lenis || !runs.size || event.type !== "wheel" || event.ctrlKey) return true;
+  // While the page is held (a dialog is open), stand aside: a forced glide would move it anyway.
+  if (!lenis || lenis.isStopped || !runs.size || event.type !== "wheel" || event.ctrlKey) return true;
   if (!matchMedia("(min-width: 1024px) and (pointer: fine)").matches) return true;
 
   const now = performance.now();
@@ -108,4 +109,14 @@ export function scrollToY(y: number) {
 export function scrollToEl(el: HTMLElement) {
   if (lenis) lenis.scrollTo(el, { offset: -64 });
   else el.scrollIntoView();
+}
+
+/** Holds the page still (a dialog is open) and lets it go again. */
+export function lockScroll(locked: boolean) {
+  // A glide cut short by the lock never completes, so forget it, or the next gesture would
+  // wait on it forever.
+  step.locked = false;
+  step.animating = false;
+  if (locked) lenis?.stop();
+  else lenis?.start();
 }

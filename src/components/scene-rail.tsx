@@ -4,7 +4,11 @@ import { useEffect, useState } from "react";
 import { onScenes } from "@/lib/scenes";
 import { scrollToEl } from "@/lib/smooth-scroll";
 
-/** One pip per scene down the right edge. The current one is lit; its name shows beside it. */
+/*
+ * One pip per scene down the right edge. The current one is lit. Names show on hover and
+ * focus; the current one also stays named on screens wide enough that the name clears the
+ * content column (1600px plus the rail), so it never sits on top of a stage or the clock.
+ */
 export function SceneRail() {
   const [items, setItems] = useState<{ label: string; el: HTMLElement }[]>([]);
   const [active, setActive] = useState(0);
@@ -38,13 +42,11 @@ export function SceneRail() {
               className="group flex cursor-pointer items-center gap-3 py-1 font-mono text-[11px]"
             >
               <span
-                className={`transition-[opacity,transform] duration-300 ${
-                  i === active
-                    ? "translate-x-0 opacity-100"
-                    : "translate-x-1 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:opacity-100"
+                className={`translate-x-1 opacity-0 transition-[opacity,transform] duration-300 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100 ${
+                  i === active ? "min-[112.5rem]:translate-x-0 min-[112.5rem]:opacity-100" : ""
                 }`}
               >
-                <span className="opacity-50">{String(i).padStart(2, "0")}</span> {it.label}
+                {it.label}
               </span>
               <span
                 className={`block rounded-full transition-all duration-300 ${

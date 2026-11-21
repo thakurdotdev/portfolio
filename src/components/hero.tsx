@@ -96,6 +96,9 @@ export function Hero() {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/pankaj.webp"
+          // Only shown without WebGL, so it never competes with the page for bandwidth.
+          loading="lazy"
+          fetchPriority="low"
           alt="Portrait of Pankaj Thakur"
           width={240}
           height={240}
@@ -132,10 +135,11 @@ export function Hero() {
       <div className="relative mt-8 flex flex-wrap items-end justify-between gap-x-10 gap-y-5 pt-5 sm:mt-10">
         <span aria-hidden="true" className="draw absolute inset-x-0 top-0 h-px bg-line-strong" style={d(300)} />
         <ProcessStrip />
-        <p className="settle text-[15px] leading-snug text-muted sm:text-right" style={d(900)}>
-          {personalInfo.role}
+        {/* The role is already in the line under the name; this says where. */}
+        <p className="settle text-[15px] leading-snug sm:text-right" style={d(900)}>
+          <span className="text-dim">Now at</span>
           <br />
-          at {personalInfo.company}
+          {personalInfo.company}
         </p>
       </div>
     </section>

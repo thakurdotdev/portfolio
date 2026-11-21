@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { personalInfo, socialLinks } from "@/constants";
 import { scrollToY } from "@/lib/smooth-scroll";
 
@@ -15,10 +15,15 @@ const hourFmt = new Intl.DateTimeFormat("en-GB", { hour: "numeric", hour12: fals
 function useLocalTime() {
   const [now, setNow] = useState<Date | null>(null);
   useEffect(() => {
-    const tick = () => setNow(new Date());
+    // Ticks on the minute, so the printed time turns with the dot clock above it.
+    let id = 0;
+    const tick = () => {
+      const d = new Date();
+      setNow(d);
+      id = window.setTimeout(tick, 60_000 - (d.getSeconds() * 1000 + d.getMilliseconds()) + 50);
+    };
     tick();
-    const id = setInterval(tick, 15_000);
-    return () => clearInterval(id);
+    return () => clearTimeout(id);
   }, []);
   if (!now) return { time: "--:--", status: "" };
   const h = Number(hourFmt.format(now)) % 24;
@@ -34,7 +39,10 @@ function useLocalTime() {
  */
 export function Contact() {
   const [copied, setCopied] = useState<"idle" | "done" | "failed">("idle");
+  const reset = useRef(0);
   const { time, status } = useLocalTime();
+
+  useEffect(() => () => clearTimeout(reset.current), []);
 
   const copy = async () => {
     try {
@@ -43,7 +51,8 @@ export function Contact() {
     } catch {
       setCopied("failed");
     }
-    setTimeout(() => setCopied("idle"), 2000);
+    clearTimeout(reset.current);
+    reset.current = window.setTimeout(() => setCopied("idle"), 2000);
   };
 
   return (
@@ -81,7 +90,7 @@ export function Contact() {
                 {copied === "done" ? "Copied" : copied === "failed" ? "Copy failed" : "Copy address"}
               </button>
               <span className="sr-only" aria-live="polite">
-                {copied === "done" ? "Email address copied" : ""}
+                {copied === "done" ? "Email address copied" : copied === "failed" ? "Could not copy. The address is " + personalInfo.email : ""}
               </span>
             </li>
             {[...socialLinks, { name: "Resume", url: "https://cdn.thakur.dev/resume.pdf" }].map((l) => (
@@ -110,8 +119,8 @@ export function Contact() {
             </p>
           </div>
           <div className="mt-4 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 font-mono text-[12px] text-dim">
-            <p aria-live="polite">
-              <span className="text-fg">{time}</span> in India{status && ` · ${status}`}
+            <p>
+              <span className="text-fg tabular-nums">{time}</span> in India{status && ` · ${status}`}
             </p>
             <p className="hint hidden sm:block">drag to turn</p>
           </div>
