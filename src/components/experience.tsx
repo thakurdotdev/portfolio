@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { registerSteps } from "@/lib/smooth-scroll";
+import { StageHead } from "./stage-head";
 import { categorizedSkills, experienceChapters, workExperience, type ExperienceChapter } from "@/constants";
 
 const monthFmt = new Intl.DateTimeFormat("en", { month: "short", year: "numeric", timeZone: "UTC" });
@@ -154,12 +155,15 @@ export function Experience() {
         </div>
 
         <div className="hidden lg:col-span-7 lg:block">
-          <div className="sticky top-0 flex h-[100svh] flex-col pt-24 pb-10">
-            <div id="stage-exp" data-drag="" className="stage relative min-h-0 flex-1">
-              <p key={current.id} aria-hidden="true" className="swap pointer-events-none absolute top-0 left-0 font-mono text-[11px] text-dim">
-                {pad(active + 1)} / {pad(experienceChapters.length)} · {current.context}
-              </p>
-            </div>
+          <div className="stage-col sticky top-0 flex h-[100svh] flex-col pt-24 pb-10">
+            <StageHead
+              key={current.id}
+              index={active}
+              count={experienceChapters.length}
+              title={current.context}
+              sub={current.role}
+            />
+            <div id="stage-exp" data-drag="" className="stage relative mt-4 min-h-0 flex-1" />
             <div className="mt-6 flex items-center justify-between gap-6 text-[15px]">
               <nav aria-label="Experience" className="flex items-center gap-[7px]">
                 {experienceChapters.map((c, i) => (
@@ -174,8 +178,11 @@ export function Experience() {
                   </a>
                 ))}
               </nav>
-              <p className="text-muted" aria-live="polite">
-                {current.role} · {current.context}
+              <p className="font-mono text-[11px] text-dim">
+                <span className="sr-only" aria-live="polite">
+                  {current.context}.{" "}
+                </span>
+                <span className="stage-hint">drag to turn</span>
               </p>
             </div>
           </div>
@@ -245,7 +252,7 @@ function Chapter({
         {pad(index + 1)} / {pad(experienceChapters.length)} · {c.role}
         <span className="lg:hidden"> · {c.context}</span>
       </p>
-      <h3 id={`exp-${c.id}-title`} className="display display-l mt-4 -ml-[0.04em] max-w-[12ch]">
+      <h3 id={`exp-${c.id}-title`} className="display display-l mt-4 -ml-[0.04em] max-w-[12ch] lg:max-w-[14ch] lg:text-[clamp(2.5rem,4.4vw,4.75rem)]">
         {c.headline}
       </h3>
       <div id={`stage-exp-${c.id}`} data-drag="" className="stage -mx-5 mt-8 aspect-[5/4] sm:-mx-8 lg:hidden" aria-hidden="true" />

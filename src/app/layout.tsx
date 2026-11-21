@@ -137,14 +137,18 @@ export default function RootLayout({
         {/*
           Scroll reveals hide content only when JS is there to show it again. The boot sequence
           (pm0 start portfolio) plays once per tab, and not for section links or reduced motion.
-          WebGL ends it. The watchdog only makes sure the page never stays covered: it counts
-          visible time only, gives WebGL 5s to draw its first frame and 9s in all, and marks the
-          boot as seen once it has ended, so a reload mid-boot plays it again.
+          WebGL ends it, and any scroll, key or tap skips it. The watchdog only makes sure the
+          page never stays covered: it counts visible time only, gives WebGL 2.5s to draw its
+          first frame and 5s in all, and marks the boot as seen once it has ended, so a reload
+          mid-boot plays it again.
+          `data-cfasync="false"` keeps Cloudflare's Rocket Loader from deferring it: deferred, the
+          page paints first and the boot cover then drops over a hero that was already showing.
         */}
         <script
+          data-cfasync="false"
           dangerouslySetInnerHTML={{
             __html:
-              "var d=document.documentElement;d.dataset.js='';try{if(sessionStorage.getItem('boot')||location.hash||matchMedia('(prefers-reduced-motion: reduce)').matches){d.dataset.intro='skip'}else{d.dataset.intro='play';var w=0,i=setInterval(function(){if(d.dataset.intro!=='play'){sessionStorage.setItem('boot','1');clearInterval(i)}else if(!document.hidden&&(w+=200)>=(d.dataset.webgl?9000:5000)){d.dataset.intro='done'}},200)}}catch(e){d.dataset.intro='skip'}",
+              "var d=document.documentElement;d.dataset.js='';try{if(sessionStorage.getItem('boot')||location.hash||matchMedia('(prefers-reduced-motion: reduce)').matches){d.dataset.intro='skip'}else{d.dataset.intro='play';var k=function(){if(d.dataset.intro==='play')d.dataset.intro='done'};['wheel','keydown','pointerdown','touchstart'].forEach(function(e){addEventListener(e,k,{once:true,passive:true})});var w=0,i=setInterval(function(){if(d.dataset.intro!=='play'){sessionStorage.setItem('boot','1');clearInterval(i)}else if(!document.hidden&&(w+=200)>=(d.dataset.webgl?5000:2500)){k()}},200)}}catch(e){d.dataset.intro='skip'}",
           }}
         />
       </head>
@@ -167,6 +171,8 @@ export default function RootLayout({
           defaultTheme="light"
           enableSystem={true}
           disableTransitionOnChange={true}
+          // Same as the boot script: run before paint, or dark-theme visitors see a light flash.
+          scriptProps={{ "data-cfasync": "false" }}
         >
           {children}
         </ThemeProvider>
