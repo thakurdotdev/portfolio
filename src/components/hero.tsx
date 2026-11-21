@@ -132,8 +132,10 @@ export function Hero() {
       <div className="relative mt-8 flex flex-wrap items-end justify-between gap-x-10 gap-y-5 pt-5 sm:mt-10">
         <span aria-hidden="true" className="draw absolute inset-x-0 top-0 h-px bg-line-strong" style={d(300)} />
         <ProcessStrip />
-        <p className="settle max-w-[46ch] text-[15px] leading-snug text-balance text-muted sm:text-right" style={d(900)}>
-          {personalInfo.availability}
+        <p className="settle text-[15px] leading-snug text-muted sm:text-right" style={d(900)}>
+          {personalInfo.role}
+          <br />
+          at {personalInfo.company}
         </p>
       </div>
     </section>
