@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { projects, type Project } from "@/constants";
 import { projectSlug, serverSnapshot } from "@/constants/server";
 import { registerSteps } from "@/lib/smooth-scroll";
+import { StageHead } from "./stage-head";
 
 type Watch = (video: { url: string; title: string }) => void;
 
@@ -61,16 +62,17 @@ export function ProjectsFlow({ onWatch }: { onWatch: Watch }) {
       </div>
 
       <div className="hidden lg:col-span-7 lg:block">
-        <div className="sticky top-0 flex h-[100svh] flex-col pt-24 pb-10">
-          <div id="stage-work" data-drag="" className="stage relative min-h-0 flex-1">
-            <p
-              key={current.title}
-              aria-hidden="true"
-              className="swap pointer-events-none absolute top-0 left-0 font-mono text-[11px] text-dim"
-            >
-              {pad(active + 1)} / {pad(projects.length)} · {current.architecture}
-            </p>
-          </div>
+        <div className="stage-col sticky top-0 flex h-[100svh] flex-col pt-24 pb-10">
+          <StageHead
+            key={current.title}
+            index={active}
+            count={projects.length}
+            title={current.title}
+            sub={current.subtitle}
+            href={current.live ?? current.repo}
+            large
+          />
+          <div id="stage-work" data-drag="" className="stage relative mt-4 min-h-0 flex-1" />
           <div className="mt-6 flex items-center justify-between gap-6 text-[15px]">
             <nav aria-label="Projects" className="flex items-center gap-[7px]">
               {projects.map((p, i) => (
@@ -85,9 +87,12 @@ export function ProjectsFlow({ onWatch }: { onWatch: Watch }) {
                 </a>
               ))}
             </nav>
-            <p className="text-muted" aria-live="polite">
-              {current.title}, {hostOf(current.live) ?? "self-hosted"}
-              <span className="text-dim"> · drag to turn</span>
+            <p className="font-mono text-[11px] text-dim">
+              <span className="sr-only" aria-live="polite">
+                {current.title}.{" "}
+              </span>
+              {hostOf(current.live) ?? "self-hosted"}
+              <span className="stage-hint"> · drag to turn</span>
             </p>
           </div>
         </div>
@@ -162,14 +167,14 @@ function ProjectText({
       aria-labelledby={`${slug}-title`}
       className="border-b border-line py-16 transition-opacity duration-500 last:border-b-0 sm:py-24 lg:flex lg:h-[100svh] lg:flex-col lg:justify-center lg:border-b-0 lg:pt-20 lg:pb-8 lg:data-[active=false]:opacity-25"
     >
-      <p className="font-mono text-[12px] text-dim">
-        {pad(index + 1)} / {pad(projects.length)}
-        <span className="lg:hidden"> · {project.architecture}</span>
+      {/* On wide screens the number and name sit above the stage instead, where the eye is. */}
+      <p className="font-mono text-[12px] text-dim lg:hidden">
+        {pad(index + 1)} / {pad(projects.length)} · {project.architecture}
       </p>
-      <h3 id={`${slug}-title`} className="project-title display display-xl mt-4 -ml-[0.05em] lg:text-[clamp(3.25rem,min(6.4vw,11svh),7rem)]">
+      <h3 id={`${slug}-title`} className="project-title display display-xl mt-4 -ml-[0.05em] lg:sr-only">
         {project.title}
       </h3>
-      <p className="lead mt-5 max-w-[34ch] lg:mt-4">{project.blurb}</p>
+      <p className="lead mt-5 max-w-[34ch] lg:mt-0">{project.blurb}</p>
 
       {/* The phone layout's stage. Hidden on wide screens, where the shared one takes over. */}
       <div id={`stage-${slug}`} data-drag="" className="stage -mx-5 mt-8 aspect-[5/4] sm:-mx-8 lg:hidden" aria-hidden="true" />

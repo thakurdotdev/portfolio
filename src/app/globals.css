@@ -63,8 +63,8 @@ html[data-intro="done"] .boot-cover {
   opacity: 0;
   visibility: hidden;
   transition:
-    opacity 0.7s ease,
-    visibility 0s linear 0.7s;
+    opacity 0.45s ease,
+    visibility 0s linear 0.45s;
 }
 
 /* While WebGL loads: a caret, where the dots will gather. */
@@ -669,6 +669,55 @@ html[data-js] [data-reveal][data-in] {
 }
 
 .shot:hover::after {
+  opacity: 1;
+}
+
+/* The name above the sticky stage. Its letters reuse the hero's mask rise, faster. */
+.stage-title {
+  font-size: clamp(2.25rem, min(3.8vw, 7svh), 4.25rem);
+  line-height: 0.95;
+}
+
+/* Projects: the stage's name is the only one on wide screens, so it takes the full size. */
+.stage-title-lg {
+  font-size: clamp(3.25rem, min(6.4vw, 11svh), 7rem);
+  line-height: 0.9;
+}
+
+.stage-title .mask > span {
+  animation-duration: 0.8s;
+}
+
+/* The name opens the project: an arrow slides in beside it on hover. */
+.stage-link {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 0.12em;
+}
+
+.stage-arrow {
+  font-size: 0.4em;
+  font-weight: 500;
+  margin-top: 0.2em;
+  opacity: 0;
+  transform: translate(-0.3em, 0.3em);
+  transition:
+    opacity 0.3s ease,
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.stage-link:hover .stage-arrow {
+  opacity: 1;
+  transform: none;
+}
+
+/* "drag to turn" only matters to someone already pointing at the stage. */
+.stage-hint {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.stage-col:hover .stage-hint {
   opacity: 1;
 }
 

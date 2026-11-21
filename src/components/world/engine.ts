@@ -443,9 +443,10 @@ export function startWorld(canvas: HTMLCanvasElement, opts: { portrait: string; 
 
   // The boot sequence (first visit): the command is typed full screen, then becomes the page.
   const BOOT = -1;
-  const TYPE_AT = 0.45;
-  const PER_CHAR = 0.07;
-  const HOLD = 0.9;
+  // Kept short: every first-time visitor waits through it before seeing the hero.
+  const TYPE_AT = 0.15;
+  const PER_CHAR = 0.04;
+  const HOLD = 0.5;
   // Seconds of boot shown so far. It advances by real frame time, so a slow device does not
   // stretch the sequence, but at most 0.1s a frame, so a stall (the GPU finishing its shader
   // compiles, a few frames in) pauses the typing instead of skipping it.
