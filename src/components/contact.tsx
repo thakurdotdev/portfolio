@@ -66,7 +66,7 @@ export function Contact() {
         <div data-reveal="" className="lg:col-span-7">
           <p className="display display-xl -ml-[0.05em]">Say hello.</p>
           <p className="lead mt-5 max-w-[40ch] text-muted">
-            Open to full-stack engineering roles, architecture conversations and work on developer tools. Email is
+            Open to architecture conversations and work on developer tools. Email is
             the fastest way to reach me.
           </p>
           <a

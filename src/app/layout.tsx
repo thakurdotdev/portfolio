@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     template: "%s | Pankaj Thakur",
   },
   description:
-    "Full-stack engineer building fintech platforms and developer tooling. Open to roles from Jan 2027 — Remote, Bengaluru, Gurugram, Noida, Pune.",
+    "Full-stack engineer building fintech platforms and developer tooling.",
   keywords: [
     "Pankaj Thakur",
     "thakurdotdev",
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Pankaj Thakur — Full-Stack Engineer (Node.js, TypeScript)",
     description:
-      "Full-stack engineer building fintech platforms and developer tooling. Open to roles from Jan 2027 — Remote, Bengaluru, Gurugram, Noida, Pune.",
+      "Full-stack engineer building fintech platforms and developer tooling.",
     url: "https://thakur.dev",
     siteName: "Pankaj Thakur Portfolio",
     images: [
@@ -73,7 +73,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Pankaj Thakur — Full-Stack Engineer (Node.js, TypeScript)",
     description:
-      "Full-stack engineer building fintech platforms and developer tooling. Open to roles from Jan 2027 — Remote, Bengaluru, Gurugram, Noida, Pune.",
+      "Full-stack engineer building fintech platforms and developer tooling.",
     creator: "@thakurdotdev",
     site: "@thakurdotdev",
   },

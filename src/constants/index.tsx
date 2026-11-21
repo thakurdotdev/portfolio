@@ -9,7 +9,6 @@ export const personalInfo = {
   role: "Full-Stack Software Engineer",
   /** Hero subtitle, under the name. */
   headline: "Full-Stack Software Engineer — Node.js, TypeScript, Bun, React",
-  availability: "Open to full-stack roles · Available from 13 Jan 2027 · Remote, Bengaluru, Gurugram, Noida, Pune, Ahmedabad",
   email: "pankaj@thakur.dev",
   company: "Netclues India",
   careerStartDate: "2024-09-01",
