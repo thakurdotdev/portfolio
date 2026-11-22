@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { personalInfo, socialLinks } from "@/constants";
-import { getIndiaTime, subscribeIndiaTime } from "@/lib/india-time";
+import { getClockTime, subscribeClockTime } from "@/lib/clock-time";
 import { scrollToY } from "@/lib/smooth-scroll";
 import { Section } from "./section";
 
@@ -10,25 +10,36 @@ const updatedFmt = new Intl.DateTimeFormat("en", { month: "short", year: "numeri
 // The build date, so "Updated" is always true and server and client agree.
 const built = new Date(process.env.NEXT_PUBLIC_BUILD_DATE ?? Date.now());
 
-/** The time where I am, and whether I am likely to be up. Same source as the dot clock. */
-function useLocalTime() {
-  const now = useSyncExternalStore(subscribeIndiaTime, getIndiaTime, () => null);
-  if (!now) return { time: "--:--", status: "" };
+/** The visitor's time for the clock, and mine in India for the caption. Same source as the dots. */
+function useClock() {
+  const now = useSyncExternalStore(subscribeClockTime, getClockTime, () => null);
+  if (!now) return { time: "--:--", caption: null };
+  const awake = now.indiaHour >= 8 && now.indiaHour < 23 ? "awake" : "asleep";
   return {
-    time: now.text,
-    status: now.hour >= 8 && now.hour < 23 ? "probably awake" : "probably asleep",
+    time: now.local,
+    caption: now.sameAsIndia ? (
+      <>
+        <span className="text-fg tabular-nums">{now.local}</span> in India, same as you. I&rsquo;m probably {awake}.
+      </>
+    ) : (
+      <>
+        <span className="text-fg tabular-nums">{now.local}</span> where you are.{" "}
+        <span className="tabular-nums">{now.india}</span> in India, where I&rsquo;m probably {awake}.
+      </>
+    ),
   };
 }
 
 /*
  * The end of the page: the address first, so a jump to #contact lands on it, with a small
- * dot-matrix clock beside it showing the time in India. Then a one-line footer.
+ * dot-matrix clock beside it showing the visitor's time, captioned with mine in India, so they
+ * can tell whether it is a good time to write. Then a one-line footer.
  * The email, its copy button and the links sit on the same hairlines as the clock's caption.
  */
 export function Contact() {
   const [copied, setCopied] = useState<"idle" | "done" | "failed">("idle");
   const reset = useRef(0);
-  const { time, status } = useLocalTime();
+  const { time, caption } = useClock();
 
   useEffect(() => () => clearTimeout(reset.current), []);
 
@@ -78,8 +89,7 @@ export function Contact() {
           </ul>
         </div>
 
-        {/* A small clock beside the address: is it a good time to write? Without WebGL, the
-            time is printed instead. */}
+        {/* A small clock beside the address. Without WebGL, the time is printed instead. */}
         <div className="lg:col-span-5">
           <div id="stage-clock" data-drag="" className="stage relative aspect-[3/1] w-full max-w-[24rem] lg:max-w-none" aria-hidden="true">
             <p className="clock-fallback display absolute inset-0 grid place-items-center text-[clamp(2.5rem,9vw,5rem)] tabular-nums opacity-0">
@@ -87,7 +97,7 @@ export function Contact() {
             </p>
           </div>
           <p className="mt-4 border-t border-line pt-5 text-body text-muted">
-            <span className="text-fg tabular-nums">{time}</span> in India{status && `, ${status}`}
+            {caption ?? <span className="tabular-nums">--:--</span>}
           </p>
         </div>
       </div>

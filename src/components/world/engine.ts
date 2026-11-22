@@ -15,7 +15,7 @@ import {
   WebGLRenderer,
 } from "three";
 import { GPUComputationRenderer } from "three/examples/jsm/misc/GPUComputationRenderer.js";
-import { getIndiaTime } from "@/lib/india-time";
+import { getClockTime } from "@/lib/clock-time";
 import { onScenes, stageRect, type Rect, type SceneInfo, type SceneState } from "@/lib/scenes";
 import { addTick } from "@/lib/ticker";
 import { layoutBoot, type BootLayout } from "./boot-text";
@@ -405,13 +405,14 @@ export function startWorld(canvas: HTMLCanvasElement, opts: { portrait: string; 
   window.addEventListener("pointercancel", onUp, { passive: true });
   root.addEventListener("pointerleave", onLeave);
 
-  // The clock: redrawn when the minute turns; the seconds run in the shader. The minute comes
-  // from the same source as the printed time under the clock, so the two turn together.
+  // The clock: the visitor's own time, redrawn when the minute turns; the seconds run in the
+  // shader. The minute comes from the same source as the caption under the clock, so the two
+  // turn together.
   let shownMinute = "";
   const updateClock = () => {
     const now = new Date();
     shared.uSec.value = now.getSeconds() + now.getMilliseconds() / 1000;
-    const key = getIndiaTime().text.replace(":", "");
+    const key = getClockTime().local.replace(":", "");
     if (key === shownMinute) return;
     shownMinute = key;
     shared.uClockW.value = layoutClock(key, clockData, slots);

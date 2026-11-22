@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useRef, type CSSProperties } from "react";
-import { ProcessStrip } from "@/components/process-strip";
-import { personalInfo } from "@/constants";
+import { personalInfo, projects } from "@/constants";
+import { projectSlug } from "@/constants/server";
 
 const d = (ms: number) => ({ "--d": `${ms}ms` }) as CSSProperties;
 
@@ -129,15 +129,32 @@ export function Hero() {
         </span>
       </p>
 
-      <div className="relative mt-8 flex flex-wrap items-end justify-between gap-x-10 gap-y-5 pt-5 sm:mt-10">
+      {/* Credits under the name: what I am building, where I work, where I am. */}
+      <div className="relative mt-8 pt-5 sm:mt-10">
         <span aria-hidden="true" className="draw absolute inset-x-0 top-0 h-px bg-line-strong" style={d(300)} />
-        <ProcessStrip />
-        {/* The role is already in the line under the name; this says where. */}
-        <p className="settle text-body leading-snug sm:text-right" style={d(900)}>
-          <span className="text-dim">Now at</span>
-          <br />
-          {personalInfo.company}
-        </p>
+        <dl className="grid grid-cols-2 gap-x-8 gap-y-5 text-body leading-snug sm:flex sm:flex-wrap sm:gap-x-16">
+          <div className="settle col-span-2" style={d(800)}>
+            <dt className="text-dim">Building</dt>
+            <dd>
+              {projects.map((p, i) => (
+                <span key={p.title}>
+                  {i > 0 && (i === projects.length - 1 ? " and " : ", ")}
+                  <a href={`#${projectSlug(p.title)}`} className="link">
+                    {p.title}
+                  </a>
+                </span>
+              ))}
+            </dd>
+          </div>
+          <div className="settle" style={d(880)}>
+            <dt className="text-dim">Now at</dt>
+            <dd>{personalInfo.company}</dd>
+          </div>
+          <div className="settle" style={d(960)}>
+            <dt className="text-dim">Based in</dt>
+            <dd>India</dd>
+          </div>
+        </dl>
       </div>
     </section>
   );

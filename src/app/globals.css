@@ -434,94 +434,6 @@ html[data-intro="done"][data-webgl] .boot {
 }
 
 /* -------------------------------------------------------------------------- */
-/*  pm0 ls in the hero: the command types, then the processes come online.    */
-/* -------------------------------------------------------------------------- */
-
-.strip-type {
-  display: inline-block;
-  vertical-align: bottom;
-  overflow: hidden;
-  white-space: nowrap;
-  width: 6ch;
-  animation: type 0.42s steps(6) both;
-  animation-delay: calc(var(--t0) + 0.3s);
-}
-
-@keyframes type {
-  from {
-    width: 0;
-  }
-}
-
-.strip .pip {
-  position: relative;
-  animation: pip-on 0.3s cubic-bezier(0.2, 1.6, 0.4, 1) both;
-  animation-delay: calc(var(--t0) + 0.75s + var(--i) * 55ms);
-}
-
-.strip .pip::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  animation: pip-ring 0.7s ease-out both;
-  animation-delay: calc(var(--t0) + 0.75s + var(--i) * 55ms);
-}
-
-@keyframes pip-ring {
-  from {
-    box-shadow: 0 0 0 0 color-mix(in oklab, var(--fg) 45%, transparent);
-  }
-  to {
-    box-shadow: 0 0 0 7px transparent;
-  }
-}
-
-@keyframes pip-on {
-  from {
-    transform: scale(0.4);
-    background: transparent;
-    box-shadow: inset 0 0 0 1.5px var(--color-line-strong);
-  }
-}
-
-@property --n {
-  syntax: "<integer>";
-  inherits: false;
-  initial-value: 14;
-}
-
-.strip-count {
-  animation: fade-in 0.3s ease both;
-  animation-delay: calc(var(--t0) + 0.65s);
-}
-
-.strip-n {
-  counter-reset: n var(--n);
-  animation: count 0.77s linear both;
-  animation-delay: calc(var(--t0) + 0.75s);
-}
-
-.strip-n::before {
-  content: counter(n);
-}
-
-@keyframes count {
-  from {
-    --n: 0;
-  }
-  to {
-    --n: 14;
-  }
-}
-
-@keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-}
-
-/* -------------------------------------------------------------------------- */
 /*  Hero entrance, timed to the landing.                                       */
 /* -------------------------------------------------------------------------- */
 
@@ -791,6 +703,12 @@ html[data-js] [data-reveal][data-in] {
   animation: fade-in 0.3s ease;
 }
 
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
 @keyframes dialog-in {
   from {
     opacity: 0;
@@ -823,9 +741,6 @@ a[href="#main"] {
     animation: none;
   }
 
-  .strip,
-  .strip *,
-  .strip .pip::after,
   .mask > span,
   .settle,
   .word,
