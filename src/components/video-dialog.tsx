@@ -58,7 +58,7 @@ export function VideoDialog({ isOpen, onClose, videoUrl, title }: VideoDialogPro
       {isOpen && (
         <div className="overflow-hidden rounded-[14px] bg-surface shadow-[0_0_0_1px_var(--color-line)]">
           <div className="flex items-center justify-between gap-4 border-b border-line py-2 pr-2 pl-5">
-            <h2 id="video-dialog-title" className="text-sm font-medium">
+            <h2 id="video-dialog-title" className="text-meta font-medium">
               {title} demo
             </h2>
             <button
@@ -78,8 +78,8 @@ export function VideoDialog({ isOpen, onClose, videoUrl, title }: VideoDialogPro
               <div className="bg-surface absolute inset-0 grid place-items-center p-8 text-center">
                 <div>
                   <p className="font-medium">The video didn&rsquo;t load.</p>
-                  <p className="mt-1 text-sm text-muted">Check your connection, or open it in a new tab.</p>
-                  <a href={videoUrl} target="_blank" rel="noopener noreferrer" className="link mt-4 inline-block text-sm">
+                  <p className="mt-1 text-meta text-muted">Check your connection, or open it in a new tab.</p>
+                  <a href={videoUrl} target="_blank" rel="noopener noreferrer" className="link mt-4 inline-block text-meta">
                     Open the video
                   </a>
                 </div>
@@ -87,7 +87,7 @@ export function VideoDialog({ isOpen, onClose, videoUrl, title }: VideoDialogPro
             ) : (
               <>
                 {status === "loading" && (
-                  <div className="absolute inset-0 z-10 grid place-items-center text-sm text-white/80" role="status">
+                  <div className="absolute inset-0 z-10 grid place-items-center text-meta text-white/80" role="status">
                     <span className="flex items-center gap-3">
                       <span className="video-loading" aria-hidden="true" />
                       Loading the video

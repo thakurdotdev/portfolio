@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { registerSteps } from "@/lib/smooth-scroll";
+import { Facts } from "./facts";
 import { StageHead } from "./stage-head";
 import { categorizedSkills, experienceChapters, workExperience, type ExperienceChapter } from "@/constants";
 
@@ -58,7 +59,7 @@ function Tenure() {
           const row = months.filter((m) => m.date.getUTCFullYear() === y);
           return (
             <div key={y} className="flex items-center gap-4">
-              <span className="w-10 text-sm text-dim">{y}</span>
+              <span className="w-10 text-meta text-dim tabular-nums">{y}</span>
               {/* Pad the first year so every month sits in its own column. */}
               <span className="flex gap-[7px]" style={{ paddingLeft: `calc(${row[0].date.getUTCMonth()} * (0.75rem + 7px))` }}>
                 {row.map((m) => (
@@ -77,7 +78,7 @@ function Tenure() {
 
       <div className="mt-6 flex flex-wrap items-baseline gap-x-6 gap-y-2">
         <p className="display display-m">{months.length} months</p>
-        <p className="flex gap-5 text-sm text-muted">
+        <p className="flex gap-5 text-meta text-muted">
           <span className="flex items-center gap-2">
             <span className="pip bg-accent/40" aria-hidden="true" />
             Intern
@@ -127,12 +128,10 @@ export function Experience() {
 
   return (
     <>
-      <div ref={intro} className="grid gap-x-12 gap-y-10 pt-14 sm:pt-20 lg:grid-cols-12 lg:items-end">
+      <div ref={intro} className="grid gap-x-12 gap-y-10 pt-12 sm:pt-16 lg:grid-cols-12 lg:items-end">
         <div data-reveal="" className="lg:col-span-5">
           <h3 className="display display-xl -ml-[0.05em]">{org.organization}</h3>
-          <p className="lead mt-5 max-w-[34ch]">
-            Portals and backends for a central bank and a credit union, since {fmt(org.roles[org.roles.length - 1].startDate)}.
-          </p>
+          <p className="lead mt-5 max-w-[34ch]">Portals and backends for a central bank and a credit union.</p>
         </div>
         <div data-reveal="" className="lg:col-span-7">
           <Tenure />
@@ -173,7 +172,7 @@ export function Experience() {
                 ))}
               </ul>
             </div>
-            <div className="mt-6 flex items-center justify-between gap-6 text-[15px]">
+            <div className="mt-6 flex items-center justify-between gap-6">
               <nav aria-label="Experience" className="flex items-center gap-3">
                 {experienceChapters.map((c, i) => (
                   <a
@@ -187,7 +186,7 @@ export function Experience() {
                   </a>
                 ))}
               </nav>
-              <p className="font-mono text-[11px] text-dim">
+              <p className="text-label font-mono text-dim">
                 <span className="sr-only" aria-live="polite">
                   {current.context}.{" "}
                 </span>
@@ -198,31 +197,38 @@ export function Experience() {
         </div>
       </div>
 
-      <div data-reveal="" className="mt-8 grid gap-x-12 gap-y-6 border-t border-line-strong pt-6 lg:grid-cols-12">
-        <p className="text-[15px] text-muted lg:col-span-5">
-          <span className="font-medium text-fg">Works with</span>{" "}
-          {categorizedSkills.flatMap((c) => c.items).join(", ")}.
-        </p>
-        <details className="group lg:col-span-7">
-          <summary className="flex cursor-pointer list-none items-center gap-2 text-[15px] font-medium [&::-webkit-details-marker]:hidden">
-            <span className="grid h-5 w-5 place-items-center rounded-full border border-line-strong text-xs transition-transform group-open:rotate-45" aria-hidden="true">
+      <div className="mt-16 grid gap-x-12 gap-y-12 sm:mt-20 lg:mt-12 lg:grid-cols-12">
+        <div data-reveal="" className="lg:col-span-5">
+          <h3 className="text-body font-semibold">Tools I use</h3>
+          <dl className="mt-4 border-t border-line-strong">
+            {categorizedSkills.map((c) => (
+              <div key={c.category} className="grid gap-x-6 gap-y-0.5 border-b border-line py-2.5 text-body sm:grid-cols-[13rem_minmax(0,1fr)] lg:grid-cols-1 xl:grid-cols-[13rem_minmax(0,1fr)]">
+                <dt className="text-muted">{c.category}</dt>
+                <dd>{c.items.join(", ")}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+        <details data-reveal="" className="group lg:col-span-7">
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-4 border-b border-line-strong pb-4 text-body font-semibold [&::-webkit-details-marker]:hidden">
+            Every role and project, in full
+            <span className="grid h-6 w-6 place-items-center rounded-full border border-line-strong text-meta font-normal transition-transform duration-300 group-open:rotate-45" aria-hidden="true">
               +
             </span>
-            All the details
           </summary>
           {org.roles.map((role) => (
-            <div key={role.title} className="mt-6">
+            <div key={role.title} className="mt-8">
               <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
                 <h4 className="text-lg font-semibold tracking-[-0.01em]">{role.title}</h4>
-                <p className="text-[15px] text-muted">
+                <p className="text-meta text-muted">
                   {fmt(role.startDate)} to {fmt(role.endDate)}
                 </p>
               </div>
               <dl className="mt-3">
                 {role.highlights.map((h) => (
-                  <div key={h.title} className="grid gap-x-8 gap-y-1 border-t border-line py-3 text-[15px] sm:grid-cols-[11rem_minmax(0,1fr)]">
+                  <div key={h.title} className="grid gap-x-8 gap-y-1 border-t border-line py-3 text-body sm:grid-cols-[11rem_minmax(0,1fr)]">
                     <dt className="font-medium">{h.title}</dt>
-                    <dd className="leading-relaxed text-muted">{h.desc}</dd>
+                    <dd className="text-muted">{h.desc}</dd>
                   </div>
                 ))}
               </dl>
@@ -255,26 +261,22 @@ function Chapter({
       data-stage={`#stage-exp-${c.id}, #stage-exp`}
       data-label={c.label}
       aria-labelledby={`exp-${c.id}-title`}
-      className="scroll-mt-16 border-b border-line py-14 transition-opacity duration-500 last:border-b-0 sm:py-20 lg:flex lg:h-[100svh] lg:flex-col lg:justify-center lg:border-b-0 lg:pt-20 lg:pb-8 lg:data-[active=false]:opacity-25"
+      className="scroll-mt-16 border-b border-line py-14 transition-opacity duration-500 last:border-b-0 sm:py-20 lg:flex lg:h-[100svh] lg:flex-col lg:border-b-0 lg:pt-24 lg:pb-10 lg:data-[active=false]:opacity-25"
     >
-      {/* On wide screens the number, context and role sit above the stage instead. */}
-      <p className="font-mono text-[12px] text-dim lg:hidden">
-        {pad(index + 1)} / {pad(experienceChapters.length)} · {c.role} · {c.context}
+      {/* Opens on the same line as the count above the stage. On phones, the count is here. */}
+      <p className="text-label font-mono leading-5 text-dim lg:hidden">
+        {pad(index + 1)} / {pad(experienceChapters.length)}
       </p>
-      <h3 id={`exp-${c.id}-title`} className="display display-l mt-4 -ml-[0.04em] lg:mt-0 max-w-[12ch] lg:max-w-[14ch] lg:text-[clamp(2.5rem,4.4vw,4.75rem)]">
+      <p className="hidden text-meta leading-5 text-muted lg:block">{c.label}</p>
+      <h3 id={`exp-${c.id}-title`} className="chapter-title display display-l mt-3 max-w-[13ch] -ml-[0.04em] lg:mt-5 lg:max-w-[15ch]">
         {c.headline}
       </h3>
-      <div id={`stage-exp-${c.id}`} data-drag="" className="stage -mx-5 mt-8 aspect-[5/4] sm:-mx-8 lg:hidden" aria-hidden="true" />
-      <p className="lead mt-6 max-w-[38ch]">{c.body}</p>
-      <ul className="chapter-facts mt-8 grid gap-x-6 gap-y-2 text-[15px] sm:grid-cols-3">
-        {c.facts.map((f) => (
-          <li key={f} className="border-t border-line-strong pt-3 font-medium">
-            {f}
-          </li>
-        ))}
-      </ul>
+      <p className="mt-3 text-body text-muted lg:hidden">{c.context}</p>
+      <div id={`stage-exp-${c.id}`} data-drag="" className="stage -mx-5 mt-6 aspect-[5/4] sm:-mx-8 lg:hidden" aria-hidden="true" />
+      <p className="lead mt-6 max-w-[38ch] lg:mt-5">{c.body}</p>
+      <Facts items={c.facts} className="chapter-facts mt-8 lg:mt-7" />
       {c.link && (
-        <p className="mt-5 text-[15px]">
+        <p className="mt-5 text-body">
           <a href={c.link.href} target="_blank" rel="noopener noreferrer" className="link">
             {c.link.text}
           </a>

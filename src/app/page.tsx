@@ -50,11 +50,11 @@ export default function Page() {
         <main id="main" tabIndex={-1} className="outline-none">
           <Hero />
 
-          <Section id="work" index={1} label="Projects" note="Designed, built and deployed by me.">
+          <Section id="work" label="Projects" note="Designed, built and deployed by me.">
             <ProjectsFlow onWatch={setActiveVideo} />
           </Section>
 
-          <Section id="experience" index={2} label="Experience" note="Netclues, India. On-site and hybrid.">
+          <Section id="experience" label="Experience" note="In India, since February 2024.">
             <Experience />
           </Section>
 

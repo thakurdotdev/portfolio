@@ -171,7 +171,7 @@ export default function RootLayout({
 
         <a
           href="#main"
-          className="fixed top-3 left-3 z-50 -translate-y-20 rounded-full bg-fg px-4 py-2 text-[15px] text-bg focus-visible:translate-y-0"
+          className="fixed top-3 left-3 z-50 -translate-y-20 rounded-full bg-fg px-4 py-2 text-body text-bg focus-visible:translate-y-0"
         >
           Skip to content
         </a>

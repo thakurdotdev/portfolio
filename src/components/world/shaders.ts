@@ -15,7 +15,7 @@
 const FORMS = /* glsl */ `
 uniform float uTime;
 uniform float uN;
-uniform float uSec;     // seconds into the current minute, in India
+uniform float uSec;     // seconds into the current minute
 uniform float uClockW;  // width of the clock, unit space
 uniform float uGrid;    // portrait grid cells across the stage
 uniform float uWpp;     // world units per CSS pixel
@@ -591,7 +591,7 @@ vec3 form(int k, float t, out float s, out float a) {
   }
 
   if (k == 7) {
-    // Contact: the time in India on a dot-matrix display. When the minute turns, the dots
+    // Contact: the visitor's time on a dot-matrix display. When the minute turns, the dots
     // move from the old digits to the new ones. Below, a row of sixty fills by the second.
     vec3 p;
     if (sd.z < 0.08) {

@@ -31,7 +31,7 @@ export interface Project {
    * updated screenshot is never stuck behind the site's year-long image cache.
    */
   image: StaticImageData;
-  /** Short, verifiable facts, each on its own hairline. */
+  /** Three short, verifiable facts, each on its own hairline. */
   facts: string[];
   /** The shape the dots take while this project is on screen (see components/world/shaders.ts). */
   scene: "tunnel" | "supervisor" | "room" | "pipeline";
@@ -48,15 +48,7 @@ export const projects: Project[] = [
     repo: "https://github.com/thakurdotdev/shipyard",
     demo: "https://cdn.thakur.dev/shipyard.mp4",
     image: shipyardShot,
-    facts: [
-      "One-click deploy",
-      "Auto-deploy on push",
-      "Rollbacks",
-      "Monorepo detection",
-      "pm0/Docker runtimes",
-      "Uptime monitoring",
-      "Password protection",
-    ],
+    facts: ["Push-to-deploy with instant rollbacks", "pm0 or Docker runtime per project", "Uptime checks and password-protected projects"],
     scene: "pipeline",
   },
   {
@@ -260,7 +252,7 @@ export const categorizedSkills = [
   },
   {
     category: "Working knowledge",
-    items: ["Go (working knowledge)"],
+    items: ["Go"],
   },
 ];
 

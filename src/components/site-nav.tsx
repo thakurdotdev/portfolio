@@ -37,7 +37,7 @@ export function SiteNav() {
             scrollToY(0);
             history.replaceState(null, "", location.pathname);
           }}
-          className="flex items-center gap-2.5 py-2.5 text-[15px] font-semibold tracking-[-0.01em]"
+          className="flex items-center gap-2.5 py-2.5 text-body font-semibold tracking-[-0.01em]"
           aria-label={`${personalInfo.name}, back to top`}
         >
           <span className="dot" aria-hidden="true" />
@@ -48,7 +48,7 @@ export function SiteNav() {
           <ul className="flex items-center">
             {links.map((l) => (
               <li key={l.href} className={l.href === "#contact" ? "" : "hidden md:block"}>
-                <a href={l.href} className="px-3 py-2 text-[15px] text-muted transition-colors hover:text-fg">
+                <a href={l.href} className="px-3 py-2 text-body text-muted transition-colors hover:text-fg">
                   {l.label}
                 </a>
               </li>

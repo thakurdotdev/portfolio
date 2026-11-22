@@ -41,10 +41,10 @@ export function StageHead({
 
   return (
     <div aria-hidden="true" className="select-none">
-      <p className="swap font-mono text-[11px] text-dim">
+      <p className="swap text-label font-mono leading-5 text-dim">
         {pad(index + 1)} / {pad(count)}
       </p>
-      <p className={`display stage-title mt-2 ${large ? "stage-title-lg" : ""}`}>
+      <p className={`display stage-title mt-3 -ml-[0.04em] ${large ? "stage-title-lg" : ""}`}>
         {href ? (
           <a href={href} target="_blank" rel="noopener noreferrer" tabIndex={-1} className="stage-link group">
             {letters}
@@ -54,7 +54,7 @@ export function StageHead({
           letters
         )}
       </p>
-      <p className="swap mt-2 text-[15px] text-muted" style={{ animationDelay: "120ms", animationFillMode: "both" }}>
+      <p className="swap mt-3 text-body text-muted" style={{ animationDelay: "120ms", animationFillMode: "both" }}>
         {sub}
       </p>
     </div>
