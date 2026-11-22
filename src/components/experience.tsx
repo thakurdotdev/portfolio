@@ -163,16 +163,25 @@ export function Experience() {
               title={current.context}
               sub={current.role}
             />
-            <div id="stage-exp" data-drag="" className="stage relative mt-4 min-h-0 flex-1" />
+            <div id="stage-exp" data-drag="" className="stage relative mt-4 min-h-0 flex-1">
+              {/* Without WebGL there is no simulation to run, so the stage carries the facts. */}
+              <ul key={current.id} className="stage-fallback swap absolute inset-0 content-center gap-5">
+                {current.facts.map((f) => (
+                  <li key={f} className="display display-m border-t border-line-strong pt-4">
+                    {f}
+                  </li>
+                ))}
+              </ul>
+            </div>
             <div className="mt-6 flex items-center justify-between gap-6 text-[15px]">
-              <nav aria-label="Experience" className="flex items-center gap-[7px]">
+              <nav aria-label="Experience" className="flex items-center gap-3">
                 {experienceChapters.map((c, i) => (
                   <a
                     key={c.id}
                     href={`#exp-${c.id}`}
                     aria-label={c.headline}
                     aria-current={i === active ? "true" : undefined}
-                    className="relative before:absolute before:-inset-[5px]"
+                    className="relative before:absolute before:-inset-[6px]"
                   >
                     <span className={`pip transition-colors duration-300 ${i === active ? "" : "pip-dim"}`} />
                   </a>
@@ -248,16 +257,16 @@ function Chapter({
       aria-labelledby={`exp-${c.id}-title`}
       className="scroll-mt-16 border-b border-line py-14 transition-opacity duration-500 last:border-b-0 sm:py-20 lg:flex lg:h-[100svh] lg:flex-col lg:justify-center lg:border-b-0 lg:pt-20 lg:pb-8 lg:data-[active=false]:opacity-25"
     >
-      <p className="font-mono text-[12px] text-dim">
-        {pad(index + 1)} / {pad(experienceChapters.length)} · {c.role}
-        <span className="lg:hidden"> · {c.context}</span>
+      {/* On wide screens the number, context and role sit above the stage instead. */}
+      <p className="font-mono text-[12px] text-dim lg:hidden">
+        {pad(index + 1)} / {pad(experienceChapters.length)} · {c.role} · {c.context}
       </p>
-      <h3 id={`exp-${c.id}-title`} className="display display-l mt-4 -ml-[0.04em] max-w-[12ch] lg:max-w-[14ch] lg:text-[clamp(2.5rem,4.4vw,4.75rem)]">
+      <h3 id={`exp-${c.id}-title`} className="display display-l mt-4 -ml-[0.04em] lg:mt-0 max-w-[12ch] lg:max-w-[14ch] lg:text-[clamp(2.5rem,4.4vw,4.75rem)]">
         {c.headline}
       </h3>
       <div id={`stage-exp-${c.id}`} data-drag="" className="stage -mx-5 mt-8 aspect-[5/4] sm:-mx-8 lg:hidden" aria-hidden="true" />
       <p className="lead mt-6 max-w-[38ch]">{c.body}</p>
-      <ul className="mt-8 grid gap-x-6 gap-y-2 text-[15px] sm:grid-cols-3">
+      <ul className="chapter-facts mt-8 grid gap-x-6 gap-y-2 text-[15px] sm:grid-cols-3">
         {c.facts.map((f) => (
           <li key={f} className="border-t border-line-strong pt-3 font-medium">
             {f}

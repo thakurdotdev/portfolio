@@ -72,16 +72,26 @@ export function ProjectsFlow({ onWatch }: { onWatch: Watch }) {
             href={current.live ?? current.repo}
             large
           />
-          <div id="stage-work" data-drag="" className="stage relative mt-4 min-h-0 flex-1" />
+          <div id="stage-work" data-drag="" className="stage relative mt-4 min-h-0 flex-1">
+            {/* Without WebGL there is no shape to draw, so the stage shows the screenshot. */}
+            <div key={current.title} className="stage-fallback swap absolute inset-0 place-items-center" aria-hidden="true">
+              <Image
+                src={current.image}
+                alt=""
+                sizes="(min-width: 1600px) 900px, 55vw"
+                className="h-auto max-h-full w-auto max-w-full rounded-[14px] shadow-[0_0_0_1px_var(--color-line)]"
+              />
+            </div>
+          </div>
           <div className="mt-6 flex items-center justify-between gap-6 text-[15px]">
-            <nav aria-label="Projects" className="flex items-center gap-[7px]">
+            <nav aria-label="Projects" className="flex items-center gap-3">
               {projects.map((p, i) => (
                 <a
                   key={p.title}
                   href={`#${projectSlug(p.title)}`}
                   aria-label={p.title}
                   aria-current={i === active ? "true" : undefined}
-                  className="relative before:absolute before:-inset-[5px]"
+                  className="relative before:absolute before:-inset-[6px]"
                 >
                   <span className={`pip transition-colors duration-300 ${i === active ? "" : "pip-dim"}`} />
                 </a>

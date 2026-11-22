@@ -1,6 +1,5 @@
 "use client";
 
-import { MotionConfig } from "motion/react";
 import { useEffect, useState } from "react";
 import { Contact } from "@/components/contact";
 import { Experience } from "@/components/experience";
@@ -38,7 +37,7 @@ export default function Page() {
   useEffect(() => startSmoothScroll(), []);
 
   return (
-    <MotionConfig reducedMotion="user">
+    <>
       {/* First visit: covers the page while the boot sequence plays on the canvas above it. */}
       <div className="boot-cover" aria-hidden="true">
         <span className="boot-caret" />
@@ -48,7 +47,7 @@ export default function Page() {
         <SiteNav />
         <SceneRail />
 
-        <main>
+        <main id="main" tabIndex={-1} className="outline-none">
           <Hero />
 
           <Section id="work" index={1} label="Projects" note="Designed, built and deployed by me.">
@@ -69,6 +68,6 @@ export default function Page() {
           title={activeVideo?.title || ""}
         />
       </div>
-    </MotionConfig>
+    </>
   );
 }

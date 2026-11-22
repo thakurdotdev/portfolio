@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { lockScroll } from "@/lib/smooth-scroll";
 
 interface VideoDialogProps {
   isOpen: boolean;
@@ -9,104 +10,105 @@ interface VideoDialogProps {
   title: string;
 }
 
+/*
+ * A native <dialog>, opened modal: the browser traps focus inside it, makes the page behind
+ * it inert, closes it on Escape and hands focus back to the button that opened it. Smooth
+ * scrolling is held while it is open, or the wheel would still move the page underneath.
+ */
 export function VideoDialog({ isOpen, onClose, videoUrl, title }: VideoDialogProps) {
-  const dialogRef = useRef<HTMLDivElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [hasError, setHasError] = useState(false);
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
 
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        onClose();
-      }
-    };
-
-    if (isOpen) {
-      setIsLoading(true);
-      setHasError(false);
-      document.body.style.overflow = "hidden";
-      window.addEventListener("keydown", handleKeyDown);
-    } else {
-      document.body.style.overflow = "";
-      if (videoRef.current) {
-        videoRef.current.pause();
-        videoRef.current.currentTime = 0;
-      }
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+    if (isOpen && !dialog.open) {
+      setStatus("loading");
+      dialog.showModal();
+      lockScroll(true);
+    } else if (!isOpen && dialog.open) {
+      dialog.close();
     }
+  }, [isOpen]);
 
-    return () => {
-      document.body.style.overflow = "";
-      window.removeEventListener("keydown", handleKeyDown);
+  // However it closes (Escape, the button, the backdrop), tidy up in one place.
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+    const onDialogClose = () => {
+      lockScroll(false);
+      onClose();
     };
-  }, [isOpen, onClose]);
+    dialog.addEventListener("close", onDialogClose);
+    return () => dialog.removeEventListener("close", onDialogClose);
+  }, [onClose]);
 
-  if (!isOpen) return null;
+  useEffect(() => () => lockScroll(false), []);
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
-      role="dialog"
-      aria-modal="true"
+    <dialog
+      ref={dialogRef}
       aria-labelledby="video-dialog-title"
+      // A click on the backdrop lands on the dialog itself, outside its panel.
+      onClick={(e) => {
+        if (e.target === e.currentTarget) dialogRef.current?.close();
+      }}
+      className="video-dialog m-auto w-[calc(100%-2rem)] max-w-4xl overflow-visible bg-transparent p-0 text-fg sm:w-[calc(100%-3rem)]"
     >
-      <div
-        className="fixed inset-0 bg-bg/80 backdrop-blur-sm"
-        onClick={onClose}
-        aria-hidden="true"
-      />
-      <div
-        ref={dialogRef}
-        className="relative z-10 w-full max-w-4xl"
-      >
-        <div className="overflow-hidden rounded-[14px] bg-surface">
-        <div className="flex items-center justify-between border-b border-line px-5 py-3">
-          <span id="video-dialog-title" className="text-sm font-medium text-fg">
-            {title} demo
-          </span>
-          <button
-            onClick={onClose}
-            type="button"
-            aria-label="Close demo dialog"
-            className="grid h-8 w-8 cursor-pointer place-items-center rounded-full text-xs text-muted transition-colors hover:text-fg"
-          >
-            ✕
-          </button>
-        </div>
+      {isOpen && (
+        <div className="overflow-hidden rounded-[14px] bg-surface shadow-[0_0_0_1px_var(--color-line)]">
+          <div className="flex items-center justify-between gap-4 border-b border-line py-2 pr-2 pl-5">
+            <h2 id="video-dialog-title" className="text-sm font-medium">
+              {title} demo
+            </h2>
+            <button
+              onClick={() => dialogRef.current?.close()}
+              type="button"
+              aria-label="Close the demo"
+              className="grid h-10 w-10 cursor-pointer place-items-center rounded-full text-muted transition-colors hover:bg-soft hover:text-fg"
+            >
+              <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" aria-hidden="true">
+                <path d="M3 3l10 10M13 3L3 13" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+              </svg>
+            </button>
+          </div>
 
-        <div className={`relative flex aspect-video items-center justify-center ${hasError ? "bg-surface" : "bg-black"}`}>
-          {isLoading && !hasError && (
-            <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/60 text-sm text-white">
-              Loading the video
-            </div>
-          )}
-
-          {hasError ? (
-            <div className="p-8 text-center">
-              <p className="font-medium">The video didn&rsquo;t load.</p>
-              <p className="mt-1 text-sm text-muted">Check your connection, or open it in a new tab.</p>
-              <a href={videoUrl} target="_blank" rel="noopener noreferrer" className="link mt-4 inline-block text-sm">
-                Open the video
-              </a>
-            </div>
-          ) : (
-            <video
-              ref={videoRef}
-              src={videoUrl}
-              className="w-full h-full object-contain"
-              controls
-              autoPlay
-              playsInline
-              onCanPlay={() => setIsLoading(false)}
-              onError={() => {
-                setIsLoading(false);
-                setHasError(true);
-              }}
-            />
-          )}
+          <div className="relative grid aspect-video place-items-center bg-black">
+            {status === "error" ? (
+              <div className="bg-surface absolute inset-0 grid place-items-center p-8 text-center">
+                <div>
+                  <p className="font-medium">The video didn&rsquo;t load.</p>
+                  <p className="mt-1 text-sm text-muted">Check your connection, or open it in a new tab.</p>
+                  <a href={videoUrl} target="_blank" rel="noopener noreferrer" className="link mt-4 inline-block text-sm">
+                    Open the video
+                  </a>
+                </div>
+              </div>
+            ) : (
+              <>
+                {status === "loading" && (
+                  <div className="absolute inset-0 z-10 grid place-items-center text-sm text-white/80" role="status">
+                    <span className="flex items-center gap-3">
+                      <span className="video-loading" aria-hidden="true" />
+                      Loading the video
+                    </span>
+                  </div>
+                )}
+                <video
+                  src={videoUrl}
+                  className="h-full w-full object-contain"
+                  controls
+                  autoPlay
+                  playsInline
+                  preload="auto"
+                  onCanPlay={() => setStatus("ready")}
+                  onError={() => setStatus("error")}
+                />
+              </>
+            )}
+          </div>
         </div>
-        </div>
-      </div>
-    </div>
+      )}
+    </dialog>
   );
 }

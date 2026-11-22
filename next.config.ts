@@ -9,14 +9,8 @@ const nextConfig: NextConfig = {
     optimizeCss: true,
   },
   images: {
+    // A static export has no image server. Screenshots are committed already sized and in WebP.
     unoptimized: true,
-    dangerouslyAllowSVG: true,
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "**",
-      },
-    ],
   },
 };
 
