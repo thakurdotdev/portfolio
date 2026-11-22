@@ -15,6 +15,7 @@ import {
   WebGLRenderer,
 } from "three";
 import { GPUComputationRenderer } from "three/examples/jsm/misc/GPUComputationRenderer.js";
+import { getIndiaTime } from "@/lib/india-time";
 import { onScenes, stageRect, type Rect, type SceneInfo, type SceneState } from "@/lib/scenes";
 import { addTick } from "@/lib/ticker";
 import { layoutBoot, type BootLayout } from "./boot-text";
@@ -77,13 +78,6 @@ const GLYPHS = [
   "01110100011000101110100011000101110",
   "01110100011000101111000010001001100",
 ];
-
-const clockFmt = new Intl.DateTimeFormat("en-GB", {
-  hour: "2-digit",
-  minute: "2-digit",
-  hour12: false,
-  timeZone: "Asia/Kolkata",
-});
 
 /*
  * Lays out "HHMM" as LEDs: lit ones get most of the dots, unlit ones a few, so the whole
@@ -411,15 +405,13 @@ export function startWorld(canvas: HTMLCanvasElement, opts: { portrait: string; 
   window.addEventListener("pointercancel", onUp, { passive: true });
   root.addEventListener("pointerleave", onLeave);
 
-  // The clock: redrawn when the minute turns; the seconds run in the shader.
+  // The clock: redrawn when the minute turns; the seconds run in the shader. The minute comes
+  // from the same source as the printed time under the clock, so the two turn together.
   let shownMinute = "";
   const updateClock = () => {
     const now = new Date();
-    const parts = clockFmt.formatToParts(now);
-    const hh = parts.find((x) => x.type === "hour")?.value ?? "00";
-    const mm = parts.find((x) => x.type === "minute")?.value ?? "00";
     shared.uSec.value = now.getSeconds() + now.getMilliseconds() / 1000;
-    const key = (hh + mm).slice(-4).padStart(4, "0");
+    const key = getIndiaTime().text.replace(":", "");
     if (key === shownMinute) return;
     shownMinute = key;
     shared.uClockW.value = layoutClock(key, clockData, slots);

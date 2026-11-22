@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { personalInfo, socialLinks } from "@/constants";
+import { getIndiaTime, subscribeIndiaTime } from "@/lib/india-time";
 import { scrollToY } from "@/lib/smooth-scroll";
 import { Section } from "./section";
 
@@ -9,28 +10,13 @@ const updatedFmt = new Intl.DateTimeFormat("en", { month: "short", year: "numeri
 // The build date, so "Updated" is always true and server and client agree.
 const built = new Date(process.env.NEXT_PUBLIC_BUILD_DATE ?? Date.now());
 
-const timeFmt = new Intl.DateTimeFormat("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: "Asia/Kolkata" });
-const hourFmt = new Intl.DateTimeFormat("en-GB", { hour: "numeric", hour12: false, timeZone: "Asia/Kolkata" });
-
-/** The time where I am, and whether I am likely to be up. */
+/** The time where I am, and whether I am likely to be up. Same source as the dot clock. */
 function useLocalTime() {
-  const [now, setNow] = useState<Date | null>(null);
-  useEffect(() => {
-    // Ticks on the minute, so the printed time turns with the dot clock above it.
-    let id = 0;
-    const tick = () => {
-      const d = new Date();
-      setNow(d);
-      id = window.setTimeout(tick, 60_000 - (d.getSeconds() * 1000 + d.getMilliseconds()) + 50);
-    };
-    tick();
-    return () => clearTimeout(id);
-  }, []);
+  const now = useSyncExternalStore(subscribeIndiaTime, getIndiaTime, () => null);
   if (!now) return { time: "--:--", status: "" };
-  const h = Number(hourFmt.format(now)) % 24;
   return {
-    time: timeFmt.format(now),
-    status: h >= 8 && h < 23 ? "probably awake" : "probably asleep",
+    time: now.text,
+    status: now.hour >= 8 && now.hour < 23 ? "probably awake" : "probably asleep",
   };
 }
 
