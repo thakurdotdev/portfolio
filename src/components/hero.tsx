@@ -104,9 +104,6 @@ export function Hero() {
           height={240}
           className="portrait-fallback mx-auto mt-[14%] h-[60%] w-[60%] rounded-[14px] object-cover opacity-0"
         />
-        <p className="hint settle absolute right-0 bottom-[6%] hidden font-mono text-[11px] text-dim lg:block" style={d(1500)}>
-          drag to turn
-        </p>
       </div>
 
       <h1
@@ -136,7 +133,7 @@ export function Hero() {
         <span aria-hidden="true" className="draw absolute inset-x-0 top-0 h-px bg-line-strong" style={d(300)} />
         <ProcessStrip />
         {/* The role is already in the line under the name; this says where. */}
-        <p className="settle text-[15px] leading-snug sm:text-right" style={d(900)}>
+        <p className="settle text-body leading-snug sm:text-right" style={d(900)}>
           <span className="text-dim">Now at</span>
           <br />
           {personalInfo.company}

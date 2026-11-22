@@ -39,7 +39,7 @@ export function SceneRail() {
               type="button"
               onClick={() => scrollToEl(it.el)}
               aria-current={i === active ? "step" : undefined}
-              className="group flex cursor-pointer items-center gap-3 py-1 font-mono text-[11px]"
+              className="group flex cursor-pointer items-center gap-3 py-1 text-label font-mono"
             >
               <span
                 className={`translate-x-1 opacity-0 transition-[opacity,transform] duration-300 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100 ${

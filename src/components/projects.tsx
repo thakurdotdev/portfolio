@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { projects, type Project } from "@/constants";
 import { projectSlug, serverSnapshot } from "@/constants/server";
 import { registerSteps } from "@/lib/smooth-scroll";
+import { Facts, Specs } from "./facts";
 import { StageHead } from "./stage-head";
 
 type Watch = (video: { url: string; title: string }) => void;
@@ -83,7 +84,7 @@ export function ProjectsFlow({ onWatch }: { onWatch: Watch }) {
               />
             </div>
           </div>
-          <div className="mt-6 flex items-center justify-between gap-6 text-[15px]">
+          <div className="mt-6 flex items-center justify-between gap-6">
             <nav aria-label="Projects" className="flex items-center gap-3">
               {projects.map((p, i) => (
                 <a
@@ -97,7 +98,7 @@ export function ProjectsFlow({ onWatch }: { onWatch: Watch }) {
                 </a>
               ))}
             </nav>
-            <p className="font-mono text-[11px] text-dim">
+            <p className="text-label font-mono text-dim">
               <span className="sr-only" aria-live="polite">
                 {current.title}.{" "}
               </span>
@@ -111,40 +112,33 @@ export function ProjectsFlow({ onWatch }: { onWatch: Watch }) {
   );
 }
 
-/** A screenshot that leans towards the pointer and takes its colour back while you look at it. */
+/** The screenshot: grey until you look at it. Beside the stage it fills what the chapter leaves. */
 function Shot({ project }: { project: Project }) {
-  const ref = useRef<HTMLDivElement>(null);
-
-  const onMove = (e: React.PointerEvent) => {
-    const el = ref.current;
-    if (!el || e.pointerType !== "mouse") return;
-    const r = el.getBoundingClientRect();
-    const x = (e.clientX - r.left) / r.width - 0.5;
-    const y = (e.clientY - r.top) / r.height - 0.5;
-    el.style.setProperty("--rx", `${(-y * 7).toFixed(2)}deg`);
-    el.style.setProperty("--ry", `${(x * 9).toFixed(2)}deg`);
-    el.style.setProperty("--gx", `${((x + 0.5) * 100).toFixed(1)}%`);
-    el.style.setProperty("--gy", `${((y + 0.5) * 100).toFixed(1)}%`);
-  };
-  const onLeave = () => {
-    const el = ref.current;
-    if (!el) return;
-    el.style.setProperty("--rx", "0deg");
-    el.style.setProperty("--ry", "0deg");
-  };
-
   return (
-    <div className="shot-wrap mt-10 lg:mt-0">
-      <div ref={ref} onPointerMove={onMove} onPointerLeave={onLeave} className="shot relative aspect-[16/10]">
+    <>
+      <div className="shot relative mt-8 aspect-[16/10] lg:hidden">
         <Image
           src={project.image}
           alt={`${project.title} home page`}
           fill
-          sizes="(min-width: 1024px) 38vw, 100vw"
+          sizes="100vw"
           className="object-cover object-top"
         />
       </div>
-    </div>
+      <div className="shot-slot mt-8 hidden min-h-0 flex-1 lg:block">
+        <div className="flex h-full items-end">
+          <div className="shot relative aspect-[16/10] h-full max-h-[22rem] max-w-full">
+            <Image
+              src={project.image}
+              alt={`${project.title} home page`}
+              fill
+              sizes="(min-width: 1600px) 560px, 36vw"
+              className="object-cover object-top"
+            />
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
 
@@ -175,21 +169,25 @@ function ProjectText({
       data-stage={`#stage-${slug}, #stage-work`}
       data-label={project.title}
       aria-labelledby={`${slug}-title`}
-      className="border-b border-line py-16 transition-opacity duration-500 last:border-b-0 sm:py-24 lg:flex lg:h-[100svh] lg:flex-col lg:justify-center lg:border-b-0 lg:pt-20 lg:pb-8 lg:data-[active=false]:opacity-25"
+      className="border-b border-line py-16 transition-opacity duration-500 last:border-b-0 sm:py-24 lg:flex lg:h-[100svh] lg:flex-col lg:border-b-0 lg:pt-24 lg:pb-10 lg:data-[active=false]:opacity-25"
     >
-      {/* On wide screens the number and name sit above the stage instead, where the eye is. */}
-      <p className="font-mono text-[12px] text-dim lg:hidden">
-        {pad(index + 1)} / {pad(projects.length)} · {project.architecture}
+      {/* Phones: the count, name and subtitle open the chapter. On wide screens they sit above
+          the stage, where the eye is, and this column opens on the same line as the count. */}
+      <p className="text-label font-mono text-dim lg:hidden">
+        {pad(index + 1)} / {pad(projects.length)}
       </p>
-      <h3 id={`${slug}-title`} className="project-title display display-xl mt-4 -ml-[0.05em] lg:sr-only">
+      <h3 id={`${slug}-title`} className="project-title display display-xl mt-3 -ml-[0.05em] lg:sr-only">
         {project.title}
       </h3>
-      <p className="lead mt-5 max-w-[34ch] lg:mt-0">{project.blurb}</p>
+      <p className="mt-3 text-body text-muted lg:hidden">{project.subtitle}</p>
+      <p className="hidden text-meta leading-5 text-muted lg:block">{project.architecture}</p>
 
       {/* The phone layout's stage. Hidden on wide screens, where the shared one takes over. */}
-      <div id={`stage-${slug}`} data-drag="" className="stage -mx-5 mt-8 aspect-[5/4] sm:-mx-8 lg:hidden" aria-hidden="true" />
+      <div id={`stage-${slug}`} data-drag="" className="stage -mx-5 mt-6 aspect-[5/4] sm:-mx-8 lg:hidden" aria-hidden="true" />
 
-      <p className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-[15px] lg:mt-5">
+      <p className="lead mt-6 max-w-[34ch] lg:mt-5">{project.blurb}</p>
+
+      <p className="mt-5 flex flex-wrap gap-x-6 gap-y-2 text-body">
         {project.live && (
           <a href={project.live} target="_blank" rel="noopener noreferrer" className="link">
             Visit {host}
@@ -211,41 +209,36 @@ function ProjectText({
         )}
       </p>
 
-      <ul className="mt-10 grid gap-x-6 gap-y-2 text-[15px] sm:grid-cols-3 lg:mt-7">
-        {project.facts.map((f) => (
-          <li key={f} className="border-t border-line-strong pt-3 font-medium">
-            {f}
-          </li>
-        ))}
-      </ul>
+      <Facts items={project.facts} className="mt-8 lg:mt-7" />
 
-      <p className="mt-8 max-w-[64ch] text-[15px] leading-relaxed text-muted lg:mt-6 lg:text-[14px] lg:leading-snug">{project.desc}</p>
+      <p className="project-desc mt-6 max-w-[62ch] text-body text-muted lg:mt-5">{project.desc}</p>
 
-      {/* On desktop the details and the screenshot share a row, so a project fits one screen. */}
-      <div className="lg:mt-7 lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:items-start lg:gap-6">
-        <div>
-          <p className="mt-6 max-w-[48ch] text-[15px] text-muted lg:mt-0 lg:text-[14px]">Built with {list(project.tech)}.</p>
+      <Specs
+        className="mt-6 lg:mt-5"
+        rows={[
+          { term: "Built with", value: list(project.tech) },
+          ...(processes.length
+            ? [
+                {
+                  term: "Running now",
+                  value: (
+                    <span className="flex flex-wrap gap-x-4 gap-y-1 font-mono text-label leading-[inherit] text-fg">
+                      {processes.map((p) => (
+                        <span key={p.id} className="flex items-center gap-1.5 whitespace-nowrap">
+                          <span className="dot" aria-hidden="true" />
+                          {p.app}
+                          <span className="text-dim">up {p.uptime}</span>
+                        </span>
+                      ))}
+                    </span>
+                  ),
+                },
+              ]
+            : []),
+        ]}
+      />
 
-          {processes.length > 0 && (
-            <div className="mt-6 lg:mt-4">
-              <p className="text-[15px] text-dim lg:text-[14px]">On my server now</p>
-              <ul className="mt-2 font-mono text-[13px] lg:text-[12px]">
-                {processes.map((p) => (
-                  <li key={p.id} className="flex items-center gap-3 py-1 lg:py-0.5">
-                    <span className="dot" aria-hidden="true" />
-                    <span className="min-w-0 flex-1 truncate">{p.app}</span>
-                    <span className="hidden text-dim min-[420px]:inline lg:hidden">{p.port.split(" ")[0]}</span>
-                    <span className="w-14 text-right text-muted">up {p.uptime}</span>
-                    <span className="w-[4.5rem] text-right text-muted lg:hidden">{p.mem.replace("mb", " MB")}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </div>
-
-        <Shot project={project} />
-      </div>
+      <Shot project={project} />
     </article>
   );
 }

@@ -10,7 +10,7 @@ export function ProcessStrip() {
 
   return (
     <div className="strip">
-      <p className="font-mono text-[13px] text-muted">
+      <p className="text-label font-mono text-muted">
         <span className="text-accent">$</span> <span className="strip-type">pm0 ls</span>
       </p>
       <div className="mt-2.5 flex flex-wrap items-center gap-x-3 gap-y-2">
@@ -28,7 +28,7 @@ export function ProcessStrip() {
                 <span className="pip" style={{ "--i": i } as CSSProperties} />
                 <span
                   aria-hidden="true"
-                  className="pointer-events-none absolute bottom-full left-1/2 mb-2.5 -translate-x-1/2 whitespace-nowrap rounded-md bg-fg px-2 py-1 font-mono text-[11px] text-bg opacity-0 transition-opacity duration-150 group-hover:opacity-100 group-focus-visible:opacity-100"
+                  className="pointer-events-none absolute bottom-full left-1/2 mb-2.5 -translate-x-1/2 whitespace-nowrap rounded-md bg-fg px-2 py-1 text-label font-mono text-bg opacity-0 transition-opacity duration-150 group-hover:opacity-100 group-focus-visible:opacity-100"
                 >
                   {p.app} {p.port.split(" ")[0]}
                 </span>
@@ -41,7 +41,7 @@ export function ProcessStrip() {
             </li>
           ))}
         </ul>
-        <p className="strip-count whitespace-nowrap text-[15px]">
+        <p className="strip-count whitespace-nowrap text-body">
           {/* The visible number counts up as the pips come online. */}
           <span className="strip-n inline-block min-w-[2ch] font-semibold tabular-nums" aria-hidden="true" />
           <span className="sr-only">{snap.totalOnline}</span> online

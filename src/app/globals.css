@@ -98,6 +98,14 @@ html[data-intro="done"] .boot-cover {
   --color-line: color-mix(in oklab, var(--fg) 12%, transparent);
   --color-line-strong: color-mix(in oklab, var(--fg) 24%, transparent);
   --color-soft: color-mix(in oklab, var(--fg) 5%, transparent);
+
+  /* The small end of the type scale. Everything under the display sizes uses one of these. */
+  --text-label: 0.75rem;
+  --text-label--line-height: 1.4;
+  --text-meta: 0.875rem;
+  --text-meta--line-height: 1.5;
+  --text-body: 0.9375rem;
+  --text-body--line-height: 1.6;
 }
 
 @layer base {
@@ -165,27 +173,30 @@ html[data-intro="done"] .boot-cover {
     text-wrap: balance;
   }
 
-  /* Chapter openers: project names, the employer, the server count, contact. */
+  /*
+   * Three display steps, each about 1.6 times the next, then the lead. Nothing else is large.
+   *   xl  what a section is about: a project, the employer, "Say hello."
+   *   l   a statement inside it: a chapter's headline, the email address
+   *   m   a number or a short heading
+   */
   .display-xl {
-    font-size: clamp(3.75rem, 8.4vw, 9.5rem);
+    font-size: clamp(3.5rem, 8vw, 9rem);
     line-height: 0.86;
   }
 
-  /* Second step of the scale. */
   .display-l {
-    font-size: clamp(3.25rem, 6.4vw, 6.75rem);
+    font-size: clamp(2.5rem, 4.4vw, 4.75rem);
   }
 
-  /* Third step: measured results. */
   .display-m {
-    font-size: clamp(1.75rem, 2.9vw, 2.75rem);
-    line-height: 1;
+    font-size: clamp(1.75rem, 2.6vw, 2.75rem);
+    line-height: 0.95;
   }
 
   .lead {
-    font-size: clamp(1.125rem, 1.5vw, 1.375rem);
-    line-height: 1.35;
-    letter-spacing: -0.01em;
+    font-size: clamp(1.1875rem, 1.45vw, 1.375rem);
+    line-height: 1.38;
+    letter-spacing: -0.012em;
     text-wrap: pretty;
   }
 
@@ -648,65 +659,62 @@ html[data-js] [data-reveal][data-in] {
   transform: none;
 }
 
-/* Project screenshots: grey until you look at them, leaning towards the pointer. */
-.shot-wrap {
-  perspective: 1100px;
-}
-
+/* Project screenshots: grey until you look at them. */
 .shot {
   overflow: hidden;
-  border-radius: 14px;
+  border-radius: 10px;
   background: var(--surface);
   box-shadow: 0 0 0 1px var(--color-line);
-  transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
-  transition:
-    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 0.3s ease;
-  will-change: transform;
 }
 
 .shot img {
   filter: grayscale(1) contrast(1.05);
-  transform: scale(1.02);
-  transition:
-    filter 0.5s ease,
-    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: filter 0.5s ease;
 }
 
-.shot::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), rgb(255 255 255 / 0.18), transparent 55%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.shot:hover {
-  transition-duration: 0.15s;
-  box-shadow: 0 0 0 1px var(--color-line-strong);
-}
-
-.shot:hover img {
+.shot:hover img,
+.shot:focus-within img {
   filter: none;
-  transform: scale(1);
 }
 
-.shot:hover::after {
-  opacity: 1;
+/* A project is one screen beside the stage. On short laptop screens the long description
+   gives way, so the summary, facts and stack still fit; the facts carry the same points. */
+@media (min-width: 1024px) and (max-height: 860px) {
+  .project-desc {
+    display: none;
+  }
 }
 
-/* The name above the sticky stage. Its letters reuse the hero's mask rise, faster. */
+/* Beside the stage the screenshot takes whatever height the chapter leaves, and steps aside
+   when that is too little to read. */
+.shot-slot {
+  container-type: size;
+}
+
+@container (max-height: 150px) {
+  .shot-slot > * {
+    display: none;
+  }
+}
+
+/* The name above the sticky stage. Its letters reuse the hero's mask rise, faster. Sized
+   on the display scale, held back on short screens so the stage keeps its room. */
 .stage-title {
-  font-size: clamp(2.25rem, min(3.8vw, 7svh), 4.25rem);
-  line-height: 0.95;
+  font-size: clamp(2.25rem, min(3.6vw, 7svh), 4rem);
+  line-height: 0.92;
 }
 
-/* Projects: the stage's name is the only one on wide screens, so it takes the full size. */
+/* Projects: the stage's name is the only one on wide screens, so it takes the xl step. */
 .stage-title-lg {
   font-size: clamp(3.25rem, min(6.4vw, 11svh), 7rem);
-  line-height: 0.9;
+  line-height: 0.88;
+}
+
+/* A chapter's headline sits beside the stage's name on wide screens, so it steps down. */
+@media (min-width: 1024px) {
+  .chapter-title {
+    font-size: clamp(2.25rem, 3.1vw, 3.5rem);
+  }
 }
 
 .stage-title .mask > span {
@@ -843,7 +851,6 @@ a[href="#main"] {
   }
 
   [data-reveal],
-  .shot,
   .swap {
     transition: none !important;
     animation: none !important;
